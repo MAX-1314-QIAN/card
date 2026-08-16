@@ -1,0 +1,5 @@
+.reveal-rules .observation-card{border-color:#9a6b2c;background:radial-gradient(circle at 0 50%,#35230f,#0b0e17 48%)}
+.reveal-rules .observation-card>span{border-color:#b77d31;color:#e4b15d}
+.reveal-rules .observation-card h3{color:#e7c889}
+.reveal-rules .observation-card p{color:#c1aa83}
+@media(max-height:760px){.boss-reveal-dialog{padding-top:20px;padding-bottom:20px}.boss-reveal-layout{margin:15px 0}.reveal-rules{gap:8px}.reveal-rules article{padding:10px 14px}.reveal-rules article>span{width:42px;height:42px}.reveal-rules h3{font-size:17px}}

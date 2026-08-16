@@ -1,0 +1,4 @@
+.report-dialog{max-height:92vh;overflow:auto}
+.report-metrics{display:grid;grid-template-columns:1fr 1fr;column-gap:22px}
+.report-metric{grid-template-columns:92px 1fr 38px;gap:9px;margin:7px 0;font-size:11px}
+@media(max-width:650px){.report-metrics{grid-template-columns:1fr}}

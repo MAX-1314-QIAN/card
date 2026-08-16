@@ -1,0 +1,494 @@
+/* Production art pass: reusable raster atmosphere + code-native scalable UI. */
+:root{
+  --art-gold:#c99443;
+  --art-gold-bright:#efcf8a;
+  --art-gold-dim:#6f4a20;
+  --art-obsidian:#070604;
+  --art-panel:#0b0906ee;
+  --art-line:#805723;
+  --art-paper:#e6cfa0;
+  --mirror-hall:url("assets/art/mirror-hall-background-v1.png");
+  --occult-card-back:url("assets/art/card-back-occult-v1.png");
+}
+
+body{
+  background-color:#030302;
+  background-image:linear-gradient(#050403b8,#020201e8),var(--mirror-hall);
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+.main-menu,.settings-screen{
+  background-color:#030302;
+  background-image:
+    radial-gradient(ellipse at 50% 18%,transparent 0,#03030235 45%,#020201c7 100%),
+    linear-gradient(90deg,#02020170,transparent 25% 75%,#02020170),
+    var(--mirror-hall);
+  background-size:cover;
+  background-position:center;
+}
+.main-menu:before,.settings-screen:before{
+  background-image:radial-gradient(#d6a451 .55px,transparent .9px);
+  background-size:59px 59px;
+  opacity:.13;
+}
+.main-menu:after{opacity:.42}
+.menu-atmosphere{opacity:.42}
+
+.title-cards span{
+  background-color:#080604;
+  background-image:var(--occult-card-back);
+  background-size:cover;
+  background-position:center;
+  border-color:#b67a2f;
+  opacity:.82;
+  filter:brightness(.62) sepia(.14);
+}
+.menu-content:before{
+  content:"";
+  position:absolute;
+  inset:-32px -46px;
+  z-index:-1;
+  background:radial-gradient(ellipse,#050403d9 0,#050403a6 44%,transparent 76%);
+  pointer-events:none;
+}
+.menu-content h1{filter:drop-shadow(0 5px 12px #000)}
+
+.ornate-panel,.settings-content,.settings-help,dialog{
+  background-image:
+    linear-gradient(135deg,#b67a2412,transparent 22% 78%,#b67a2410),
+    radial-gradient(circle at 50% -30%,#3a2816,#0b0906 53%,#050403 100%);
+}
+.ornate-panel:before,.ornate-panel:after{filter:drop-shadow(0 0 4px #c58a35)}
+.settings-content,.settings-help,.setting-card{
+  backdrop-filter:blur(3px);
+}
+.setting-card{
+  border-color:#62441f;
+  background:linear-gradient(145deg,#151009f2,#080604f5);
+  box-shadow:inset 0 0 0 2px #050403,0 8px 25px #0008;
+}
+
+.enemy-card{
+  background-color:#090704;
+  background-image:var(--occult-card-back);
+  background-size:100% 100%;
+  background-position:center;
+  border-color:#b37a31;
+  box-shadow:0 12px 25px #000c,0 0 18px #ba792016;
+  filter:brightness(.82) saturate(.78);
+}
+.enemy-card:before,.enemy-card:after{display:none}
+.enemy-card span,.enemy-card i{opacity:0}
+.enemy-card:hover{filter:brightness(1) saturate(.9);box-shadow:0 15px 30px #000d,0 0 22px #c7862830}
+
+.portrait.has-art,.boss-portrait.has-art,.reveal-portrait.has-art,
+.forge-avatar.has-art,.choice-portrait.has-art,.acquire-portrait.has-art,.slot-portrait.has-art{
+  background-image:var(--portrait,url("assets/art/boss-mirror-keeper-v1.webp"));
+  background-size:cover;
+  background-position:center;
+  filter:saturate(.72) contrast(1.05);
+}
+.portrait.has-art:before,.portrait.has-art:after,.portrait.has-art span,
+.boss-portrait.has-art:before,.boss-portrait.has-art:after,.boss-portrait.has-art span,
+.reveal-portrait.has-art:before,.reveal-portrait.has-art:after,.reveal-portrait.has-art span,
+.forge-avatar.has-art:before,.forge-avatar.has-art:after,.forge-avatar.has-art span,
+.acquire-portrait.has-art:before,.acquire-portrait.has-art:after,.acquire-portrait.has-art span{display:none}
+.boss-portrait.has-art,.reveal-portrait.has-art{--portrait:url("assets/art/boss-mirror-keeper-v1.webp")}
+.forge-avatar.has-art{background-position:center 27%}
+.choice-portrait.has-art{background-position:center 25%}
+.acquire-portrait.has-art{background-position:center 28%}
+.slot-portrait.has-art{background-position:center 25%!important}
+.library-portrait{
+  display:block;
+  height:78px;
+  margin:-7px -7px 9px;
+  border:1px solid #6f4b21;
+  background-image:linear-gradient(#0001,#0004),var(--portrait);
+  background-size:cover;
+  background-position:center 32%;
+  filter:saturate(.7);
+}
+.loadout-slot{gap:8px}
+.loadout-portrait{
+  width:43px;
+  height:48px;
+  flex:0 0 43px;
+  border:1px solid #7b5527;
+  background-image:var(--portrait);
+  background-size:cover;
+  background-position:center 25%;
+  filter:saturate(.7);
+}
+.collection-side .loadout-slot b{
+  display:block;
+  max-width:86px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:12px;
+}
+.collection-side .loadout-slot small{font-size:8px;white-space:nowrap}
+
+*{scrollbar-width:thin;scrollbar-color:#8f632b #0b0805}
+*::-webkit-scrollbar{width:8px;height:8px}
+*::-webkit-scrollbar-track{background:#0b0805;border-left:1px solid #33220f}
+*::-webkit-scrollbar-thumb{background:linear-gradient(#b37b32,#634019);border:1px solid #d0a15a;border-radius:6px}
+*::-webkit-scrollbar-thumb:hover{background:linear-gradient(#d0a453,#825322)}
+
+.pile-card{
+  background-color:#080604;
+  background-image:var(--occult-card-back);
+  background-size:100% 100%;
+  background-position:center;
+  border-color:#c08737;
+  color:transparent;
+  box-shadow:0 4px 9px #000,inset 0 0 0 1px #daa45166;
+}
+.table-pile{pointer-events:auto}
+.table-pile.receiving .back-top{
+  filter:brightness(1.3);
+  box-shadow:0 0 20px #c8862f99,0 5px 12px #000;
+}
+
+.menu-actions button,.action,.settings-actions button,
+.boss-reveal-dialog footer button,.acquire-dialog footer button,
+.deck-dialog footer button,.choice-dialog footer button,.report-dialog footer button,
+.persona-selected-detail button,.rules-foot button{
+  overflow:hidden;
+  isolation:isolate;
+}
+.menu-actions button:before,.action:before,.settings-actions button:before,
+.boss-reveal-dialog footer button:before,.acquire-dialog footer button:before,
+.deck-dialog footer button:before,.choice-dialog footer button:before,.report-dialog footer button:before,
+.persona-selected-detail button:before,.rules-foot button:before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  z-index:-1;
+  border:1px solid #d8a54b20;
+  pointer-events:none;
+}
+.menu-actions button:hover,.action:not(:disabled):hover,.settings-actions button:hover,
+.boss-reveal-dialog footer button:hover,.acquire-dialog footer button:hover,
+.deck-dialog footer button:hover,.choice-dialog footer button:hover,.report-dialog footer button:hover,
+.persona-selected-detail button:hover,.rules-foot button:hover{
+  border-color:var(--art-gold-bright);
+  color:#f5ddb0;
+  filter:brightness(1.13);
+  box-shadow:0 0 24px #ca84252e,inset 0 0 16px #cb862019;
+}
+
+dialog{
+  outline:1px solid #d19a4640;
+  outline-offset:-8px;
+}
+dialog::backdrop{
+  background:#020201dc;
+  backdrop-filter:blur(8px) sepia(.25) brightness(.55);
+}
+.d20-shape{
+  background:linear-gradient(145deg,#e0b460,#5b3714 45%,#130d07 75%);
+  filter:drop-shadow(0 14px 20px #000) drop-shadow(0 0 18px #ba7b2638);
+}
+.d20-shape:before{
+  background:radial-gradient(circle at 45% 32%,#302111,#090604 70%);
+}
+
+.card.playing-card{
+  background-image:
+    linear-gradient(135deg,#6f48180a,transparent 28% 72%,#6f481812),
+    repeating-linear-gradient(18deg,transparent 0 14px,#6b47100a 15px 16px),
+    radial-gradient(circle at 48% 42%,#f1dfbb,#d1b887 66%,#ae8e59);
+}
+.card.playing-card.selected{
+  outline-color:#f0bc5c;
+  box-shadow:0 0 25px #d28c34cc,0 18px 26px #000d;
+}
+
+/* Lightweight atmosphere: CSS layers stay behind interaction and obey motion settings. */
+.game-frame:before{
+  content:"";
+  position:fixed;
+  inset:-12%;
+  z-index:20;
+  pointer-events:none;
+  opacity:.17;
+  background:
+    radial-gradient(ellipse at 15% 58%,#b08a5a28 0,transparent 27%),
+    radial-gradient(ellipse at 82% 38%,#8c765624 0,transparent 25%),
+    radial-gradient(ellipse at 48% 85%,#d0aa7020 0,transparent 30%);
+  filter:blur(34px);
+  mix-blend-mode:screen;
+  animation:artSmokeDrift 16s ease-in-out infinite alternate;
+}
+.game-frame:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:21;
+  pointer-events:none;
+  opacity:.21;
+  background-image:
+    radial-gradient(circle,#f0c46f 0 1px,transparent 1.5px),
+    radial-gradient(circle,#b8792c 0 .7px,transparent 1.2px);
+  background-size:137px 137px,89px 89px;
+  background-position:13px 22px,51px 8px;
+  animation:artGoldDust 22s linear infinite;
+  mask-image:linear-gradient(transparent 0,#000 18%,#000 82%,transparent 100%);
+}
+@keyframes artSmokeDrift{
+  from{transform:translate3d(-2%,1%,0) scale(1)}
+  to{transform:translate3d(3%,-2%,0) scale(1.08)}
+}
+@keyframes artGoldDust{
+  to{background-position:150px -115px,-38px -81px}
+}
+.reduce-motion .game-frame:before,.reduce-motion .game-frame:after{animation:none!important}
+
+@media(max-width:880px){
+  body,.main-menu,.settings-screen{background-position:center top;background-attachment:scroll}
+  .title-cards{opacity:.55}
+  .game-frame:before{opacity:.1}
+  .game-frame:after{opacity:.12}
+}
+
+.reduce-motion .enemy-card:hover,.reduce-motion .menu-actions button:hover,
+.reduce-motion .action:hover{transition:none;transform:none}
+.menu-actions #continue-game.has-save{border-color:#a97731;color:#e6c98f;background:linear-gradient(135deg,#271a0b,#0b0805)}
+.menu-actions #continue-game.has-save small{color:#c08a3d;letter-spacing:.08em}
+
+/* Functional overlays share the same visual language without changing their UI layout. */
+.hand-rules-dialog,.deck-dialog,.choice-dialog,.report-dialog,
+.shop-dialog,.settlement-dialog,.persona-dialog{
+  max-height:min(92vh,820px);
+  overflow:auto;
+  border-radius:2px;
+  scrollbar-color:#9b6a2d #100b06;
+}
+.hand-rules-dialog,.deck-dialog,.choice-dialog,.report-dialog,.shop-dialog{
+  background-image:
+    linear-gradient(135deg,#d5a14b08,transparent 25% 75%,#d5a14b08),
+    repeating-linear-gradient(0deg,transparent 0 31px,#d6a34e05 32px),
+    radial-gradient(circle at 50% -18%,#392815,#0a0805 58%);
+}
+.hand-rules-dialog>h2,.deck-dialog>h2,.choice-dialog>h2,
+.report-dialog>h2,.shop-dialog>h2,.settlement-dialog>h2{
+  color:#eed39e;
+  text-shadow:0 2px 8px #000,0 0 18px #c7862825;
+}
+.hand-rules-dialog :focus-visible,.deck-dialog :focus-visible,
+.choice-dialog :focus-visible,.report-dialog :focus-visible,
+.shop-dialog :focus-visible,.settlement-dialog :focus-visible{
+  outline:2px solid #e4ae50;
+  outline-offset:2px;
+}
+
+/* Hand reference: compact ledger rows with readable poker samples. */
+.rules-columns{
+  border-color:#765327;
+  color:#bfa574;
+  background:#080604b8;
+}
+.hand-rules-list article{
+  border-color:#553b1d;
+  background:linear-gradient(90deg,#191108,#0b0805 30% 70%,#191108);
+  box-shadow:inset 0 0 16px #0008;
+}
+.hand-rules-list article:hover{background:#24180b;border-color:#bd8236}
+.hand-rules-list .top-rule{background:linear-gradient(90deg,#35200b,#100b06);box-shadow:inset 3px 0 #d59a41}
+.rule-icon{
+  color:#171006;
+  background:
+    repeating-linear-gradient(18deg,transparent 0 8px,#7650190d 9px),
+    radial-gradient(circle,#f0ddb7,#cdb17e);
+  border-color:#a47738;
+  box-shadow:inset 0 0 0 1px #fff5,0 2px 7px #0009;
+}
+.rule-icon.red{color:#922d24}
+.hand-rules-list h3,.hand-rules-list strong{color:#ead09c}
+.hand-rules-list em{color:#e4ad4e;text-shadow:0 0 10px #c9802a35}
+
+/* Deck viewer keeps cards traditional while controls remain obsidian-gold. */
+.deck-tabs{background:#080604;border-color:#765326}
+.deck-tabs button{border-color:#4f381e;background:#0c0906;color:#8f7b5a}
+.deck-tabs button:hover{color:#ddbf85;background:#191107}
+.deck-tabs button.active{color:#f0d39c;background:linear-gradient(#3a260f,#160f08);box-shadow:inset 0 -2px #d99d43}
+.deck-stats{color:#ad9876}
+.deck-stats button{
+  border-color:#735128;
+  background:linear-gradient(#1b1209,#0b0805);
+  color:#d9bd87;
+}
+.deck-stats button:hover{border-color:#c98c39;color:#f1d39a}
+.deck-item{
+  background-image:
+    repeating-linear-gradient(18deg,transparent 0 10px,#6f48180b 11px),
+    radial-gradient(circle,#f2dfba,#cbb17e);
+  border-color:#9d7135;
+  box-shadow:inset 0 0 0 1px #fff7,0 3px 7px #0009;
+}
+.deck-item:hover,.deck-item.selected{outline-color:#e5ac4b;box-shadow:0 0 18px #d58d35aa}
+.deck-item em,.card-bonus{background:#865a20;color:#f8e0aa}
+.deck-detail{border-color:#60431f;background:linear-gradient(90deg,#130d07,#080604)}
+.deck-detail p{color:#a5906d}
+
+/* Choice, collection and report pages use portraits as the visual anchor. */
+.choice-card{border-color:#59401f;background:linear-gradient(145deg,#171008,#080604);color:#dac397}
+.choice-card:hover,.choice-card.selected{border-color:#d0953d;box-shadow:0 14px 30px #000,inset 0 0 28px #bb771d25}
+.choice-card.selected{outline:1px solid #efbf68;outline-offset:-5px}
+.choice-card.recommended:before{background:linear-gradient(#bd8737,#684317);color:#fff0c3;box-shadow:0 3px 9px #000}
+.choice-portrait{border:1px solid #6e4b24;box-shadow:inset 0 0 22px #000,0 5px 12px #0008}
+.choice-portrait.has-art:before,.choice-portrait.has-art:after{display:none}
+.choice-detail{border-color:#654724;background:linear-gradient(#120d07,#080604)}
+.choice-detail section{border-color:#50381e}
+.report-avatar{
+  overflow:hidden;
+  border-color:#815b2b;
+  background:
+    radial-gradient(circle at 50% 50%,transparent 0 27%,#ba81332a 28% 29%,transparent 30%),
+    repeating-radial-gradient(circle at 50% 50%,transparent 0 24px,#a46f2720 25px 26px),
+    radial-gradient(circle at 50% 38%,#392812,#0a0704 70%);
+  box-shadow:inset 0 0 34px #000,0 8px 20px #0009;
+}
+.report-avatar:after{
+  content:"◇";
+  inset:0;
+  width:auto;
+  height:auto;
+  display:grid;
+  place-items:center;
+  border-radius:0;
+  color:#e0a94d;
+  background:transparent;
+  font:70px Georgia;
+  text-shadow:0 0 18px #d58c36;
+}
+.report-metrics,.report-evidence{border-color:#5d4220;background:#0a0704b8}
+.report-metric i{border:1px solid #50391d;background:#171006}
+.report-evidence{color:#a99370}
+
+/* Shop and settlement communicate state through gold or restrained crimson. */
+.shop-item{transition:transform .18s ease,border-color .18s ease,filter .18s ease}
+.shop-item:not(.sold):hover{transform:translateY(-4px);border-color:#c88d39;filter:brightness(1.08)}
+.shop-item button:hover:not(:disabled){background:#4a2e10;color:#ffe0a0}
+.settlement-dialog{background-image:radial-gradient(circle at 50% -15%,#3a2812,#090704 60%)}
+.settlement-dialog[data-result="failure"]{background-image:radial-gradient(circle at 50% -15%,#3b190e,#090604 60%)}
+.settlement-dialog[data-result="failure"] .result-emblem{color:#c97655;border-color:#a55c36;box-shadow:0 0 28px #9d432b55}
+.result-failure{border-color:#69351f;background:#1c0c07}
+.result-failure strong{color:#dd8b68}
+.result-actions button:hover{border-color:#d09843;color:#f1d49c;background:#26170a}
+
+/* Persona collection: art, name and one readable gameplay sentence only. */
+.persona-dialog .library-card{
+  min-height:215px;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+.persona-dialog .library-card.equipped:after{content:none}
+.persona-dialog .library-portrait{
+  height:108px;
+  margin:0 0 10px;
+  flex:0 0 108px;
+}
+.persona-dialog .library-card h3{
+  margin:0 0 8px;
+  font-size:18px;
+  line-height:1.25;
+  color:#e8ca90;
+}
+.persona-dialog .library-card .library-effect-summary{
+  margin:0;
+  color:#b9a582;
+  font-size:12px;
+  line-height:1.65;
+}
+.persona-dialog .persona-keyword{
+  color:#f1d49a;
+  font-weight:700;
+}
+.persona-dialog .persona-value{
+  color:#f0b94f;
+  font-weight:800;
+  text-shadow:0 0 9px #c17b2738;
+}
+.collection-side .loadout-slot{
+  height:72px;
+  padding:7px 8px;
+  display:grid;
+  grid-template-columns:20px 42px minmax(0,1fr);
+  gap:7px;
+  align-items:center;
+}
+.collection-side .loadout-index{
+  width:auto;
+  text-align:center;
+  font-size:15px;
+}
+.collection-side .loadout-portrait{
+  width:42px;
+  height:50px;
+  margin:0;
+}
+.collection-side .loadout-portrait.empty{
+  border-style:dashed;
+  opacity:.3;
+  background:#171006;
+}
+.collection-side .loadout-slot b{
+  max-width:none;
+  margin:0;
+  font-size:12px;
+}
+.persona-selected-detail p{
+  min-height:72px;
+  font-size:13px;
+  line-height:1.75;
+}
+
+/* Battle rail uses the same plain-language hierarchy as the collection cards. */
+.persona-copy h3{
+  margin:5px 0 9px;
+  font-size:18px;
+  line-height:1.25;
+}
+.persona-copy .persona-battle-summary{
+  max-width:155px;
+  margin:0;
+  color:#b9a582;
+  font-size:11px;
+  line-height:1.65;
+}
+.persona-copy .persona-keyword{
+  color:#f1d49a;
+  font-weight:700;
+}
+.persona-copy .persona-value{
+  color:#f0b94f;
+  font-weight:800;
+  text-shadow:0 0 9px #c17b2738;
+}
+
+@media(max-height:760px){
+  .hand-rules-dialog,.deck-dialog,.choice-dialog,.report-dialog,.shop-dialog,.settlement-dialog{max-height:94vh}
+  .choice-dialog{padding-top:18px;padding-bottom:18px}
+  .choice-dialog>h2,.report-dialog>h2,.deck-dialog>h2{margin-top:0;margin-bottom:10px;font-size:27px}
+  .choice-card{min-height:330px}
+  .choice-portrait{height:155px}
+  .deck-dialog{padding:16px 26px}
+  .deck-grid{max-height:220px}
+  .deck-detail{margin-top:10px;padding-top:9px}
+  .deck-dialog footer{margin-top:10px}
+  .report-avatar{height:145px}
+  .report-hero{grid-template-columns:145px 1fr;gap:20px}
+  .report-hero h3{font-size:27px}
+  .shop-item{min-height:220px}
+  .hand-rules-list{max-height:50vh}
+}
+
+@media(max-width:850px){
+  .hand-rules-dialog,.deck-dialog,.choice-dialog,.report-dialog,.shop-dialog,.settlement-dialog{max-height:95vh}
+}

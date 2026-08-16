@@ -1,0 +1,7 @@
+.hand-sort{position:absolute;z-index:12;top:30px;right:4.5%;display:flex;align-items:center;gap:3px;padding:3px;border:1px solid #60451f;background:#090704d9;box-shadow:inset 0 0 0 1px #1b1208,0 5px 16px #0008;color:#8f7855;font-size:10px;letter-spacing:.08em}
+.hand-sort>span{padding:0 7px;color:#9d855f;white-space:nowrap}
+.hand-sort button{min-width:48px;height:27px;border:1px solid transparent;background:#120d07;color:#8d7757;font:12px "Noto Serif SC","Microsoft YaHei",serif;cursor:pointer;transition:color .16s,border-color .16s,background .16s,box-shadow .16s}
+.hand-sort button:hover:not(:disabled){color:#efd49d;border-color:#795527}
+.hand-sort button.active{color:#f0d29a;border-color:#b57d31;background:linear-gradient(145deg,#4a2e10,#171006);box-shadow:inset 0 0 10px #c985252c,0 0 8px #bd7e2524}
+.hand-sort button:disabled{opacity:.42;cursor:not-allowed}
+@media(max-width:1050px){.hand-sort{right:2%;transform:scale(.9);transform-origin:right top}.hand-sort>span{display:none}}

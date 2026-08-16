@@ -1,0 +1,16 @@
+const fs=require('fs');
+const vm=require('vm');
+const assert=require('assert');
+const {loadBalance}=require('./test-load-balance');
+function element(){return{innerHTML:'',textContent:'',disabled:false,open:false,value:'all',style:{},dataset:{},classList:{add(){},remove(){},toggle(){},contains(){return false}},setAttribute(){},append(){},prepend(){},querySelector(){return element()},querySelectorAll(){return[]},addEventListener(){},getBoundingClientRect(){return{left:0,top:0,width:1,height:1}},showModal(){this.open=true},close(){this.open=false}}}
+const elements=new Map(),documentStub={documentElement:element(),querySelector(selector){if(!elements.has(selector))elements.set(selector,element());return elements.get(selector)},querySelectorAll(){return[]},createElement(){return element()},addEventListener(){}};
+const context={console,setTimeout(){},clearTimeout,document:documentStub,window:{},localStorage:{getItem(){return null},setItem(){}},Math,Date,Set,Map,JSON,Number,Array,Object,String};context.window=context;vm.createContext(context);loadBalance(context);vm.runInContext(fs.readFileSync('game.js','utf8'),context);
+const empty=context.buildPersonaReport();assert.strictEqual(empty.metricDefs.length,12);assert.ok(Object.values(empty.metrics).every(Number.isFinite));
+vm.runInContext(`behavior=createBehaviorAggregate();behavior.availableHands=12;behavior.availableDiscards=9;behavior.earnedCoins=20;behavior.spentCoins=4;behavior.deckChanges=1;behavior.discardActions=1;behavior.discardedCards=2;behavior.maxDiscard=2;behavior.handTypes={'对子':5,'高牌':1};behavior.scores=[40,42,43,41,44,20];behavior.suitCounts={'♥':8,'♦':1,'♣':1,'♠':1};behavior.rankBands={low:1,middle:7,face:2,ace:1};behavior.plays=[{battleIndex:0,type:'对子',selectedCount:2,score:40},{battleIndex:0,type:'对子',selectedCount:2,score:42},{battleIndex:0,type:'对子',selectedCount:2,score:43},{battleIndex:1,type:'对子',selectedCount:2,score:41},{battleIndex:1,type:'对子',selectedCount:2,score:44},{battleIndex:1,type:'高牌',selectedCount:1,score:20}];behavior.battles=[{index:0,target:200,endScore:220,remainingHands:2,remainingDiscards:2},{index:1,target:300,endScore:320,remainingHands:1,remainingDiscards:2}]`,context);
+const focused=context.buildPersonaReport();assert.ok(focused.metrics.focus>=80);assert.ok(focused.title.includes('专注'));assert.strictEqual(focused.dominantType,'对子');
+vm.runInContext(`behavior.handTypes={'高牌':1,'对子':1,'两对':1,'三条':1,'顺子':1,'同花':1};behavior.plays=behavior.plays.map((play,index)=>({...play,type:['高牌','对子','两对','三条','顺子','同花'][index]}))`,context);
+const varied=context.buildPersonaReport();assert.ok(varied.metrics.diversity>focused.metrics.diversity);assert.ok(varied.metrics.adaptation>focused.metrics.adaptation);
+vm.runInContext('currentPersonaReport=buildPersonaReport()',context);const persona=vm.runInContext('personaPool[0]',context),match=context.personaBehaviorMatch(persona,0);assert.ok(Number.isFinite(match));
+vm.runInContext("forgeResults=[{roll:20,match:30},{roll:5,match:90},{roll:15,match:60}]",context);assert.strictEqual(context.recommendedForgeIndex(),1);
+assert.deepStrictEqual([1,5,6,10,11,15,16,19,20].map(context.forgeTier),['基础','基础','强化','强化','高阶','高阶','闪光','闪光','完美闪光']);
+console.log('behavior-tests: empty, focused, varied, forge matching and D20 tiers passed');

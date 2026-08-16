@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>人格牌 · 镜厅试炼</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cards-fix.css">
+  <link rel="stylesheet" href="progression.css">
+  <link rel="stylesheet" href="shell.css">
+  <link rel="stylesheet" href="shell-overrides.css">
+  <link rel="stylesheet" href="playing-cards.css">
+  <link rel="stylesheet" href="effects.css">
+  <link rel="stylesheet" href="played-cards.css">
+  <link rel="stylesheet" href="played-cards-fix.css">
+  <link rel="stylesheet" href="card-flow.css">
+  <link rel="stylesheet" href="hand-sort.css">
+  <link rel="stylesheet" href="persona-system.css">
+  <link rel="stylesheet" href="persona-feedback.css">
+  <link rel="stylesheet" href="settings-polish.css">
+  <link rel="stylesheet" href="settings-return.css">
+  <link rel="stylesheet" href="settlement.css">
+  <link rel="stylesheet" href="hand-rules.css">
+  <link rel="stylesheet" href="hand-rules-reference.css">
+  <link rel="stylesheet" href="forge-flow.css">
+  <link rel="stylesheet" href="extended-flow.css">
+  <link rel="stylesheet" href="report-metrics.css">
+  <link rel="stylesheet" href="obsidian-gold-theme.css">
+  <link rel="stylesheet" href="art-assets.css">
+  <link rel="stylesheet" href="route-map.css">
+  <link rel="stylesheet" href="tutorial.css">
+  <link rel="stylesheet" href="random-events.css">
+  <link rel="stylesheet" href="boss-observation.css">
+  <link rel="stylesheet" href="persona-slice.css">
+  <link rel="stylesheet" href="target-run.css">
+</head>
+<body>
+  <section id="main-menu" class="screen main-menu">
+    <div class="menu-atmosphere"><i></i><i></i><i></i></div>
+    <div class="title-cards" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="menu-content">
+      <h1>人格牌</h1>
+      <div class="title-divider"><i></i><b>◆</b><i></i></div>
+      <p class="menu-subtitle">用牌局，认识人格</p>
+      <nav class="menu-actions">
+        <button id="start-game" class="menu-primary">开始游戏</button>
+        <button id="start-target-run" class="target-dev-entry">开发测试：目标13节点长局</button>
+        <button id="continue-game">继续游戏</button>
+        <button id="open-gallery">人格图鉴</button>
+        <button id="open-settings">设置</button>
+        <button id="exit-game">退出游戏</button>
+      </nav>
+    </div>
+    <footer class="menu-footer"><span>演示版本 0.3</span><span id="menu-hint">镜子会记住每一次选择</span></footer>
+  </section>
+
+  <section id="settings-screen" class="screen settings-screen hidden">
+    <header class="settings-header"><button id="settings-back">← 返回</button><div><h1>设置</h1></div><span>⚙</span></header>
+    <div class="settings-layout settings-simple">
+      <main class="settings-content ornate-panel">
+        <section class="settings-pane active">
+          <div class="settings-grid-cards">
+            <section class="setting-card">
+              <header><span>◈</span><div><h2>画面</h2></div></header>
+              <label class="range-row"><span>亮度</span><input id="brightness" type="range" min="70" max="120" value="100"><output id="brightness-value">100%</output></label>
+              <label class="toggle-row"><span>界面动效</span><input type="checkbox" id="ui-motion" checked><i></i></label>
+              <label class="toggle-row"><span>屏幕震动</span><input type="checkbox" id="screen-shake" checked><i></i></label>
+            </section>
+            <section class="setting-card">
+              <header><span>◖</span><div><h2>声音</h2></div></header>
+              <label class="range-row"><span>主音量</span><input id="master-volume" type="range" min="0" max="100" value="80"><output id="volume-value">80%</output></label>
+              <div class="sound-note"><b>本地合成音效</b><p>按钮、选牌、出牌、弃牌与结算音效统一受主音量控制。</p></div>
+            </section>
+            <section class="setting-card controls-card">
+              <header><span>⌘</span><div><h2>操作</h2></div></header>
+              <div class="key-grid"><div class="key-row"><span>出牌</span><kbd>空格键</kbd></div><div class="key-row"><span>弃牌</span><kbd>弃牌键</kbd></div><div class="key-row"><span>设置 / 返回</span><kbd>退出键</kbd></div></div>
+              <button id="replay-tutorial" class="tutorial-replay" type="button">重新查看战斗教学</button>
+            </section>
+          </div>
+        </section>
+      </main>
+      <aside class="settings-help ornate-panel"><div class="help-sigil">✦</div><span class="info-mark">●</span><h2>简易设置</h2><p>只保留当前网页演示版中能够真实生效的选项，调整亮度和动效时会即时预览。</p><div class="shortcut-preview"><span>快速返回</span><kbd>退出键</kbd></div><div class="help-tip"><b>✦ 本地保存</b><p>保存后，下次打开演示版仍会沿用当前设置。</p></div></aside>
+    </div>
+    <footer class="settings-actions"><button id="return-main-menu" class="return-menu hidden">返回主界面</button><span class="settings-action-spacer"></span><button id="settings-default">恢复默认</button><button id="settings-cancel">取消</button><button id="settings-save" class="save">保存设置</button></footer>
+  </section>
+
+  <section id="map-screen" class="screen route-map-screen hidden">
+    <header class="route-header">
+      <h1>镜厅路线</h1>
+      <span>选择一处倒影，决定下一场战斗前的准备。</span>
+    </header>
+    <section class="route-progress" aria-label="当前镜厅进度">
+      <div class="route-step completed"><i>01</i><b>已突破</b></div>
+      <span></span>
+      <div class="route-step next"><i id="route-next-index">02</i><b>路径选择</b></div>
+      <span></span>
+      <div class="route-step locked"><i id="route-boss-index">03</i><b>下一面镜</b></div>
+    </section>
+    <main class="route-node-grid">
+      <button class="route-node shop-node" data-route-node="shop">
+        <span class="route-node-icon">¤</span><h2>幕间商店</h2>
+        <p>使用本局获得的金币整理牌库、强化卡牌，或为下一战增加弃牌次数。</p><b>进入商店</b>
+      </button>
+      <button class="route-node rest-node" data-route-node="rest">
+        <span class="route-node-icon">☾</span><h2>静思室</h2>
+        <p>跳过消费，在下一场战斗额外获得 1 次弃牌机会。</p><b>获得：下场弃牌 +1</b>
+      </button>
+      <button class="route-node engrave-node" data-route-node="engrave">
+        <span class="route-node-icon">◇</span><h2>镜之刻印</h2>
+        <p>随机选择牌库中的一张牌，使其在后续战斗中永久获得 +3 计分筹码。</p><b>获得：随机卡牌 +3</b>
+      </button>
+    </main>
+    <footer class="route-footer"><span id="route-summary">每次只能选择一个幕间节点。</span><button id="route-menu">返回主界面</button></footer>
+  </section>
+
+  <dialog id="event-dialog" class="event-dialog">
+    <div class="event-layout">
+      <div class="event-emblem" id="event-emblem">◉</div>
+      <section><h2 id="event-title">凝视之眼</h2><p id="event-copy">镜中的眼睛正在衡量你愿意付出的代价。</p></section>
+    </div>
+    <div class="event-options" id="event-options"></div>
+    <p class="event-note" id="event-note">选择之后无法反悔。</p>
+  </dialog>
+
+  <main id="battle-screen" class="screen game-frame hidden">
+    <aside class="persona-rail ornate-panel">
+      <header class="rail-head">
+        <div><span>人格总加成</span></div>
+        <div class="bonus"><b>基础分加成：<em id="persona-chip">—</em></b><b>倍率加成：<em id="persona-mult">—</em></b></div>
+      </header>
+      <div class="persona-list" id="personas"></div>
+      <footer class="persona-footer"><button id="open-hand-rules" class="rules-entry"><span class="mini-card">♠<i>A</i></span><div><b>牌型规则</b></div><em>查看 ›</em></button></footer>
+    </aside>
+
+    <section class="battle-stage">
+      <div class="table-pile" id="table-pile" role="button" tabindex="0" aria-label="查看牌库与收牌堆">
+        <span class="pile-card back-one"></span><span class="pile-card back-two"></span><span class="pile-card back-top">✦</span>
+        <b>牌堆</b><small><i id="deck-count">—</i> 张 · 已用 <i id="used-count">0</i></small>
+      </div>
+      <header class="enemy-row played-row" id="played-cards" aria-label="本手已打出的扑克牌"></header>
+
+      <div class="arc-divider"><i></i><span>✦</span><i></i></div>
+
+      <section class="score-preview ornate-panel">
+        <div><small>当前牌型</small><strong id="preview-type">等待选择</strong></div>
+        <div><small>基础分</small><strong id="preview-chips">—</strong></div>
+        <div><small>倍率</small><strong id="preview-mult">×—</strong></div>
+        <div><small>最终得分</small><strong id="preview-score">—</strong></div>
+      </section>
+      <aside id="score-breakdown" class="score-breakdown hidden" aria-live="polite"></aside>
+
+      <section class="hand-zone">
+        <div class="status-line" id="message"><span></span>点击牌面选择手牌</div>
+        <div class="hand-sort" role="group" aria-label="手牌排序方式">
+          <span>手牌排序</span>
+          <button id="sort-by-rank" class="active" type="button" aria-pressed="true">大小</button>
+          <button id="sort-by-suit" type="button" aria-pressed="false">花色</button>
+        </div>
+        <div class="cards" id="cards"></div>
+      </section>
+
+      <footer class="actions">
+        <button id="play-btn" class="action play"><span>出牌</span></button>
+        <button id="discard-btn" class="action discard"><span>弃牌</span></button>
+      </footer>
+    </section>
+
+    <aside class="boss-rail ornate-panel">
+      <button class="gear" id="new-run" aria-label="重新开始">⚙</button>
+      <header class="boss-title"><h1 id="encounter-title">首领</h1></header>
+      <section class="boss-dialogue">
+        <div class="boss-portrait has-art"><span></span></div>
+        <blockquote>“镜中的倒影，<br>还认识现在的你吗？”</blockquote>
+      </section>
+      <section class="protocol ornate-panel-inner">
+        <div class="protocol-icon">◈</div>
+        <div><h2 id="active-boss-rule">等待揭示</h2><p id="active-boss-rule-desc">开始战斗前将显示本场首领规则。</p></div>
+      </section>
+      <section class="run-score ornate-panel-inner">
+        <div class="score-pair"><div><small>当前得分</small><strong id="score">0</strong></div><div><small>目标分数</small><strong id="target">—</strong></div></div>
+        <div class="progress"><i id="progress"></i></div>
+        <p>获得金币：<b id="earned-coins">0</b></p><p>当前金币：<b id="current-coins">0</b></p>
+      </section>
+      <section class="turns ornate-panel-inner">
+        <div><span class="turn-icon">▱</span><b>弃牌</b><strong><i id="discards">—</i> / <i id="discards-max">—</i></strong></div>
+        <div><span class="turn-icon">▰</span><b>出牌</b><strong><i id="hands">—</i> / <i id="hands-max">—</i></strong></div>
+      </section>
+      <section class="battle-log"><header>结算记录</header><ol id="log"></ol></section>
+    </aside>
+  </main>
+
+  <dialog id="forge-dialog" class="forge-screen">
+    <button class="dialog-x" id="dialog-x">×</button>
+    <h2>人格铸造</h2><p id="summary" class="forge-summary"></p>
+    <nav class="forge-steps"><span data-forge-tab="0">映照</span><i></i><span data-forge-tab="1">偏转</span><i></i><span data-forge-tab="2">裂变</span></nav>
+    <section class="forge-roll-area"><div class="d20-shape"><i></i><b id="forge-roll-value">?</b></div><div class="roll-readout"><strong id="forge-point">—</strong><span id="forge-tier">等待投掷</span></div></section>
+    <section class="forge-current" id="forge-current"><div class="forge-avatar"><span></span></div><div><h3 id="forge-result-name">尚未生成</h3><p id="forge-result-desc">投掷二十面骰，生成符合本局行为画像的人格牌。</p></div></section>
+    <p class="generated-title">已生成结果</p><div class="forge-generated" id="forge-generated"></div>
+    <button class="action play forge-next" id="forge-next"><span>投掷二十面骰</span></button>
+  </dialog>
+
+  <dialog id="boss-reveal-dialog" class="boss-reveal-dialog">
+    <h2>首领开战</h2>
+    <div class="boss-reveal-layout"><section><div class="reveal-portrait has-art"><span></span></div><blockquote id="boss-reveal-quote">“我会观察你的选择。”</blockquote></section><div class="reveal-rules"><article class="observation-card"><span>◉</span><div><h3 id="boss-observation-name">尚未形成判断</h3><p id="boss-observation-evidence">第一场战斗没有历史行为，首领将从现在开始记录。</p></div></article><article><span>▤</span><div><h3 id="boss-rule-name">等待揭示</h3><p id="boss-rule-desc">首领正在选择审判规则。</p></div></article><article><span>ϟ</span><div><h3 id="boss-event-name">等待介入</h3><p id="boss-event-desc">介入事件不由行为分析决定。</p></div></article></div></div>
+    <footer><button id="boss-view-rules">查看牌型</button><button id="boss-start" class="boss-start">开始战斗</button></footer>
+  </dialog>
+
+  <dialog id="acquire-dialog" class="acquire-dialog">
+    <h2>已获得人格牌</h2>
+    <div class="acquire-layout"><section class="new-persona-card"><div class="acquire-portrait"><span></span></div><h3 id="acquire-name">人格牌</h3><div class="acquire-tags" id="acquire-tags"></div><p id="acquire-desc"></p></section><section class="equip-confirm"><h3>当前装备 <small data-persona-slot-limit></small></h3><div class="acquire-loadout" id="acquire-loadout"></div><div class="acquire-detail"><b id="acquire-detail-name"></b><p id="acquire-detail-desc"></p></div></section></div>
+    <footer><button id="acquire-equip" class="equip-now">立即装备</button><button id="acquire-store">收入收藏</button><button id="acquire-later">稍后处理</button></footer>
+  </dialog>
+
+  <dialog id="shop-dialog" class="shop-dialog">
+    <h2>在下一面镜子前，调整你的牌局</h2>
+    <p class="shop-copy">金币只在本局有效。每项服务只能购买一次。</p>
+    <div class="shop-wallet">当前金币 <strong id="shop-coins">0</strong></div>
+    <div class="shop-grid">
+      <article class="shop-item" data-service="trim">
+        <span class="shop-icon">◇</span><h3>剔除杂音</h3><p>从牌库中移除一张最低点数牌，提高核心牌出现概率。</p><button data-buy="trim">4 金币</button>
+      </article>
+      <article class="shop-item" data-service="temper">
+        <span class="shop-icon">♠</span><h3>重刻点数</h3><p>随机选择一张当前手牌，使其点数永久提高 2 级。</p><button data-buy="temper">6 金币</button>
+      </article>
+      <article class="shop-item" data-service="breath">
+        <span class="shop-icon">✦</span><h3>额外一次呼吸</h3><p>下一场战斗增加 1 次弃牌机会。</p><button data-buy="breath">5 金币</button>
+      </article>
+    </div>
+    <div class="shop-note" id="shop-note">首领的目光暂时离开了牌桌。</div>
+    <button class="action play shop-leave" id="shop-leave"><span>进入下一场</span></button>
+  </dialog>
+
+  <dialog id="persona-dialog" class="persona-dialog">
+    <button class="dialog-x" id="persona-close">×</button>
+    <h2>人格收藏 / 装备</h2>
+    <div class="collection-layout"><section class="collection-browser"><div class="collection-tools"><select id="persona-mode-filter"><option value="all">全部类型</option><option>映照</option><option>偏转</option><option>裂变</option></select><input id="persona-search" placeholder="搜索人格名称或效果"></div><div class="persona-library" id="persona-library"></div></section><aside class="collection-side"><h3>当前装备</h3><div class="loadout-slots" id="loadout-slots"></div><section class="persona-selected-detail"><h3 id="library-detail-name">选择一张人格牌</h3><p id="library-detail-desc">查看完整效果，并决定装备或卸下。</p><button id="library-toggle-equip">装备</button></section></aside></div>
+    <button class="action play library-done" id="persona-done"><span>保存装备</span></button>
+  </dialog>
+
+  <dialog id="deck-dialog" class="deck-dialog">
+    <button class="dialog-x" id="deck-close">×</button><h2>牌库查看</h2>
+    <nav class="deck-tabs"><button data-deck-tab="deck" class="active">当前牌库</button><button data-deck-tab="used">已用牌</button><button data-deck-tab="discarded">已弃牌</button></nav>
+    <div class="deck-stats"><span>总数 <b id="deck-total">0</b></span><span>可选 <b id="deck-selectable">0</b></span><button id="deck-target-mode" class="debug-deck-target hidden">选择强化目标</button></div>
+    <div class="deck-grid" id="deck-grid"></div>
+    <section class="deck-detail debug-deck-target hidden"><div class="deck-mini" id="deck-detail-card">♠ A</div><div><h3 id="deck-detail-name">尚未选择</h3><p id="deck-detail-desc"></p></div></section>
+    <footer><button id="deck-confirm" class="debug-deck-target hidden" disabled>确认选择</button><button id="deck-done">关闭</button></footer>
+  </dialog>
+
+  <dialog id="choice-dialog" class="choice-dialog">
+    <h2>选择一张人格牌</h2><p>从三种人格倒影中选择一张加入你的收藏。</p>
+    <div class="choice-layout"><div class="choice-cards" id="choice-cards"></div><aside class="choice-detail"><h3 id="choice-name">请选择</h3><div class="acquire-tags" id="choice-tags"></div><p id="choice-desc">选择左侧卡牌查看完整规则。</p><section><b>画像推荐理由</b><p id="choice-reason">将根据本局行为数据推荐最适合的结果。</p></section></aside></div>
+    <footer><button id="choice-confirm" disabled>选择此人格</button><button id="choice-back">返回铸造</button></footer>
+  </dialog>
+
+  <dialog id="report-dialog" class="report-dialog">
+    <h2>局终人格报告</h2>
+    <div class="report-hero"><div class="report-avatar"><span></span></div><div><h3 id="report-title">谨慎的终局者</h3><div class="acquire-tags" id="report-tags"><span>克制</span><span>终局</span><span>专注</span></div><p id="report-copy">你在本局中展现了稳定的判断力，并在关键时刻保留了重要资源。</p></div></div>
+    <h3 class="report-section-title">行为证据</h3><section class="report-metrics" id="report-metrics"></section>
+    <h3 class="report-section-title">数据依据</h3><ul class="report-evidence" id="report-evidence"></ul>
+    <footer><button id="report-details">查看牌局详情</button><button id="report-forge">开始人格铸造</button></footer>
+  </dialog>
+
+  <dialog id="settlement-dialog" class="settlement-dialog">
+    <div class="settlement-aura" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="result-emblem" id="result-emblem">♛</div>
+    <h2 id="result-title">战斗胜利</h2>
+    <p class="result-subtitle" id="result-subtitle">你成功击败了镜厅守卫。</p>
+    <section class="result-score"><small>最终得分</small><strong id="result-score">0</strong><span>目标 <b id="result-target">0</b></span></section>
+    <section class="result-rewards" id="result-rewards"><p>获得奖励</p><div><article><span>◉</span><small>获得金币</small><b id="result-coins">0</b></article><article><span>✦</span><small>剩余出牌</small><b id="result-hands">0</b></article></div></section>
+    <section class="result-failure" id="result-failure"><span>距离目标还差</span><strong id="result-gap">0</strong><small>本局行为仍可用于人格铸造</small></section>
+    <footer class="result-actions"><button id="result-menu">返回主界面</button><button id="result-retry">重新开始</button><button id="result-primary" class="primary-result">领取奖励</button></footer>
+  </dialog>
+
+  <dialog id="hand-rules-dialog" class="hand-rules-dialog">
+    <button class="dialog-x" id="hand-rules-close">×</button>
+    <header class="rules-head"><h2>基础计分图鉴</h2><p>战斗中使用扑克牌组合，可获得不同的基础筹码和基础倍率。</p></header>
+    <div class="rules-columns"><span>序号</span><span>牌型</span><span>基础筹码</span><span>倍率</span></div>
+    <div class="hand-rules-list" id="hand-rules-list"></div>
+    <footer class="rules-foot"><p><b>最终得分</b> =（基础筹码 + 计分牌点数 + 人格筹码）×（基础倍率 + 人格倍率）× 独立倍率</p><button id="hand-rules-done">了解规则</button></footer>
+  </dialog>
+  <dialog id="persona-growth-dialog" class="persona-growth-dialog">
+    <h2>人格成长节点</h2>
+    <p>固定生成一张测试人格，并选择一个槽位替换。该界面仅用于运行时验证。</p>
+    <section id="persona-growth-card"></section><h3>选择替换槽位</h3><div id="persona-growth-slots" class="persona-growth-slots"></div>
+    <footer><button id="persona-growth-keep" class="hidden">保留当前装备</button><button id="persona-growth-confirm">确认替换并进入下一战</button></footer>
+  </dialog>
+  <dialog id="target-loadout-dialog" class="target-run-dialog target-loadout-dialog">
+    <h2>从 8 张基础人格中选择 4 张</h2>
+    <p>选择顺序即装备槽位顺序。此入口仅用于目标流程验证，不改变默认三战演示版。</p>
+    <section id="target-loadout-options" class="target-persona-grid"></section>
+    <h3>当前装备</h3><div id="target-loadout-slots" class="target-loadout-slots"></div>
+    <p id="target-loadout-note" class="target-note">请选择 4 张不同人格牌。</p>
+    <footer><button id="target-loadout-confirm" disabled>确认装备并进入节点01</button></footer>
+  </dialog>
+  <dialog id="target-report-dialog" class="target-run-dialog target-report-dialog">
+    <h2>目标长局报告</h2>
+    <section id="target-report-summary" class="target-report-summary"></section>
+    <h3>战斗结果</h3><div id="target-report-battles" class="target-report-battles"></div>
+    <h3>人格记录</h3><div id="target-report-personas" class="target-report-personas"></div>
+    <footer><button id="target-report-continue">进入人格带出</button></footer>
+  </dialog>
+  <dialog id="target-carry-dialog" class="target-run-dialog target-carry-dialog">
+    <h2>选择一张本局生成人格</h2>
+    <p>本阶段只写入本局结果中的开发占位集合，不接入正式局外收藏。</p>
+    <section id="target-carry-options" class="target-persona-grid"></section>
+    <p id="target-carry-note" class="target-note">请选择一张人格牌带出。</p>
+    <footer><button id="target-carry-confirm" disabled>确认带出并结束本局</button></footer>
+  </dialog>
+  <dialog id="persona-slice-end-dialog" class="persona-growth-dialog">
+    <h2>人格运行时验证结束</h2><p>测试长局已完成，不会写入正式三战流程。</p><footer><button id="persona-slice-end-confirm">结束测试</button></footer>
+  </dialog>
+  <div id="tutorial-overlay" class="tutorial-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutorial-title">
+    <div class="tutorial-focus" aria-hidden="true"></div>
+    <section class="tutorial-card">
+      <small id="tutorial-step-label">01 / 05 · 初次倒影</small>
+      <h2 id="tutorial-title">击败镜厅守卫</h2>
+      <p id="tutorial-copy">在出牌次数耗尽前，让当前得分达到右侧目标分数。</p>
+      <div class="tutorial-actions"><button id="tutorial-skip">跳过教学</button><span><button id="tutorial-prev">上一步</button><button id="tutorial-next">下一步</button></span></div>
+    </section>
+  </div>
+  <script src="balance/core-rules.js"></script>
+  <script src="balance/feature-flags.js"></script>
+  <script src="balance/poker-hands.js"></script>
+  <script src="balance/base-personas.js"></script>
+  <script src="balance/persona-templates.js"></script>
+  <script src="balance/target/scoring-profile.js"></script>
+  <script src="balance/target/prototype-personas.js"></script>
+  <script src="balance/target/growth-profiles.js"></script>
+  <script src="balance/target/stage-nodes.js"></script>
+  <script src="balance/target/run-template.js"></script>
+  <script src="balance/boss-profiles.js"></script>
+  <script src="balance/interventions.js"></script>
+  <script src="balance/encounters.js"></script>
+  <script src="balance/stage-nodes.js"></script>
+  <script src="balance/run-templates.js"></script>
+  <script src="balance/schema-validation.js"></script>
+  <script src="balance/manifest.js"></script>
+  <script src="balance-v2.1.js"></script>
+  <script src="persona/persona-instance.js"></script>
+  <script src="persona/persona-condition-evaluator.js"></script>
+  <script src="persona/persona-effect-executor.js"></script>
+  <script src="persona/legacy-persona-adapter.js"></script>
+<script src="persona/persona-feedback.js"></script>
+<script src="persona/persona-runtime.js"></script>
+<script src="run-controller.js"></script>
+<script src="save-system.js"></script>
+<script src="poker-engine.js"></script>
+<script src="game.js"></script>
+  <script src="shell.js"></script>
+  <script src="audio-effects.js"></script>
+  <script src="tutorial.js"></script>
+</body>
+</html>
