@@ -1,0 +1,9 @@
+(function(root){
+  'use strict';
+  const triggerMap={HAND_HAS_STRAIGHT:persona=>[{type:'HAND_HAS_STRAIGHT'}],MIN_UNIQUE_SUITS:persona=>[{type:'MIN_UNIQUE_SUITS',value:persona.triggerValue}],EXACT_SUBMITTED_CARDS:persona=>[{type:'SUBMITTED_CARD_COUNT_EXACT',value:persona.triggerValue}],HAS_MATCHED_RANK_STRUCTURE:()=>[{type:'HAS_MATCHED_RANK_STRUCTURE'}],HAND_HAS_FLUSH:()=>[{type:'HAND_HAS_FLUSH'}]};
+  function adapt(legacy){
+    const effectType={chips:'ADD_CHIPS',mult:'ADD_MULT',xmult:'MULTIPLY_FINAL'}[legacy.effectType]||legacy.effectType,isCharge=legacy.triggerType==='NEXT_PLAY_AFTER_MIN_DISCARD',runtimeDefaults={activationCountThisBattle:0},runtimeScopes={activationCountThisBattle:'BATTLE'};if(isCharge){runtimeDefaults.charged=false;runtimeScopes.charged='BATTLE'}if(legacy.perfectEcho){runtimeDefaults.firstSuccessRepeated=false;runtimeScopes.firstSuccessRepeated='BATTLE'}
+    return{id:`LEGACY_${legacy.id}`,name:legacy.name,mode:legacy.mode,code:legacy.code,qualityId:'LEGACY',behaviorFamilyId:null,conditions:isCharge?[{type:'PERSONA_RUNTIME_FLAG',key:'charged',value:true}]:(triggerMap[legacy.triggerType]?.(legacy)||[]),effects:[{type:effectType,value:legacy.value,phase:effectType==='MULTIPLY_FINAL'?'PERSONA_FINAL':'PERSONA_ADDITIVE'},...(isCharge?[{type:'CLEAR_RUNTIME_FLAG',key:'charged',phase:'POST_COMMIT'}]:[])],successModifiers:legacy.perfectEcho?[{type:'REPEAT_EFFECT_ONCE',condition:'FIRST_SUCCESSFUL_TRIGGER_THIS_BATTLE',runtimeKey:'firstSuccessRepeated'}]:[],activationLimit:{scope:'HAND',count:1},growthRules:isCharge?[{event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:legacy.triggerValue}],effects:[{type:'SET_RUNTIME_FLAG',key:'charged',value:true}]}]:[],caps:{},runtimeDefaults,runtimeScopes,tone:legacy.tone,portrait:legacy.portrait,tags:['LEGACY_ADAPTER',legacy.mode||'']};
+  }
+  root.LegacyPersonaAdapter={adapt,adaptAll:list=>(list||[]).map(adapt)};
+})(globalThis);

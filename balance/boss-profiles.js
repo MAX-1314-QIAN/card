@@ -1,0 +1,21 @@
+(function(root){
+  const modules=root.PERSONA_BALANCE_MODULES||(root.PERSONA_BALANCE_MODULES={});
+  modules.bossProfiles={
+    rules:[
+      {id:'opening_tax',name:'开局征税',effectType:'OPENING_MULT_DOWN',value:2,minValue:1,duration:'FIRST_PLAY',target:'ADDITIVE_MULTIPLIER'},
+      {id:'suit_audit',name:'花色审查',effectType:'FIRST_SUIT_SILENCE',value:0,duration:'FIRST_PLAY',target:'RANDOM_SUIT_CARD_CHIPS'},
+      {id:'temperance',name:'节制命令',effectType:'DISCARD_DELTA',value:-1,minValue:0,duration:'BATTLE',target:'DISCARDS'},
+      {id:'suit_silence',name:'花色沉默',effectType:'SUIT_SILENCE',value:0,duration:'BATTLE',target:'RANDOM_SUIT_CARD_CHIPS'},
+      {id:'persona_delay',name:'人格延迟',effectType:'PERSONA_DISABLE',value:2,duration:'FIRST_N_PLAYS',target:'LEFTMOST_PERSONA'},
+      {id:'narrow_table',name:'狭窄桌面',effectType:'SELECTION_LIMIT',value:4,duration:'BATTLE',target:'SUBMITTED_CARDS'},
+      {id:'persona_seal',name:'人格封印',effectType:'PERSONA_DISABLE',value:1,duration:'BATTLE',target:'RANDOM_PERSONA'},
+      {id:'repeat_judgment',name:'重复审判',effectType:'REPEAT_FINAL_MULT',value:0.6,duration:'BATTLE',target:'FINAL_MULTIPLIER'},
+      {id:'last_chance',name:'最后机会',effectType:'HANDS_AND_TARGET',value:-1,minValue:1,targetMultiplier:0.85,duration:'BATTLE',target:'HANDS_AND_TARGET'}
+    ],
+    profiles:[
+      {id:'DEMO_BOSS_PROFILE_01',ruleIds:['opening_tax','suit_audit','temperance']},
+      {id:'DEMO_BOSS_PROFILE_02',ruleIds:['suit_silence','persona_delay','narrow_table']},
+      {id:'DEMO_BOSS_PROFILE_03',ruleIds:['persona_seal','repeat_judgment','last_chance']}
+    ]
+  };
+})(globalThis);
