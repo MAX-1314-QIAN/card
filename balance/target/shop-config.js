@@ -1,0 +1,120 @@
+(function(root){
+  'use strict';
+  const modules=root.PERSONA_BALANCE_MODULES||(root.PERSONA_BALANCE_MODULES={});
+  const pad=value=>String(value).padStart(3,'0');
+  const ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+  const suits=[
+    {id:'SPADE',name:'黑桃',symbol:'♠'},
+    {id:'HEART',name:'红桃',symbol:'♥'},
+    {id:'CLUB',name:'梅花',symbol:'♣'},
+    {id:'DIAMOND',name:'方块',symbol:'♦'}
+  ];
+  const cardItems=suits.flatMap((suit,suitIndex)=>ranks.map((rank,rankIndex)=>{
+    const sequence=suitIndex*ranks.length+rankIndex+1,id=`SHOP_CARD_${pad(sequence)}`,cardConfigId=`CARD_${pad(sequence)}`;
+    return{
+      id,
+      name:`${suit.name}${rank}`,
+      itemType:'CARD',
+      price:2,
+      purchaseLimit:1,
+      purchaseLimitScope:'SHOP_VISIT',
+      effect:{type:'ADD_CARD',quantity:1,cardConfigId,card:{suitId:suit.id,suitName:suit.name,suitSymbol:suit.symbol,rank}},
+      sourceEffect:{type:'增加卡牌',parameter1:1,parameter2:null},
+      decisionStatus:'CONFIRMED',
+      fieldDecisionStatus:{purchaseLimitScope:'PROTOTYPE_ASSUMPTION'}
+    };
+  }));
+  const personaSpecs=[
+    ['observer','人格牌01'],
+    ['wanderer','人格牌02'],
+    ['pathfinder','人格牌03'],
+    ['restraint','人格牌04'],
+    ['collector','人格牌05'],
+    ['resonance','人格牌06'],
+    ['commitment','人格牌07'],
+    ['purger','人格牌08']
+  ];
+  const personaItems=personaSpecs.map(([personaTemplateId,name],index)=>({
+    id:`SHOP_PER_${pad(index+1)}`,
+    name,
+    itemType:'PERSONA',
+    price:30,
+    purchaseLimit:1,
+    purchaseLimitScope:'SHOP_VISIT',
+    effect:{type:'ADD_PERSONA',quantity:1,personaTemplateId},
+    sourceEffect:{type:'增加人格牌',parameter1:1,parameter2:null},
+    decisionStatus:'CONFIRMED',
+    fieldDecisionStatus:{purchaseLimitScope:'PROTOTYPE_ASSUMPTION'}
+  }));
+  const serviceItems=[
+    {
+      id:'SHOP_SERVICE_001',name:'筹码强化',itemType:'SERVICE',price:20,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      effect:{type:'UPGRADE_CARD',targetStat:'BONUS_CHIPS',amount:5,requiresTarget:true},
+      sourceEffect:{type:'强化卡牌',parameter1:'基础筹码',parameter2:5}
+    },
+    {
+      id:'SHOP_SERVICE_002',name:'金币强化',itemType:'SERVICE',price:20,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      effect:{type:'UPGRADE_CARD',targetStat:'BONUS_COINS',amount:2,requiresTarget:true},
+      sourceEffect:{type:'强化卡牌',parameter1:'金币',parameter2:2}
+    },
+    {
+      id:'SHOP_SERVICE_003',name:'倍率强化',itemType:'SERVICE',price:25,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      effect:{type:'UPGRADE_CARD',targetStat:'BONUS_MULT',amount:.5,requiresTarget:true},
+      sourceEffect:{type:'强化卡牌',parameter1:'基础倍率',parameter2:.5}
+    },
+    {
+      id:'SHOP_SERVICE_004',name:'独立乘区强化',itemType:'SERVICE',price:30,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      effect:{type:'UPGRADE_CARD',targetStat:'BONUS_XMULT_RATE',amount:.03,requiresTarget:true},
+      sourceEffect:{type:'强化卡牌',parameter1:'独立倍率',parameter2:.03,parameter2Display:'3%'}
+    },
+    {
+      id:'SHOP_SERVICE_005',name:'卡牌移除',itemType:'SERVICE',price:25,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      effect:{type:'REMOVE_CARD',quantity:1,requiresTarget:true},
+      sourceEffect:{type:'移除卡牌',parameter1:1,parameter2:null}
+    }
+  ].map(item=>({...item,decisionStatus:'CONFIRMED',fieldDecisionStatus:{purchaseLimitScope:'PROTOTYPE_ASSUMPTION'}}));
+  const refreshProfiles=[
+    {
+      id:'AI1',stageNodeId:'N04',offerSlotCount:4,decisionStatus:'CONFIRMED',fieldDecisionStatus:{offerSlotCount:'CONFIRMED'},
+      typeRules:[
+        {id:'REFRESH_001',itemType:'CARD',appearanceCount:1,weight:45},
+        {id:'REFRESH_002',itemType:'PERSONA',appearanceCount:1,weight:20},
+        {id:'REFRESH_003',itemType:'SERVICE',appearanceCount:1,weight:35}
+      ]
+    },
+    {
+      id:'AI2',stageNodeId:'N08',offerSlotCount:4,decisionStatus:'CONFIRMED',fieldDecisionStatus:{offerSlotCount:'CONFIRMED'},
+      typeRules:[
+        {id:'REFRESH_005',itemType:'CARD',appearanceCount:1,weight:40},
+        {id:'REFRESH_006',itemType:'PERSONA',appearanceCount:1,weight:25},
+        {id:'REFRESH_007',itemType:'SERVICE',appearanceCount:1,weight:35}
+      ]
+    },
+    {
+      id:'AI3',stageNodeId:'N12',offerSlotCount:4,decisionStatus:'CONFIRMED',fieldDecisionStatus:{offerSlotCount:'CONFIRMED'},
+      typeRules:[
+        {id:'REFRESH_008',itemType:'CARD',appearanceCount:1,weight:30},
+        {id:'REFRESH_009',itemType:'PERSONA',appearanceCount:1,weight:30},
+        {id:'REFRESH_010',itemType:'SERVICE',appearanceCount:1,weight:40}
+      ]
+    }
+  ];
+  const poolEntries=[
+    ...cardItems.map((item,index)=>({id:`POLL_CARD_${pad(index+1)}`,poolType:'CARD',itemId:item.id,weight:1})),
+    ...personaItems.map((item,index)=>({id:`POOL_PERSONA_${pad(index+1)}`,poolType:'PERSONA',itemId:item.id,weight:10})),
+    ...serviceItems.map((item,index)=>({id:`POOL_SERVICE_${pad(index+1)}`,poolType:'SERVICE',itemId:item.id,weight:20}))
+  ];
+  modules.targetShop={
+    id:'TARGET_SHOP_V1',
+    version:1,
+    itemTypes:['CARD','PERSONA','SERVICE'],
+    items:[...cardItems,...personaItems,...serviceItems],
+    refreshProfiles,
+    poolEntries,
+    assumptions:{
+      offerSlotCount:{value:4,decisionStatus:'CONFIRMED',reason:'策划已确认商品界面固定为四个商品槽位。'},
+      purchaseLimitScope:{value:'SHOP_VISIT',decisionStatus:'PROTOTYPE_ASSUMPTION',reason:'配表仅声明限购 1 次，未声明是单商店或整局。'}
+    },
+    decisionStatus:'CONFIRMED'
+  };
+})(globalThis);

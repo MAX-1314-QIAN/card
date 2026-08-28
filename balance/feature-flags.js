@@ -3,7 +3,6 @@
   modules.featureFlags={
     manualDeckTargetBoostEnabled:false,
     manualDeckTargetBoostValue:3,
-    targetRunTemplateEnabled:true,
     personaSliceRunEnabled:true
   };
 })(globalThis);

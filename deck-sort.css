@@ -1,0 +1,36 @@
+.deck-sort{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:6px;
+  margin:-4px 4px 10px;
+  color:#9f8966;
+  font-size:12px;
+}
+.deck-sort>span{margin-right:3px;letter-spacing:.08em}
+.deck-sort button{
+  min-width:58px;
+  height:30px;
+  padding:0 12px;
+  border:1px solid #553b1d;
+  background:#0c0906;
+  color:#9f8966;
+  font:inherit;
+  font-size:12px;
+  cursor:pointer;
+  transition:border-color .16s ease,color .16s ease,background .16s ease,box-shadow .16s ease;
+}
+.deck-sort button:hover,.deck-sort button:focus-visible{
+  border-color:#b77b31;
+  color:#efd09a;
+}
+.deck-sort button.active{
+  border-color:#c78a37;
+  color:#f3d49b;
+  background:linear-gradient(180deg,#3b260e,#160e07);
+  box-shadow:inset 0 -2px #d69a40,0 0 10px #9c612533;
+}
+@media(max-width:560px){
+  .deck-sort{justify-content:flex-start;margin-top:-2px}
+  .deck-sort button{min-width:64px}
+}

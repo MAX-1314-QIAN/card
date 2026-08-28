@@ -1,0 +1,16 @@
+const assert=require('assert'),fs=require('fs');
+const game=fs.readFileSync('game.js','utf8'),html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('battle-layout-polish.css','utf8'),affixCss=fs.readFileSync('persona-battle-affixes.css','utf8');
+const battleMarkup=game.slice(game.indexOf('function personaBattleEffectMarkup'),game.indexOf('const personaPool'));
+assert(!battleMarkup.includes('persona.template.mainEntry}</span>'),'战斗人格卡不得显示重复、数量等主词条小标签');
+assert(!html.includes('<em>查看 ›</em>'),'牌型规则入口不得保留右侧查看文字');
+assert(html.includes('battle-layout-polish.css?v=20260828-record-removal'),'页面必须加载战斗栏留白布局优化');
+assert(!html.includes('class="battle-log"')&&!html.includes('id="log"')&&!html.includes('结算记录'),'战斗界面必须彻底移除结算记录节点和标题');
+assert(!game.includes('function addLog(')&&!game.includes('addLog(')&&!game.includes('addScoreEvents('),'战斗逻辑不得继续维护已删除的结算记录');
+assert(html.includes('class="boss-rail-content ornate-panel"'),'右侧保留内容必须收进独立上部面板');
+assert(css.includes('#battle-screen.game-frame>.boss-rail{padding:0;display:block;background:transparent;backdrop-filter:none}'),'右侧外层必须以更高优先级清除底板和模糊效果以露出战斗背景');
+assert.ok(html.includes('persona-battle-affixes.css?v=20260826-battle-affix-v1'),'页面必须加载局内人格属性样式');
+assert.ok(html.includes('game.js?v=20260828-battle-tools-v3'),'人格卡层级、战斗工具、永久收藏与结算速度版本必须更新缓存');
+assert.ok(game.includes('function personaBattleAffixMarkup(')&&game.includes('personaAffixSlots(template,instance).slice(0,2)')&&game.includes('personaRuntime.getSubAffix(slot.affixId)'),'战斗人格卡必须从运行时实例读取两个副属性槽位');
+assert.ok(game.includes('aria-label="人格副属性"')&&game.includes('副属性 ${attribute.position}'),'战斗人格卡必须明确标识两个副属性');
+assert.ok(affixCss.includes('.persona-battle-affixes')&&affixCss.includes('font-size:11.5px'),'已解锁属性必须使用清晰可读的独立样式');
+console.log('battle-layout-polish-tests: battle persona labels, unlocked affixes, rules suffix and settlement record removal passed');

@@ -1,0 +1,18 @@
+const assert=require('assert'),fs=require('fs');
+const html=fs.readFileSync('index.html','utf8'),game=fs.readFileSync('game.js','utf8'),css=fs.readFileSync('battle-persona-card-hierarchy.css','utf8');
+assert(html.includes('battle-persona-card-hierarchy.css?v=20260828-hierarchy-v2'),'页面必须加载战斗人格卡层级样式');
+assert(html.includes('game.js?v=20260828-battle-tools-v3'),'页面必须刷新战斗工具与人格卡渲染脚本缓存');
+const battleRender=game.slice(game.indexOf("const runtimeReady="),game.indexOf('renderPlayedCards();',game.indexOf("const runtimeReady=")));
+assert(!battleRender.includes('主词条')&&!battleRender.includes('persona-entry-trigger'),'战斗人格卡不得展示主词条和触发说明');
+assert(!battleRender.includes('persona-runtime-status'),'战斗人格卡不得展示状态信息');
+assert(battleRender.includes('<b>主属性</b>'),'每张战斗人格卡必须保留主属性');
+assert(game.includes('aria-label="人格副属性"')&&game.includes('副属性 ${attribute.position}'),'每张战斗人格卡必须明确展示两个副属性槽位');
+assert(game.includes("text:slot.unlocked?(attribute?.effectText||'等待属性配置'):'未解锁'"),'未解锁副属性必须显示真实锁定状态，不能虚构数值');
+assert(css.includes('grid-template-columns:minmax(0,1fr)'),'两个副属性必须纵向排列');
+assert(css.includes('.persona::after{display:none;content:none}'),'人格卡右下角装饰图标必须移除');
+assert(css.includes('width:100%')&&css.includes('height:132px'),'人格卡必须保留侧栏完整宽度并压缩无效占位');
+assert(css.includes('top:50%')&&css.includes('transform:translateY(-50%)'),'四张人格卡必须在侧栏内垂直居中');
+assert(css.includes('clamp(300px,22vw,360px)'),'左侧栏必须适度收窄并保留文字可读宽度');
+assert(css.includes('#100d09b8')&&css.includes('#0807055c'),'人格卡底板必须保持半透明以露出背景');
+for(const forbidden of ['boss-rail','battle-stage','.cards','.battle-action-button','.score-preview'])assert(!css.includes(forbidden),`本轮不得修改人格卡之外区域：${forbidden}`);
+console.log('battle persona card hierarchy tests passed');

@@ -3,10 +3,16 @@
   function evaluate(condition,context,runtimeState){
     switch(condition.type){
       case'SUBMITTED_CARD_COUNT_AT_LEAST':return(context.submittedCards?.length||0)>=condition.value;
+      case'SUBMITTED_CARD_COUNT_AT_MOST':return(context.submittedCards?.length||0)<=condition.value;
       case'SUBMITTED_CARD_COUNT_EXACT':return(context.submittedCards?.length||0)===condition.value;
+      case'SCORING_CARD_COUNT_AT_LEAST':return(context.scoringCards?.length||context.scoringCardCount||0)>=condition.value;
+      case'CURRENT_HAND_CARD_COUNT_BELOW':return(context.currentHandCardCount??Number.POSITIVE_INFINITY)<condition.value;
+      case'HAND_PRIORITY_AT_LEAST':return(context.handPriority||0)>=condition.value;
+      case'HAND_QUALITY_IS':return context.handQualityId===condition.value;
       case'HAND_TYPE_IS':return context.handType===condition.value||context.handTypeId===condition.value;
       case'HAND_TYPE_IN':return condition.values.includes(context.handType)||condition.values.includes(context.handTypeId);
       case'SAME_HAND_TYPE_STREAK_AT_LEAST':return(context.sameHandTypeStreak||0)>=condition.value;
+      case'DIFFERENT_FROM_PREVIOUS_HAND':return!!context.previousHandType&&context.previousHandType!==(context.handTypeId||context.handType);
       case'DISCARDED_CARD_COUNT_AT_LEAST':return(context.discardsUsedThisAction||0)>=condition.value;
       case'PERSONA_RUNTIME_FLAG':return runtimeState?.[condition.key]===(condition.value??true);
       case'UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN':return!(context.runHistory?.usedHandTypes||[]).includes(context.handTypeId||context.handType);

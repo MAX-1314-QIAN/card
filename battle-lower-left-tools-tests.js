@@ -1,0 +1,14 @@
+const assert=require('assert'),fs=require('fs');
+const html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('battle-lower-left-tools.css','utf8'),game=fs.readFileSync('game.js','utf8'),shell=fs.readFileSync('shell.js','utf8');
+assert(html.includes('battle-lower-left-tools.css?v=20260828-battle-tools-v4'),'页面必须加载最新版战斗工具组样式');
+const utility=html.slice(html.indexOf('<nav class="battle-utility-bar"'),html.indexOf('</nav>',html.indexOf('<nav class="battle-utility-bar"')));
+assert(utility.includes('id="open-hand-rules"')&&utility.includes('id="table-pile"')&&utility.includes('id="battle-settings"'),'牌型规则、牌库与设置必须位于左上工具组');
+assert(utility.indexOf('id="open-hand-rules"')<utility.indexOf('id="table-pile"')&&utility.indexOf('id="table-pile"')<utility.indexOf('id="battle-settings"'),'三个工具必须按牌型规则、牌库、设置横向排列');
+for(const file of ['hand-rules-icon-v1.png','deck-icon-v1.png','settings-icon-v1.png'])assert(html.includes(`assets/art/battle-tools/${file}`)&&fs.existsSync(`assets/art/battle-tools/${file}`),`${file} 必须接入生成图标`);
+assert.strictEqual((html.match(/class="hand-sort battle-action-sort"/g)||[]).length,1,'手牌排序控件不得保留重复节点');
+const actions=html.slice(html.indexOf('<footer class="battle-actions">'),html.indexOf('</footer>',html.indexOf('<footer class="battle-actions">')));
+assert(actions.indexOf('id="play-btn"')<actions.indexOf('battle-action-sort')&&actions.indexOf('battle-action-sort')<actions.indexOf('id="discard-btn"'),'手牌排序必须位于出牌和弃牌之间');
+assert(css.includes('#battle-screen .battle-utility-bar')&&css.includes('top:10px')&&css.includes('display:flex'),'三个生成图标必须固定在左上角横向排列');
+assert(css.includes('position:relative')&&css.includes('inset:auto')&&css.includes('flex:0 0 54px'),'三个工具图标不得继承旧版绝对定位而发生重叠');
+assert(shell.includes("document.querySelector('.gear').onclick=openSettings")&&!game.includes("$('#new-run').onclick=reset"),'左上设置图标必须打开设置界面且不得重置本局');
+console.log('battle tools layout tests passed');

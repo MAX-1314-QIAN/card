@@ -1,0 +1,88 @@
+/* Isolated play/discard controls using supplied battle UI art. */
+:root{
+  --battle-play-button:url("assets/art/battle-actions/play-button-v1.png");
+  --battle-discard-button:url("assets/art/battle-actions/discard-button-v1.png");
+}
+
+#battle-screen .battle-actions{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:26px;
+}
+
+#battle-screen .battle-action-button{
+  appearance:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  position:relative;
+  width:min(260px,42%);
+  height:92px;
+  margin:0;
+  padding:0 34px;
+  overflow:visible;
+  border:0;
+  outline:0;
+  clip-path:none;
+  color:#f1d79f;
+  background-color:transparent;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  box-shadow:none;
+  font-family:"Noto Serif SC","Microsoft YaHei",serif;
+  text-shadow:0 2px 5px #000,0 0 9px #d89b4166;
+  cursor:pointer;
+  isolation:auto;
+  transition:transform .16s ease,filter .16s ease;
+  animation:none;
+}
+
+#battle-screen .battle-action-button span{
+  display:block;
+  font-size:22px;
+  line-height:1;
+  letter-spacing:.12em;
+}
+
+#battle-screen .battle-action-button img{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  object-fit:contain;
+  filter:drop-shadow(0 2px 3px #000b) drop-shadow(0 0 5px #e9ad4f55);
+  pointer-events:none;
+}
+
+#battle-screen #play-btn{background-image:var(--battle-play-button)}
+#battle-screen #discard-btn{background-image:var(--battle-discard-button)}
+
+#battle-screen .battle-action-button:hover:not(:disabled){
+  filter:brightness(1.16);
+  transform:translateY(-2px);
+}
+
+#battle-screen .battle-action-button:active:not(:disabled){
+  transform:translateY(1px);
+}
+
+#battle-screen .battle-action-button:focus-visible{
+  outline:1px solid #f0bd61;
+  outline-offset:1px;
+}
+
+#battle-screen .battle-action-button:disabled{
+  filter:grayscale(.72) brightness(.62);
+  opacity:.68;
+  cursor:not-allowed;
+}
+
+@media(max-width:880px){
+  #battle-screen .battle-actions{gap:10px}
+  #battle-screen .battle-action-button{width:min(230px,47%);height:82px}
+  #battle-screen .battle-action-button img{width:34px;height:34px;flex-basis:34px}
+  #battle-screen .battle-action-button span{font-size:19px}
+}

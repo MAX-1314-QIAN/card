@@ -2,7 +2,7 @@ const assert=require('assert'),fs=require('fs'),vm=require('vm');
 const context={console};context.globalThis=context;vm.createContext(context);
 for(const file of ['balance/base-personas.js','balance/target/prototype-personas.js','persona/persona-feedback.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
 const feedback=context.PersonaFeedback,modules=context.PERSONA_BALANCE_MODULES,base=modules.basePersonas.templates,prototypes=modules.targetPrototypePersonas;
-const growth=prototypes.find(item=>item.id==='TARGET_PROTO_GROWTH_ARCHIVE'),charge=base.find(item=>item.id==='purger'),chips=base.find(item=>item.id==='observer'),addMult=base.find(item=>item.id==='wanderer'),finalMult=base.find(item=>item.id==='pathfinder');
+const growth=prototypes.find(item=>item.id==='TARGET_PROTO_GROWTH_ARCHIVE'),charge=base.find(item=>item.id==='collector'),chips=base.find(item=>item.id==='observer'),addMult=base.find(item=>item.id==='wanderer'),finalMult=base.find(item=>item.id==='purger');
 
 const growthCard=feedback.cardView(growth,{activationCountThisBattle:0,growthStacks:2});
 assert.strictEqual(growthCard.name,growth.name,'反馈名称必须来自正式 Persona Template');
@@ -12,7 +12,7 @@ assert(growthCard.status.includes('成长 2 / 4 层')&&growthCard.status.include
 assert(feedback.cardView(charge,{charged:false}).status.includes('未蓄力'));
 assert(feedback.cardView(charge,{charged:true}).status.some(line=>line.includes('已蓄力')),'蓄力显示必须跟随 runtimeState');
 
-for(const template of [chips,addMult,finalMult]){const view=feedback.cardView(template,{activationCountThisBattle:0});assert(view.reward.includes(feedback.effectText(template.effects[0])),'基础筹码、加法倍率和最终倍率都必须由模板效果生成')}
+for(const template of [chips,addMult,finalMult]){const view=feedback.cardView(template,{activationCountThisBattle:0});assert.strictEqual(view.reward,template.mainEffect.effectText,'基础筹码、加法倍率和最终倍率都必须由统一主效果配置生成')}
 const state={growthStacks:2},log={instanceId:'GROWTH_1',templateId:growth.id,name:growth.name,triggered:true,disabled:false,effectsApplied:growth.effects,runtimeStateBefore:{growthStacks:2},runtimeStateAfter:{growthStacks:3},chipsDelta:0,multDelta:.9,finalMultiplierDelta:0};
 const environment={getTemplate:id=>id===growth.id?growth:null,getInstance:()=>({runtimeState:state}),history:{usedHandTypes:['HIGH_CARD']},handTypeId:'TWO_PAIR',handTypeName:'两对'};
 const preview=feedback.feedbackFromLogs([log],{...environment,kind:'preview'}),commit=feedback.feedbackFromLogs([log],{...environment,kind:'commit'});
@@ -30,7 +30,7 @@ assert.strictEqual(JSON.stringify(breakdown.final),JSON.stringify({chips:145,mul
 
 const gameSource=fs.readFileSync('game.js','utf8');
 assert(gameSource.includes("kind:'preview'")&&gameSource.includes("kind:'commit'"),'Preview与Commit必须使用不同反馈类型');
-const previewSource=gameSource.slice(gameSource.indexOf('function updatePreview'),gameSource.indexOf('function addLog'));
+const previewSource=gameSource.slice(gameSource.indexOf('function updatePreview'),gameSource.indexOf('async function animateScoreResolution'));
 assert(!previewSource.includes('showPersonaTriggerFeedback('),'Preview路径不得播放正式人格触发反馈');
 assert(/async function play\([^]*?showPersonaTriggerFeedback\(feedback\)/.test(gameSource),'正式出牌Commit必须播放人格触发反馈');
 const hudSource=gameSource.slice(gameSource.indexOf('function showPersonaTriggerFeedback'),gameSource.indexOf('function renderScoreBreakdown'));

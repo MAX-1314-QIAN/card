@@ -1,0 +1,82 @@
+/* Isolated main-menu button component. Legacy .menu-actions rules cannot match it. */
+:root{
+  --main-menu-start:url("assets/art/main-menu/start-game-v2.png");
+  --main-menu-gallery:url("assets/art/main-menu/persona-gallery-v2.png");
+  --main-menu-settings:url("assets/art/main-menu/settings-v2.png");
+}
+
+#main-menu .menu-content{
+  width:min(560px,90vw);
+}
+
+#main-menu .menu-subtitle{
+  margin:10px 0 24px;
+}
+
+#main-menu .main-menu-actions{
+  display:grid;
+  gap:7px;
+  padding:0 10px;
+}
+
+#main-menu .main-menu-actions button{
+  appearance:none;
+  display:grid;
+  place-items:center;
+  position:relative;
+  box-sizing:border-box;
+  width:100%;
+  height:66px;
+  margin:0;
+  padding:0 54px;
+  overflow:visible;
+  border:0;
+  outline:0;
+  color:#f2dca9;
+  background-color:transparent;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+  box-shadow:none;
+  font:18px/1 "Noto Serif SC","Microsoft YaHei",serif;
+  letter-spacing:.1em;
+  text-align:center;
+  text-shadow:0 2px 5px #000,0 0 10px #e2ae5866;
+  cursor:pointer;
+  isolation:auto;
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
+  animation:none;
+}
+
+#main-menu .main-menu-actions #start-game,
+#main-menu .main-menu-actions #continue-game{background-image:var(--main-menu-start)}
+#main-menu .main-menu-actions #open-gallery{background-image:var(--main-menu-gallery)}
+#main-menu .main-menu-actions #open-settings{background-image:var(--main-menu-settings)}
+
+#main-menu .main-menu-actions button:hover{
+  filter:brightness(1.16);
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px #0006,0 0 22px #d89a3b3d;
+}
+
+#main-menu .main-menu-actions button:focus-visible{
+  outline:1px solid #f1c66f;
+  outline-offset:2px;
+  filter:brightness(1.12);
+}
+
+#main-menu .main-menu-actions button:active{
+  transform:translateY(1px);
+}
+
+#main-menu .main-menu-actions #continue-game.has-save{
+  color:#ffe4a3;
+  background-image:var(--main-menu-start);
+  filter:brightness(1.06);
+}
+
+@media(max-width:880px){
+  #main-menu .menu-content{width:min(520px,92vw)}
+  #main-menu .main-menu-actions{gap:5px;padding:0}
+  #main-menu .main-menu-actions button{height:58px;font-size:16px}
+}

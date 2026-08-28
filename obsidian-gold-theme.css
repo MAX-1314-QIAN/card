@@ -22,7 +22,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;bo
 .ornate-panel,.settings-content,.settings-help{border-color:#a5722c;background:linear-gradient(145deg,#12100cf7,#070604f5);box-shadow:inset 0 0 0 3px #050403,inset 0 0 0 5px #6f481b,0 18px 45px #000c}
 .ornate-panel:before,.ornate-panel:after{color:#e0a74d;text-shadow:0 0 8px #d18b2f}
 .rail-head,.boss-title{border-color:#9b6a29}.rail-head small,.persona-footer small,.boss-title span,.protocol small,.action small{color:#80633e}
-.bonus em,.score-preview strong,.run-score strong,.run-score b,.turns strong i,.battle-log li strong{color:#edcf91}
+.bonus em,.score-preview strong,.run-score strong,.run-score b,.turns strong i{color:#edcf91}
 .persona{border-color:#3d2d19}.persona:after{content:"◇";color:#c78c35;text-shadow:0 0 10px #d28b2e}
 .portrait,.boss-portrait{border-color:#c18b3b;background:radial-gradient(circle at 50% 31%,#66502e,#21180e 43%,#080604 76%);box-shadow:inset 0 0 0 3px #050403,inset 0 0 0 4px #c08a3b77,0 0 15px #b7791e16}
 .portrait:before,.boss-portrait:before{background:linear-gradient(160deg,#3c2c19,#060503 68%)}
@@ -43,8 +43,7 @@ body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;bo
 .gear{color:#d59d45;text-shadow:0 0 9px #c7832b}.boss-title h1{color:#e8cb91;text-shadow:0 0 12px #b8792833}
 .boss-dialogue blockquote{border-color:#815a2e;background:#0d0a06;color:#d6bc8d}.boss-dialogue blockquote:before{border-color:transparent #815a2e transparent transparent}
 .ornate-panel-inner{border-color:#8f6127;box-shadow:inset 0 0 0 3px #050403,inset 0 0 0 4px #4d3419}.protocol-icon,.protocol h2{color:#daa449}.protocol p{color:#a9936e}
-.progress{border-color:#92642d;background:#16100a}.progress i{background:linear-gradient(90deg,#6d3b10,#cf8c32,#f0c76d);box-shadow:0 0 12px #ce852d}.run-score small,.run-score p,.battle-log li{color:#a28b68}.turn-icon,.battle-log header{color:#d09a47}.battle-log header,.battle-log li{border-color:#3c2d1b}
-.battle-log .log-phase{display:inline-block;min-width:38px;margin-right:4px;color:#d39a42;font-size:8px;letter-spacing:.08em}
+.progress{border-color:#92642d;background:#16100a}.progress i{background:linear-gradient(90deg,#6d3b10,#cf8c32,#f0c76d);box-shadow:0 0 12px #ce852d}.run-score small,.run-score p{color:#a28b68}.turn-icon{color:#d09a47}
 dialog,.boss-reveal-dialog,.acquire-dialog,.forge-screen,.deck-dialog,.choice-dialog,.report-dialog,.settlement-dialog,.persona-dialog{color:#e6cc98;background:radial-gradient(circle at 50% -18%,#332513,#0b0906 57%);border-color:#a8742e;box-shadow:0 28px 90px #000,inset 0 0 0 3px #050403,inset 0 0 0 5px #604019}
 dialog::backdrop,.boss-reveal-dialog::backdrop,.acquire-dialog::backdrop,.forge-screen::backdrop,.deck-dialog::backdrop,.choice-dialog::backdrop,.report-dialog::backdrop,.persona-dialog::backdrop{background:#020201e8;backdrop-filter:blur(7px) sepia(.3)}
 .dialog-x{color:#d3a154}.reveal-rules article,.forge-current,.new-persona-card,.equip-confirm,.collection-browser,.collection-side,.choice-detail,.choice-card,.deck-detail,.report-metrics,.report-evidence{border-color:#5f4321;background:#0b0906}.reveal-rules article>span,.info-mark{border-color:#a5722f;color:#e0a74e}.reveal-rules h3,.forge-current h3,.new-persona-card h3,.choice-card h3,.choice-detail h3,.report-hero h3{color:#e7c889}.reveal-rules p,.forge-current p,.new-persona-card p,.choice-card p,.choice-detail>p,.report-hero p{color:#a9926f}

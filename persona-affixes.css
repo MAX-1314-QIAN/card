@@ -1,0 +1,50 @@
+.persona-main-entry{display:block;margin-bottom:4px;color:#e1bd73;font-size:11px;letter-spacing:.06em}
+.library-card{min-height:194px}
+.library-card.selected{border-color:#d4a653;box-shadow:inset 0 0 0 1px #d4a653,0 8px 24px #0008}
+.library-card .library-effect-summary{display:grid;gap:5px;min-height:58px}
+.library-card>small{display:block;margin-top:9px;color:#a88b5f;font-size:10px}
+#library-detail-desc{display:grid;gap:8px;min-height:210px;color:#aa9fa7;font-size:12px;line-height:1.55}
+#library-detail-desc>b{color:#e6c67e;font-size:14px}
+#library-detail-desc>span{color:#c5b79f}
+#library-detail-desc>strong{color:#efce82;font-size:15px}
+.persona-affix-list{display:grid;gap:7px;margin:4px 0 0;padding:0;list-style:none}
+.persona-affix-slot{min-height:42px;display:grid;grid-template-columns:26px minmax(0,1fr) auto;align-items:center;gap:9px;padding:7px 9px;border:1px solid #58411f;background:#100c07;color:#cdb98e}
+.persona-affix-slot>b{width:23px;height:23px;display:grid;place-items:center;border:1px solid #9b7334;color:#ecc875;font:12px Georgia}
+.persona-affix-slot>span{min-width:0;font-size:11px;line-height:1.35}
+.persona-affix-slot>em{color:#99886d;font-size:10px;font-style:normal;white-space:nowrap}
+.persona-affix-slot.locked{border-style:dashed;color:#776c5c;background:#0b0906}
+.persona-affix-slot button{min-width:105px;height:30px;border:1px solid #b27c31;background:linear-gradient(145deg,#604019,#1b1108);color:#f1d28d;font:11px inherit;cursor:pointer}
+.persona-affix-slot button:hover{filter:brightness(1.16)}
+.shop-detail-panel #shop-result{color:#bca57e;line-height:1.5}
+.shop-detail-panel #shop-result .persona-affix-list{margin-top:0}
+.shop-detail-panel #shop-result .persona-affix-slot{min-height:38px;padding:5px 7px}
+.shop-detail-panel #shop-result .persona-affix-slot>span{font-size:10px}
+.shop-forge-item small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.persona-guidance .persona-main-entry{display:inline;margin-right:5px;color:#e4b757;font-size:9px}
+.persona-guidance .persona-state{font-size:9px}
+@media(min-width:901px){
+  .shop-dialog[open]{width:min(1500px,97vw);height:min(840px,calc(100dvh - 28px));padding:26px 32px}
+  .shop-dialog .shop-layout{grid-template-columns:190px minmax(390px,.95fr) minmax(540px,1.45fr);gap:22px;margin-top:16px}
+  .shop-dialog .shop-detail-panel{gap:20px;padding:26px 30px;overflow-y:auto;scrollbar-gutter:stable}
+  .shop-dialog .shop-detail-hero{grid-template-columns:150px minmax(0,1fr);gap:26px}
+  .shop-dialog .shop-detail-icon{height:156px;font-size:66px}
+  .shop-dialog .shop-detail-hero h3{margin-bottom:14px;font-size:30px}
+  .shop-dialog .shop-detail-hero p{margin-top:14px;font-size:14px;line-height:1.6}
+  .shop-dialog .shop-detail-panel>section{padding-top:16px}
+  .shop-dialog .shop-detail-panel h4{margin-bottom:12px;font-size:15px}
+  .shop-dialog .shop-purchase-meta div{padding:14px 16px}
+  .shop-dialog .shop-purchase-meta dd{margin-top:7px;font-size:14px}
+  .shop-dialog #shop-result{padding:2px 0 6px}
+  .shop-dialog.forge-mode #shop-result .persona-affix-list{gap:12px;margin-top:8px}
+  .shop-dialog.forge-mode #shop-result .persona-affix-slot{min-height:64px;grid-template-columns:32px minmax(0,1fr) auto;gap:14px;padding:11px 14px}
+  .shop-dialog.forge-mode #shop-result .persona-affix-slot>b{width:28px;height:28px;font-size:13px}
+  .shop-dialog.forge-mode #shop-result .persona-affix-slot>span{font-size:13px;line-height:1.55}
+  .shop-dialog.forge-mode #shop-result .persona-affix-slot>em{font-size:11px}
+  .shop-dialog.forge-mode #shop-result .persona-affix-slot>button{min-width:126px;height:38px;padding:0 14px;font-size:12px}
+  .shop-dialog .shop-footer{margin-top:14px;padding-top:14px}
+}
+@media(min-width:901px) and (max-width:1250px){
+  .shop-dialog .shop-layout{grid-template-columns:170px minmax(340px,.9fr) minmax(450px,1.25fr);gap:16px}
+  .shop-dialog .shop-detail-panel{padding:22px}
+}
+@media(max-width:900px){#library-detail-desc{min-height:0}.persona-affix-slot{grid-template-columns:25px minmax(0,1fr)}.persona-affix-slot>em,.persona-affix-slot>button{grid-column:2}}

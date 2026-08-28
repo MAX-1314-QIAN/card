@@ -4,7 +4,7 @@ const assert=require('assert');
 const {loadBalance}=require('./test-load-balance');
 function element(){return{innerHTML:'',textContent:'',disabled:false,open:false,value:'all',style:{},dataset:{},classList:{add(){},remove(){},toggle(){},contains(){return false}},setAttribute(){},append(){},prepend(){},querySelector(){return element()},querySelectorAll(){return[]},addEventListener(){},getBoundingClientRect(){return{left:0,top:0,width:1,height:1}},showModal(){this.open=true},close(){this.open=false}}}
 const elements=new Map(),documentStub={documentElement:element(),querySelector(selector){if(!elements.has(selector))elements.set(selector,element());return elements.get(selector)},querySelectorAll(){return[]},createElement(){return element()},addEventListener(){}};
-const context={console,setTimeout(){},clearTimeout,document:documentStub,window:{},localStorage:{getItem(){return null},setItem(){}},Math,Date,Set,Map,JSON,Number,Array,Object,String};context.window=context;vm.createContext(context);loadBalance(context);vm.runInContext(fs.readFileSync('game.js','utf8'),context);
+const context={console,setTimeout(){},clearTimeout,document:documentStub,window:{},localStorage:{getItem(){return null},setItem(){}},Math,Date,Set,Map,JSON,Number,Array,Object,String};context.window=context;vm.createContext(context);loadBalance(context,{includeSystemTestRun:true});vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 
 vm.runInContext(`behavior=createBehaviorAggregate();behavior.plays=[
   {battleIndex:0,type:'高牌',selectedCount:5,suits:['♥','♦','♣','♠','♥'],personaEffects:[]},
@@ -20,5 +20,5 @@ vm.runInContext(`behavior.plays=[
 ];behavior.battles=[{index:1,startingHands:4,startingDiscards:3,remainingHands:3,remainingDiscards:3}]`,context);
 const repetition=context.analyzeBossObservation(1,2);assert.strictEqual(repetition.targetRuleId,'repeat_judgment');assert.strictEqual(repetition.stats.repeats,2);
 
-vm.runInContext("battleIndex=2;currentBossObservation="+JSON.stringify(repetition),context);assert.strictEqual(context.createEncounter(repetition.targetRuleId).rule.id,'repeat_judgment');
+vm.runInContext("runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_WIN'});runController.completeNode({type:'ROUTE_COMPLETED'});runController.completeNode({type:'BATTLE_WIN'});runController.completeNode({type:'ROUTE_COMPLETED'});battleIndex=2;currentBossObservation="+JSON.stringify(repetition),context);assert.strictEqual(context.createEncounter(repetition.targetRuleId).rule.id,'repeat_judgment');
 console.log('boss-observation-tests: evidence extraction, behavioral counter-selection and forced encounter passed');

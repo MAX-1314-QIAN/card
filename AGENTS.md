@@ -72,3 +72,19 @@
 - D20 生成人格可经 `LegacyPersonaAdapter` 转成动态声明式模板，但正式战斗仍只能由 Runtime 结算；完美回响使用通用 `FIRST_SUCCESSFUL_TRIGGER_THIS_BATTLE + REPEAT_EFFECT_ONCE` 机制。
 - Legacy Adapter 只负责旧数据/旧存档转换，不得承担战斗结算。
 - `RUN_TEMPLATE_CURRENT_DEMO` 仍是正式默认模板；不得启用 `RUN_TEMPLATE_TARGET`，不得进入 Phase C/D/E 范围。
+
+## Phase C.1 正式 13 节点长局约束（最新策划确认）
+
+- `RUN_TEMPLATE_TARGET` 升级为当前正式默认模板，正式“开始游戏”入口必须直接进入该模板。
+- `RUN_TEMPLATE_CURRENT_DEMO` 降级为旧存档兼容与自动回归基线，不得再作为新局入口；确认兼容窗口结束后再移除。
+- 正式流程固定按 13 个核心节点线性推进，不开发地图选择或分支路线模块。
+- 现有教程内容冻结，本阶段不新增、不重写教程流程。
+- 原三战 Demo 的旧存档只允许按原模板恢复，禁止猜测迁移到 13 节点。
+- 正式入口不得展示“开发测试”文案；`RUN_TEMPLATE_PERSONA_SLICE` 仍只允许显式开发调用。
+
+## Phase C.2 三战 Demo 移除约束（最新策划确认）
+
+- 策划已确认旧三战 V1/V2 活动局存档可以全部失效，不再提供迁移或恢复入口。
+- `RUN_TEMPLATE_CURRENT_DEMO` 及其 `DEMO_BATTLE / DEMO_ROUTE / DEMO_REPORT / DEMO_FORGE` 节点必须从生产 Manifest 移除。
+- 经典计分、Boss、介入事件等仍有价值的底层配置可以保留为冻结回归数据，但不得重新注册为生产 Run Template。
+- 自动测试如需三战式控制器拓扑，只能由测试加载器注入 `testOnly` fixture，浏览器运行配置不得包含该 fixture。

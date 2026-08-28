@@ -1,0 +1,159 @@
+(function(root,factory){
+  const api=factory();
+  root.ShopRuntime=api;
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const RANK_INDEX={2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,J:11,Q:12,K:13,A:14};
+  const SUIT_META={
+    '♠':{index:0,color:'black'},
+    '♥':{index:1,color:'red'},
+    '♦':{index:2,color:'red'},
+    '♣':{index:3,color:'black'}
+  };
+  const UPGRADE_FIELD_BY_STAT={
+    BONUS_COINS:'bonusCoins',
+    BONUS_MULT:'bonusMult',
+    BONUS_XMULT_RATE:'bonusXmultRate'
+  };
+  const UPGRADE_LABEL_BY_STAT={
+    BONUS_CHIPS:'筹码',
+    BONUS_COINS:'金币',
+    BONUS_MULT:'基础倍率',
+    BONUS_XMULT_RATE:'独立倍率'
+  };
+
+  function requireCondition(condition,message){if(!condition)throw new Error(message)}
+  function clone(value){return value==null?value:JSON.parse(JSON.stringify(value))}
+  function randomValue(random){const value=random();requireCondition(Number.isFinite(value)&&value>=0&&value<1,'Shop random must return a number in [0, 1)');return value}
+  function weightedPick(entries,random=Math.random){
+    requireCondition(Array.isArray(entries)&&entries.length>0,'Cannot pick from an empty weighted list');
+    const weights=entries.map(entry=>Number(entry.weight));
+    requireCondition(weights.every(weight=>Number.isFinite(weight)&&weight>0),'Every shop weight must be greater than zero');
+    const total=weights.reduce((sum,weight)=>sum+weight,0),target=randomValue(random)*total;
+    let cursor=0;
+    for(let index=0;index<entries.length;index++){cursor+=weights[index];if(target<cursor)return entries[index]}
+    return entries[entries.length-1];
+  }
+
+  function itemMap(config){return new Map((config?.items||[]).map(item=>[item.id,item]))}
+  function eligibleSet(value){if(value==null)return null;if(value instanceof Set)return new Set(value);requireCondition(Array.isArray(value),'eligibleItemIds must be an array, Set, or null');return new Set(value)}
+  function generateOffers({config,profileId,random=Math.random,eligibleItemIds=null,refreshIndex=0}={}){
+    requireCondition(config&&typeof config==='object','Shop config is required');
+    requireCondition(typeof random==='function','Shop random must be a function');
+    const profile=(config.refreshProfiles||[]).find(entry=>entry.id===profileId);
+    requireCondition(profile,`Unknown shop profile: ${profileId}`);
+    const items=itemMap(config),allowed=eligibleSet(eligibleItemIds),selected=new Set(),offers=[];
+    const poolEntries=(config.poolEntries||[]).filter(entry=>items.has(entry.itemId));
+    const availableForType=itemType=>poolEntries.filter(entry=>entry.poolType===itemType&&!selected.has(entry.itemId)&&(!allowed||allowed.has(entry.itemId)));
+    const slotCount=Number(profile.offerSlotCount);
+    requireCondition(Number.isInteger(slotCount)&&slotCount>0,`Invalid offerSlotCount for ${profileId}`);
+    while(offers.length<slotCount){
+      const typeRules=(profile.typeRules||[]).filter(rule=>Number.isInteger(rule.appearanceCount)&&rule.appearanceCount>0&&availableForType(rule.itemType).length>0);
+      if(!typeRules.length)break;
+      const typeRule=weightedPick(typeRules,random),remaining=slotCount-offers.length,count=Math.min(typeRule.appearanceCount,remaining);
+      let added=0;
+      for(let index=0;index<count;index++){
+        const available=availableForType(typeRule.itemType);
+        if(!available.length)break;
+        const poolEntry=weightedPick(available,random),item=items.get(poolEntry.itemId);
+        selected.add(item.id);added++;
+        offers.push({
+          offerId:`${profile.id}:${refreshIndex}:${String(offers.length+1).padStart(2,'0')}`,
+          itemId:item.id,
+          itemType:item.itemType,
+          refreshRuleId:typeRule.id,
+          poolEntryId:poolEntry.id,
+          purchaseCount:0
+        });
+      }
+      if(!added)break;
+    }
+    return{version:1,profileId:profile.id,refreshIndex,offers};
+  }
+
+  function createCardFromItem(item,options={}){
+    const effect=item?.effect;
+    requireCondition(effect?.type==='ADD_CARD','createCardFromItem requires an ADD_CARD shop item');
+    const card=effect.card||{},rank=String(card.rank),suit=card.suitSymbol,meta=SUIT_META[suit];
+    requireCondition(Number.isInteger(RANK_INDEX[rank]),`Unsupported card rank: ${rank}`);
+    requireCondition(meta,`Unsupported card suit: ${suit}`);
+    const instanceKey=String(options.instanceKey||item.id);
+    return{
+      r:rank,
+      ri:RANK_INDEX[rank],
+      s:suit,
+      c:meta.color,
+      si:meta.index,
+      templateId:options.templateId||`shop-template-${instanceKey}`,
+      uid:options.uid||`shop-${instanceKey}`,
+      bonus:0,
+      shopModifiers:{bonusCoins:0,bonusMult:0,bonusXmultRate:0},
+      sourceShopItemId:item.id,
+      sourceCardConfigId:effect.cardConfigId
+    };
+  }
+
+  function normalizeUpgradeEffect(effectOrItem){return effectOrItem?.effect||effectOrItem}
+  function applyCardUpgrade(card,effectOrItem){
+    requireCondition(card&&typeof card==='object','A target card is required');
+    const effect=normalizeUpgradeEffect(effectOrItem);
+    requireCondition(effect?.type==='UPGRADE_CARD','applyCardUpgrade requires an UPGRADE_CARD effect');
+    requireCondition(Object.prototype.hasOwnProperty.call(UPGRADE_LABEL_BY_STAT,effect.targetStat),`Unsupported card upgrade stat: ${effect.targetStat}`);
+    const amount=Number(effect.amount);
+    requireCondition(Number.isFinite(amount),'Card upgrade amount must be finite');
+    const result={...clone(card),shopModifiers:{bonusCoins:0,bonusMult:0,bonusXmultRate:0,...clone(card.shopModifiers||{})}};
+    if(effect.targetStat==='BONUS_CHIPS')result.bonus=Number(result.bonus||0)+amount;
+    else{
+      const field=UPGRADE_FIELD_BY_STAT[effect.targetStat];
+      result.shopModifiers[field]=Number(result.shopModifiers[field]||0)+amount;
+    }
+    return result;
+  }
+
+  function cardUpgradeAttributes(card){
+    const modifiers=card?.shopModifiers||{};
+    return{
+      bonusChips:Number(card?.bonus||0),
+      bonusCoins:Number(modifiers.bonusCoins||0),
+      bonusMult:Number(modifiers.bonusMult||0),
+      bonusXmultRate:Number(modifiers.bonusXmultRate||0),
+      bonusXmultFactor:1+Number(modifiers.bonusXmultRate||0)
+    };
+  }
+
+  function formatAmount(stat,amount){return stat==='BONUS_XMULT_RATE'?`${Number((amount*100).toFixed(6))}%`:String(Number(amount))}
+  function describeEffect(itemOrEffect){
+    const item=itemOrEffect?.effect?itemOrEffect:null,effect=normalizeUpgradeEffect(itemOrEffect);
+    if(effect?.type==='ADD_CARD')return`将 ${effect.card?.suitName||''}${effect.card?.rank||''} ×${effect.quantity||1} 加入本局牌库。`;
+    if(effect?.type==='ADD_PERSONA')return`获得${item?.name?`“${item.name}”`:'指定人格牌'}，加入本局人格池，不自动替换已装备人格。`;
+    if(effect?.type==='UPGRADE_CARD')return`选择 1 张牌，${UPGRADE_LABEL_BY_STAT[effect.targetStat]||effect.targetStat} +${formatAmount(effect.targetStat,Number(effect.amount))}。`;
+    if(effect?.type==='REMOVE_CARD')return`从本局牌库中移除 ${effect.quantity||1} 张指定卡牌。`;
+    return'未配置的商品效果。';
+  }
+
+  function removeCardByUid(cards,uid){
+    requireCondition(Array.isArray(cards),'Card collection must be an array');
+    const index=cards.findIndex(card=>card.uid===uid);
+    if(index<0)return{removed:null,cards:clone(cards)};
+    return{removed:clone(cards[index]),cards:cards.filter((_,cardIndex)=>cardIndex!==index).map(clone)};
+  }
+
+  function purchaseAvailability({item,coins,purchaseCount=0}={}){
+    if(!item)return{allowed:false,reason:'UNKNOWN_ITEM'};
+    if(!Number.isFinite(coins)||coins<item.price)return{allowed:false,reason:'INSUFFICIENT_COINS'};
+    if(purchaseCount>=item.purchaseLimit)return{allowed:false,reason:'PURCHASE_LIMIT_REACHED'};
+    return{allowed:true,reason:'AVAILABLE'};
+  }
+
+  return{
+    weightedPick,
+    generateOffers,
+    createCardFromItem,
+    applyCardUpgrade,
+    cardUpgradeAttributes,
+    describeEffect,
+    removeCardByUid,
+    purchaseAvailability
+  };
+});

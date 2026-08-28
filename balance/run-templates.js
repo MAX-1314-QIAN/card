@@ -2,14 +2,6 @@
   const modules=root.PERSONA_BALANCE_MODULES||(root.PERSONA_BALANCE_MODULES={});
   modules.runTemplates=[
     {
-      id:'RUN_TEMPLATE_CURRENT_DEMO',
-      runTemplateId:'RUN_TEMPLATE_CURRENT_DEMO',
-      startNodeId:'DEMO_BATTLE_01',
-      nodeIds:['DEMO_BATTLE_01','DEMO_ROUTE_01','DEMO_BATTLE_02','DEMO_ROUTE_02','DEMO_BATTLE_03','DEMO_REPORT','DEMO_FORGE'],
-      endCondition:{type:'NODE_COMPLETED',nodeId:'DEMO_FORGE'},
-      version:2
-    },
-    {
       id:'RUN_TEMPLATE_PERSONA_SLICE',
       runTemplateId:'RUN_TEMPLATE_PERSONA_SLICE',
       startNodeId:'SLICE_BATTLE_01',

@@ -23,6 +23,7 @@ const growthProfiles=new Map(manifest.personaTemplates.growthProfiles.map(item=>
 const templateById=new Map(manifest.personaTemplates.templates.map(item=>[item.id,item]));
 const fixedLoadoutIds=['observer','wanderer','pathfinder','restraint'];
 const previewScoreCache=new Map();
+function handScoreAnchor(hand){return hand?.targetSingleHandScore??(hand?.chips||0)*(hand?.mult||0)}
 
 function seededRandom(seed){
   let value=seed>>>0;
@@ -116,7 +117,7 @@ function playBattle(runtime,node,random,policy,runIndex,handLog){
     const committed=scoreCandidate(runtime,best.cards,{handsRemaining,discardsRemaining,commit:true});
     score+=committed.total;handsRemaining--;handsUsed++;
     const state=runtime.getState(),equipped=runtime.getEquippedPersonas();
-    handLog.push({nodeId:node.id,score:committed.total,nakedScore:committed.total===undefined?0:committed.total-(committed.personaResult.scoreAfter-committed.personaResult.scoreBefore),typeId:committed.typeId,type:committed.type,targetSingleHandScore:targetHandProfile.hands.find(item=>item.id===committed.typeId).targetSingleHandScore,cards:best.cards.map(card=>({...card})),personaIds:equipped.map(instance=>instance.templateId),finalMultiplier:committed.personaResult.finalMultiplier,historyUsedTypes:[...(state.personaHistory?.usedHandTypes||[])]});
+    handLog.push({nodeId:node.id,score:committed.total,nakedScore:committed.total===undefined?0:committed.total-(committed.personaResult.scoreAfter-committed.personaResult.scoreBefore),typeId:committed.typeId,type:committed.type,targetSingleHandScore:handScoreAnchor(targetHandProfile.hands.find(item=>item.id===committed.typeId)),cards:best.cards.map(card=>({...card})),personaIds:equipped.map(instance=>instance.templateId),finalMultiplier:committed.personaResult.finalMultiplier,historyUsedTypes:[...(state.personaHistory?.usedHandTypes||[])]});
     const played=new Set(best.indexes);for(let index=hand.length-1;index>=0;index--)if(played.has(index))hand.splice(index,1);
     if(score<node.targetScore)drawTo(hand,deck,ruleset.startingHandSize);
   }
@@ -187,8 +188,8 @@ function summarizeGrowth(runs){
 function summarizeHands(runs){
   const allHands=runs.flatMap(run=>run.handLog),byType={};
   for(const handType of targetHandProfile.hands){
-    const hands=allHands.filter(item=>item.typeId===handType.id),nakedScores=hands.map(item=>pokerEngine.nakedScore(item.cards,targetHandProfile.hands,targetTemplate.actionRules.maxSelection).total),mean=average(nakedScores),deviation=hands.length?(mean/handType.targetSingleHandScore-1)*100:null,abs=deviation===null?null:Math.abs(deviation),status=deviation===null?'NO_SAMPLE':abs<=15?'KEEP':abs<=30?'REVIEW':'STRONG_REVIEW';
-    byType[handType.id]={name:handType.name,scoredCount:hands.length,simulatedMeanNakedScore:mean,targetSingleHandScore:handType.targetSingleHandScore,deviationPct:deviation,status};
+    const hands=allHands.filter(item=>item.typeId===handType.id),nakedScores=hands.map(item=>pokerEngine.nakedScore(item.cards,targetHandProfile.hands,targetTemplate.actionRules.maxSelection).total),mean=average(nakedScores),targetSingleHandScore=handScoreAnchor(handType),deviation=hands.length?(mean/targetSingleHandScore-1)*100:null,abs=deviation===null?null:Math.abs(deviation),status=deviation===null?'NO_SAMPLE':abs<=15?'KEEP':abs<=30?'REVIEW':'STRONG_REVIEW';
+    byType[handType.id]={name:handType.name,scoredCount:hands.length,simulatedMeanNakedScore:mean,targetSingleHandScore,deviationPct:deviation,status};
   }
   return byType;
 }

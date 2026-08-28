@@ -7,7 +7,7 @@ const context={globalThis:null};context.globalThis=context;vm.createContext(cont
 const config=context.BALANCE_V21;
 
 assert.strictEqual(config.meta.version,'2.1');
-assert.deepStrictEqual(Array.from(config.battle.targets),[280,420,620]);
+assert.deepStrictEqual(Array.from(config.battle.targets),[550,625,675,775,875,975,1050,1275,1425,1900]);
 assert.strictEqual(config.battle.baseHands,4);
 assert.strictEqual(config.battle.baseDiscards,3);
 assert.strictEqual(config.battle.startingHandSize,8);
@@ -22,7 +22,7 @@ assert.strictEqual(config.personas.length,8);
 assert.strictEqual(new Set(config.personas.map(item=>item.id)).size,8);
 assert.ok(config.personas.every(item=>item.triggerType&&item.effectType&&Number.isFinite(item.value)&&item.duration&&item.target));
 assert.strictEqual(config.defaultPersonaLoadout.length,config.battle.personaSlots);
-assert.strictEqual(config.bossRules.length,config.battle.targets.length);
+assert.strictEqual(config.bossRules.length,3,'冻结 Boss 回归池应保持三档测试数据');
 assert.ok(config.bossRules.every(pool=>pool.length===3&&pool.every(item=>item.effectType&&Number.isFinite(item.value)&&item.duration&&item.target)));
 assert.deepStrictEqual(Array.from(config.interventions.rewardProbability),[.5,.4,.3]);
 assert.strictEqual(config.interventions.events.filter(item=>item.kind==='reward').length,3);
@@ -32,7 +32,9 @@ assert.strictEqual(config.featureFlags.manualDeckTargetBoostEnabled,false);
 assert.strictEqual(config.featureFlags.manualDeckTargetBoostValue,3);
 const html=fs.readFileSync('index.html','utf8'),gameSource=fs.readFileSync('game.js','utf8');
 assert.ok(/id="deck-target-mode"[^>]*debug-deck-target hidden/.test(html));
-assert.ok(/function confirmDeckTarget\(\)\{if\(!balance\.featureFlags\.manualDeckTargetBoostEnabled\)return;/.test(gameSource));
+assert.ok(/function confirmDeckTarget\(\)[\s\S]*if\(!balance\.featureFlags\.manualDeckTargetBoostEnabled\)return;/.test(gameSource),'普通牌库强化仍受关闭的开发开关保护，商店目标选择走独立正式入口');
+assert.strictEqual(config.shop.id,'TARGET_SHOP_V1');
+assert.strictEqual(config.shop.items.length,65);
 assert.ok(!/id="deck-detail-desc"[^>]*>[^<]*\+3/.test(html));
 
 function assertNoFunctions(value,path='BALANCE_V21'){

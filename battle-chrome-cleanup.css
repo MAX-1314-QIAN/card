@@ -1,0 +1,31 @@
+/* Battle-only icon cleanup. Runtime value nodes remain hidden for game.js. */
+#battle-screen .battle-runtime-values[hidden]{
+  display:none!important;
+}
+
+#battle-screen .persona-list{
+  padding-top:0;
+}
+
+#battle-screen .persona-footer{
+  right:auto;
+  width:58px;
+  padding-top:10px;
+  border-top:0;
+}
+
+#battle-screen #open-hand-rules.rules-entry{
+  width:58px;
+  height:64px;
+  justify-content:center;
+  gap:0;
+}
+
+#battle-screen #open-hand-rules .mini-card{
+  flex:0 0 50px;
+}
+
+#battle-screen .table-pile{
+  width:56px;
+  height:70px;
+}

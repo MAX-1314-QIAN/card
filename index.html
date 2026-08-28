@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="cards-fix.css">
   <link rel="stylesheet" href="progression.css">
   <link rel="stylesheet" href="shell.css">
-  <link rel="stylesheet" href="shell-overrides.css">
-  <link rel="stylesheet" href="playing-cards.css">
+  <link rel="stylesheet" href="shell-overrides.css?v=20260824-settings-layout">
+  <link rel="stylesheet" href="playing-cards.css?v=20260827-card-art-v1">
   <link rel="stylesheet" href="effects.css">
   <link rel="stylesheet" href="played-cards.css">
   <link rel="stylesheet" href="played-cards-fix.css">
@@ -17,9 +17,11 @@
   <link rel="stylesheet" href="hand-sort.css">
   <link rel="stylesheet" href="persona-system.css">
   <link rel="stylesheet" href="persona-feedback.css">
-  <link rel="stylesheet" href="settings-polish.css">
+  <link rel="stylesheet" href="persona-flow.css?v=20260826-scoring-card-flow">
+  <link rel="stylesheet" href="battle-layout-polish.css?v=20260828-record-removal">
+  <link rel="stylesheet" href="settings-polish.css?v=20260824-settings-layout">
   <link rel="stylesheet" href="settings-return.css">
-  <link rel="stylesheet" href="settlement.css">
+  <link rel="stylesheet" href="settlement.css?v=20260824-coin-breakdown">
   <link rel="stylesheet" href="hand-rules.css">
   <link rel="stylesheet" href="hand-rules-reference.css">
   <link rel="stylesheet" href="forge-flow.css">
@@ -27,28 +29,43 @@
   <link rel="stylesheet" href="report-metrics.css">
   <link rel="stylesheet" href="obsidian-gold-theme.css">
   <link rel="stylesheet" href="art-assets.css">
+  <link rel="stylesheet" href="persona-battle-affixes.css?v=20260826-battle-affix-v1">
   <link rel="stylesheet" href="route-map.css">
   <link rel="stylesheet" href="tutorial.css">
   <link rel="stylesheet" href="random-events.css">
   <link rel="stylesheet" href="boss-observation.css">
   <link rel="stylesheet" href="persona-slice.css">
-  <link rel="stylesheet" href="target-run.css">
+  <link rel="stylesheet" href="target-run.css?v=20260825-gallery-loadout">
+  <link rel="stylesheet" href="shop-prototype.css">
+  <link rel="stylesheet" href="deck-sort.css">
+  <link rel="stylesheet" href="shop-forge.css">
+  <link rel="stylesheet" href="shop-forge-interaction.css">
+  <link rel="stylesheet" href="shop-scroll.css?v=20260826-persona-affix-v3">
+  <link rel="stylesheet" href="persona-affixes.css?v=20260826-shop-unified-v4">
+  <link rel="stylesheet" href="persona-growth-acquire.css?v=20260826-growth-clarity">
+  <link rel="stylesheet" href="background-art.css?v=20260827-page-backgrounds-v2">
+  <link rel="stylesheet" href="main-menu-buttons.css?v=20260827-isolated-component-v1">
+  <link rel="stylesheet" href="battle-background.css?v=20260827-battle-scene-v1">
+  <link rel="stylesheet" href="battle-action-buttons.css?v=20260827-battle-actions-v2">
+  <link rel="stylesheet" href="battle-chrome-cleanup.css?v=20260827-icon-only-v1">
+  <link rel="stylesheet" href="settings-layout-reference.css?v=20260827-reference-layout-v1">
+  <link rel="stylesheet" href="battle-floating-sidebars.css?v=20260828-floating-v1">
+  <link rel="stylesheet" href="battle-persona-card-hierarchy.css?v=20260828-hierarchy-v2">
+  <link rel="stylesheet" href="battle-lower-left-tools.css?v=20260828-battle-tools-v4">
+  <link rel="stylesheet" href="battle-viewport-lock.css?v=20260828-no-page-scrollbar-v1">
 </head>
 <body>
   <section id="main-menu" class="screen main-menu">
     <div class="menu-atmosphere"><i></i><i></i><i></i></div>
-    <div class="title-cards" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="menu-content">
       <h1>人格牌</h1>
       <div class="title-divider"><i></i><b>◆</b><i></i></div>
       <p class="menu-subtitle">用牌局，认识人格</p>
-      <nav class="menu-actions">
-        <button id="start-game" class="menu-primary">开始游戏</button>
-        <button id="start-target-run" class="target-dev-entry">开发测试：目标13节点长局</button>
+      <nav class="main-menu-actions">
+        <button id="start-game">开始游戏</button>
         <button id="continue-game">继续游戏</button>
         <button id="open-gallery">人格图鉴</button>
         <button id="open-settings">设置</button>
-        <button id="exit-game">退出游戏</button>
       </nav>
     </div>
     <footer class="menu-footer"><span>演示版本 0.3</span><span id="menu-hint">镜子会记住每一次选择</span></footer>
@@ -74,12 +91,12 @@
             <section class="setting-card controls-card">
               <header><span>⌘</span><div><h2>操作</h2></div></header>
               <div class="key-grid"><div class="key-row"><span>出牌</span><kbd>空格键</kbd></div><div class="key-row"><span>弃牌</span><kbd>弃牌键</kbd></div><div class="key-row"><span>设置 / 返回</span><kbd>退出键</kbd></div></div>
+              <div class="settlement-speed-setting"><span><b>结算播放速度</b><small>控制计分牌、人格触发、数字演算与结算特效的播放速度。</small></span><div class="settlement-speed-options" role="radiogroup" aria-label="结算播放倍率"><label><input type="radio" name="settlement-speed" id="settlement-speed-10" value="1" checked><span><b>1.0×</b><small>标准</small></span></label><label><input type="radio" name="settlement-speed" id="settlement-speed-15" value="1.5"><span><b>1.5×</b><small>流畅</small></span></label><label><input type="radio" name="settlement-speed" id="settlement-speed-20" value="2"><span><b>2.0×</b><small>快速</small></span></label></div></div>
               <button id="replay-tutorial" class="tutorial-replay" type="button">重新查看战斗教学</button>
             </section>
           </div>
         </section>
       </main>
-      <aside class="settings-help ornate-panel"><div class="help-sigil">✦</div><span class="info-mark">●</span><h2>简易设置</h2><p>只保留当前网页演示版中能够真实生效的选项，调整亮度和动效时会即时预览。</p><div class="shortcut-preview"><span>快速返回</span><kbd>退出键</kbd></div><div class="help-tip"><b>✦ 本地保存</b><p>保存后，下次打开演示版仍会沿用当前设置。</p></div></aside>
     </div>
     <footer class="settings-actions"><button id="return-main-menu" class="return-menu hidden">返回主界面</button><span class="settings-action-spacer"></span><button id="settings-default">恢复默认</button><button id="settings-cancel">取消</button><button id="settings-save" class="save">保存设置</button></footer>
   </section>
@@ -124,19 +141,16 @@
 
   <main id="battle-screen" class="screen game-frame hidden">
     <aside class="persona-rail ornate-panel">
-      <header class="rail-head">
-        <div><span>人格总加成</span></div>
-        <div class="bonus"><b>基础分加成：<em id="persona-chip">—</em></b><b>倍率加成：<em id="persona-mult">—</em></b></div>
-      </header>
+      <span class="battle-runtime-values" hidden><em id="persona-chip">—</em><em id="persona-mult">—</em></span>
+      <nav class="battle-utility-bar" aria-label="战斗工具">
+        <button id="open-hand-rules" class="battle-utility-button" type="button" aria-label="牌型规则" title="牌型规则"><img src="assets/art/battle-tools/hand-rules-icon-v1.png" alt="" aria-hidden="true"></button>
+        <button class="battle-utility-button table-pile" id="table-pile" type="button" aria-label="查看牌库与收牌堆" title="牌库"><img src="assets/art/battle-tools/deck-icon-v1.png" alt="" aria-hidden="true"><span class="battle-runtime-values" hidden><i id="deck-count">—</i><i id="used-count">0</i></span></button>
+        <button class="battle-utility-button gear" id="battle-settings" type="button" aria-label="设置" title="设置"><img src="assets/art/battle-tools/settings-icon-v1.png" alt="" aria-hidden="true"></button>
+      </nav>
       <div class="persona-list" id="personas"></div>
-      <footer class="persona-footer"><button id="open-hand-rules" class="rules-entry"><span class="mini-card">♠<i>A</i></span><div><b>牌型规则</b></div><em>查看 ›</em></button></footer>
     </aside>
 
     <section class="battle-stage">
-      <div class="table-pile" id="table-pile" role="button" tabindex="0" aria-label="查看牌库与收牌堆">
-        <span class="pile-card back-one"></span><span class="pile-card back-two"></span><span class="pile-card back-top">✦</span>
-        <b>牌堆</b><small><i id="deck-count">—</i> 张 · 已用 <i id="used-count">0</i></small>
-      </div>
       <header class="enemy-row played-row" id="played-cards" aria-label="本手已打出的扑克牌"></header>
 
       <div class="arc-divider"><i></i><span>✦</span><i></i></div>
@@ -146,27 +160,28 @@
         <div><small>基础分</small><strong id="preview-chips">—</strong></div>
         <div><small>倍率</small><strong id="preview-mult">×—</strong></div>
         <div><small>最终得分</small><strong id="preview-score">—</strong></div>
+        <div id="persona-chain" class="persona-chain hidden" aria-live="polite"></div>
       </section>
       <aside id="score-breakdown" class="score-breakdown hidden" aria-live="polite"></aside>
 
       <section class="hand-zone">
         <div class="status-line" id="message"><span></span>点击牌面选择手牌</div>
-        <div class="hand-sort" role="group" aria-label="手牌排序方式">
+        <div class="cards" id="cards"></div>
+      </section>
+
+      <footer class="battle-actions">
+        <button id="play-btn" class="battle-action-button"><img src="assets/art/battle-actions/play-icon-v1.png" alt="" aria-hidden="true"><span>出牌</span></button>
+        <div class="hand-sort battle-action-sort" role="group" aria-label="手牌排序方式">
           <span>手牌排序</span>
           <button id="sort-by-rank" class="active" type="button" aria-pressed="true">大小</button>
           <button id="sort-by-suit" type="button" aria-pressed="false">花色</button>
         </div>
-        <div class="cards" id="cards"></div>
-      </section>
-
-      <footer class="actions">
-        <button id="play-btn" class="action play"><span>出牌</span></button>
-        <button id="discard-btn" class="action discard"><span>弃牌</span></button>
+        <button id="discard-btn" class="battle-action-button"><img src="assets/art/battle-actions/discard-icon-v1.png" alt="" aria-hidden="true"><span>弃牌</span></button>
       </footer>
     </section>
 
-    <aside class="boss-rail ornate-panel">
-      <button class="gear" id="new-run" aria-label="重新开始">⚙</button>
+    <aside class="boss-rail">
+      <div class="boss-rail-content ornate-panel">
       <header class="boss-title"><h1 id="encounter-title">首领</h1></header>
       <section class="boss-dialogue">
         <div class="boss-portrait has-art"><span></span></div>
@@ -185,7 +200,7 @@
         <div><span class="turn-icon">▱</span><b>弃牌</b><strong><i id="discards">—</i> / <i id="discards-max">—</i></strong></div>
         <div><span class="turn-icon">▰</span><b>出牌</b><strong><i id="hands">—</i> / <i id="hands-max">—</i></strong></div>
       </section>
-      <section class="battle-log"><header>结算记录</header><ol id="log"></ol></section>
+      </div>
     </aside>
   </main>
 
@@ -212,28 +227,15 @@
   </dialog>
 
   <dialog id="shop-dialog" class="shop-dialog">
-    <h2>在下一面镜子前，调整你的牌局</h2>
-    <p class="shop-copy">金币只在本局有效。每项服务只能购买一次。</p>
-    <div class="shop-wallet">当前金币 <strong id="shop-coins">0</strong></div>
-    <div class="shop-grid">
-      <article class="shop-item" data-service="trim">
-        <span class="shop-icon">◇</span><h3>剔除杂音</h3><p>从牌库中移除一张最低点数牌，提高核心牌出现概率。</p><button data-buy="trim">4 金币</button>
-      </article>
-      <article class="shop-item" data-service="temper">
-        <span class="shop-icon">♠</span><h3>重刻点数</h3><p>随机选择一张当前手牌，使其点数永久提高 2 级。</p><button data-buy="temper">6 金币</button>
-      </article>
-      <article class="shop-item" data-service="breath">
-        <span class="shop-icon">✦</span><h3>额外一次呼吸</h3><p>下一场战斗增加 1 次弃牌机会。</p><button data-buy="breath">5 金币</button>
-      </article>
-    </div>
-    <div class="shop-note" id="shop-note">首领的目光暂时离开了牌桌。</div>
-    <button class="action play shop-leave" id="shop-leave"><span>进入下一场</span></button>
+    <header class="shop-header"><span>幕间整备</span><h2>商店</h2><p class="shop-copy">金币只在本局有效；每件商品仅可购买一次。</p></header>
+    <div class="shop-layout"><aside class="shop-resource-panel"><section><small>当前金币</small><strong>◉ <b id="shop-coins">0</b></strong></section><section><small>牌库数量</small><strong>▰ <b id="shop-deck-count">0</b></strong></section><section><small>已有人格</small><strong>◇ <b id="shop-persona-count">0</b></strong></section></aside><section class="shop-browser"><nav class="shop-tabs"><button type="button" class="active" data-shop-tab="goods" aria-selected="true">商品</button><button type="button" data-shop-tab="forge" aria-selected="false">人格铸造</button></nav><div id="shop-goods-panel"><h3>商品列表</h3><div class="shop-item-list" id="shop-item-list" tabindex="0" aria-label="商品列表，可上下滚动"></div></div><div id="shop-forge-panel" class="hidden" hidden><h3>已拥有人格</h3><div class="shop-forge-list" id="shop-forge-list" tabindex="0" aria-label="已拥有人格列表，可上下滚动"></div></div></section><section class="shop-detail-panel"><small>商品详情</small><div class="shop-detail-hero"><div class="shop-detail-icon" id="shop-detail-icon">◇</div><div><h3 id="shop-detail-name">选择商品</h3><span id="shop-detail-tag">服务</span><p id="shop-detail-effect">从左侧选择一项商品查看效果。</p></div></div><section><h4>完整说明</h4><p id="shop-detail-description">购买效果会在本局后续战斗中生效。</p></section><dl class="shop-purchase-meta"><div><dt>价格</dt><dd id="shop-detail-price">—</dd></div><div><dt>购买上限</dt><dd id="shop-detail-limit">—</dd></div><div><dt>当前状态</dt><dd id="shop-detail-status">—</dd></div></dl><section><h4 id="shop-result-title">购买结果</h4><div id="shop-result" aria-live="polite">选择商品后显示购买结果。</div></section></section></div>
+    <footer class="shop-footer"><p class="shop-note" id="shop-note" aria-live="polite">首领的目光暂时离开了牌桌。</p><div><button id="shop-buy" type="button">购买商品</button><button id="shop-leave" type="button">离开商店</button></div></footer>
   </dialog>
 
   <dialog id="persona-dialog" class="persona-dialog">
     <button class="dialog-x" id="persona-close">×</button>
     <h2>人格收藏 / 装备</h2>
-    <div class="collection-layout"><section class="collection-browser"><div class="collection-tools"><select id="persona-mode-filter"><option value="all">全部类型</option><option>映照</option><option>偏转</option><option>裂变</option></select><input id="persona-search" placeholder="搜索人格名称或效果"></div><div class="persona-library" id="persona-library"></div></section><aside class="collection-side"><h3>当前装备</h3><div class="loadout-slots" id="loadout-slots"></div><section class="persona-selected-detail"><h3 id="library-detail-name">选择一张人格牌</h3><p id="library-detail-desc">查看完整效果，并决定装备或卸下。</p><button id="library-toggle-equip">装备</button></section></aside></div>
+    <div class="collection-layout"><section class="collection-browser"><div class="collection-tools"><select id="persona-mode-filter"><option value="all">全部人格</option></select><input id="persona-search" placeholder="搜索人格牌ID、主词条或效果"></div><div class="persona-library" id="persona-library"></div></section><aside class="collection-side"><h3>当前装备</h3><div class="loadout-slots" id="loadout-slots"></div><section class="persona-selected-detail"><h3 id="library-detail-name">选择一张人格牌</h3><div id="library-detail-desc">查看主词条、固定主效果以及第二、第三属性。</div><button id="library-toggle-equip">装备</button></section></aside></div>
     <button class="action play library-done" id="persona-done"><span>保存装备</span></button>
   </dialog>
 
@@ -241,6 +243,11 @@
     <button class="dialog-x" id="deck-close">×</button><h2>牌库查看</h2>
     <nav class="deck-tabs"><button data-deck-tab="deck" class="active">当前牌库</button><button data-deck-tab="used">已用牌</button><button data-deck-tab="discarded">已弃牌</button></nav>
     <div class="deck-stats"><span>总数 <b id="deck-total">0</b></span><span>可选 <b id="deck-selectable">0</b></span><button id="deck-target-mode" class="debug-deck-target hidden">选择强化目标</button></div>
+    <div class="deck-sort" role="group" aria-label="牌库排序方式">
+      <span>牌库排序</span>
+      <button id="deck-sort-rank" class="active" type="button" aria-pressed="true">大小</button>
+      <button id="deck-sort-suit" type="button" aria-pressed="false">花色</button>
+    </div>
     <div class="deck-grid" id="deck-grid"></div>
     <section class="deck-detail debug-deck-target hidden"><div class="deck-mini" id="deck-detail-card">♠ A</div><div><h3 id="deck-detail-name">尚未选择</h3><p id="deck-detail-desc"></p></div></section>
     <footer><button id="deck-confirm" class="debug-deck-target hidden" disabled>确认选择</button><button id="deck-done">关闭</button></footer>
@@ -266,7 +273,20 @@
     <h2 id="result-title">战斗胜利</h2>
     <p class="result-subtitle" id="result-subtitle">你成功击败了镜厅守卫。</p>
     <section class="result-score"><small>最终得分</small><strong id="result-score">0</strong><span>目标 <b id="result-target">0</b></span></section>
-    <section class="result-rewards" id="result-rewards"><p>获得奖励</p><div><article><span>◉</span><small>获得金币</small><b id="result-coins">0</b></article><article><span>✦</span><small>剩余出牌</small><b id="result-hands">0</b></article></div></section>
+    <section class="result-rewards" id="result-rewards">
+      <p>金币结算</p>
+      <div class="coin-settlement">
+        <ol class="coin-breakdown">
+          <li id="result-victory-reward" style="--reward-step:0"><span class="reward-source-icon">♛</span><div><small>节点胜利奖励</small><em id="result-victory-formula">基础 0 + 节点加成 0</em></div><strong>+<b id="result-victory-coins">0</b></strong></li>
+          <li id="result-hands-reward" style="--reward-step:1"><span class="reward-source-icon">✦</span><div><small>剩余出牌奖励</small><em><b id="result-hands">0</b> 次 × <b id="result-hand-rate">0</b> 金币</em></div><strong>+<b id="result-hand-coins">0</b></strong></li>
+          <li id="result-discards-reward" style="--reward-step:2"><span class="reward-source-icon">▱</span><div><small>剩余弃牌奖励</small><em><b id="result-discards">0</b> 次 × <b id="result-discard-rate">0</b> 金币</em></div><strong>+<b id="result-discard-coins">0</b></strong></li>
+          <li id="result-card-coins-reward" class="hidden" style="--reward-step:3"><span class="reward-source-icon">◇</span><div><small>卡牌效果奖励</small><em>本战中由卡牌效果获得</em></div><strong>+<b id="result-card-coins">0</b></strong></li>
+          <li id="result-persona-coins-reward" class="hidden" style="--reward-step:4"><span class="reward-source-icon">◆</span><div><small>人格属性奖励</small><em>本战中由人格次级属性获得</em></div><strong>+<b id="result-persona-coins">0</b></strong></li>
+        </ol>
+        <aside class="result-coin-total" id="result-coins-reward"><small>本战获得金币</small><strong>+<b id="result-coins">0</b></strong><span>结算后持有 <b id="result-current-coins">0</b> 金币</span><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i></aside>
+      </div>
+      <article id="result-persona-reward" class="result-special-reward hidden"><span>◇</span><div><small>阶段额外奖励</small><b>获得人格牌 × 1</b></div></article>
+    </section>
     <section class="result-failure" id="result-failure"><span>距离目标还差</span><strong id="result-gap">0</strong><small>本局行为仍可用于人格铸造</small></section>
     <footer class="result-actions"><button id="result-menu">返回主界面</button><button id="result-retry">重新开始</button><button id="result-primary" class="primary-result">领取奖励</button></footer>
   </dialog>
@@ -279,18 +299,10 @@
     <footer class="rules-foot"><p><b>最终得分</b> =（基础筹码 + 计分牌点数 + 人格筹码）×（基础倍率 + 人格倍率）× 独立倍率</p><button id="hand-rules-done">了解规则</button></footer>
   </dialog>
   <dialog id="persona-growth-dialog" class="persona-growth-dialog">
-    <h2>人格成长节点</h2>
-    <p>固定生成一张测试人格，并选择一个槽位替换。该界面仅用于运行时验证。</p>
-    <section id="persona-growth-card"></section><h3>选择替换槽位</h3><div id="persona-growth-slots" class="persona-growth-slots"></div>
-    <footer><button id="persona-growth-keep" class="hidden">保留当前装备</button><button id="persona-growth-confirm">确认替换并进入下一战</button></footer>
-  </dialog>
-  <dialog id="target-loadout-dialog" class="target-run-dialog target-loadout-dialog">
-    <h2>从 8 张基础人格中选择 4 张</h2>
-    <p>选择顺序即装备槽位顺序。此入口仅用于目标流程验证，不改变默认三战演示版。</p>
-    <section id="target-loadout-options" class="target-persona-grid"></section>
-    <h3>当前装备</h3><div id="target-loadout-slots" class="target-loadout-slots"></div>
-    <p id="target-loadout-note" class="target-note">请选择 4 张不同人格牌。</p>
-    <footer><button id="target-loadout-confirm" disabled>确认装备并进入节点01</button></footer>
+    <header class="growth-acquire-head"><div><h2>获得新的人格牌</h2></div><dl><div><dt>本次获得</dt><dd>1 张</dd></div><div><dt>当前持有</dt><dd id="persona-growth-owned-count">0 张</dd></div><div><dt>当前装备</dt><dd id="persona-growth-equipped-count">0 / 4</dd></div></dl></header>
+    <div class="growth-acquire-layout"><section class="growth-new-panel"><div class="growth-section-label">本次获得</div><div id="persona-growth-card"></div></section><section class="growth-owned-panel"><div class="growth-section-label">当前装备</div><div id="persona-growth-slots" class="persona-growth-slots"></div><aside id="persona-growth-owned-summary" class="growth-owned-summary hidden"></aside></section></div>
+    <div id="persona-growth-replace-note" class="growth-replace-note" aria-live="polite"></div>
+    <footer><button id="persona-growth-keep" class="hidden">暂不替换，保留当前装备</button><button id="persona-growth-confirm">确认替换并继续</button></footer>
   </dialog>
   <dialog id="target-report-dialog" class="target-run-dialog target-report-dialog">
     <h2>目标长局报告</h2>
@@ -300,14 +312,14 @@
     <footer><button id="target-report-continue">进入人格带出</button></footer>
   </dialog>
   <dialog id="target-carry-dialog" class="target-run-dialog target-carry-dialog">
-    <h2>选择一张本局生成人格</h2>
-    <p>本阶段只写入本局结果中的开发占位集合，不接入正式局外收藏。</p>
+    <h2>选择一张人格牌永久带出</h2>
+    <p>只有在这里确认的人格牌会进入永久收藏；本局解锁的第二、第三属性不会带出。</p>
     <section id="target-carry-options" class="target-persona-grid"></section>
     <p id="target-carry-note" class="target-note">请选择一张人格牌带出。</p>
     <footer><button id="target-carry-confirm" disabled>确认带出并结束本局</button></footer>
   </dialog>
   <dialog id="persona-slice-end-dialog" class="persona-growth-dialog">
-    <h2>人格运行时验证结束</h2><p>测试长局已完成，不会写入正式三战流程。</p><footer><button id="persona-slice-end-confirm">结束测试</button></footer>
+    <h2>人格运行时验证结束</h2><p>测试切片已完成，不会写入正式 13 节点长局。</p><footer><button id="persona-slice-end-confirm">结束测试</button></footer>
   </dialog>
   <div id="tutorial-overlay" class="tutorial-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutorial-title">
     <div class="tutorial-focus" aria-hidden="true"></div>
@@ -321,33 +333,38 @@
   <script src="balance/core-rules.js"></script>
   <script src="balance/feature-flags.js"></script>
   <script src="balance/poker-hands.js"></script>
-  <script src="balance/base-personas.js"></script>
+  <script src="balance/base-personas.js?v=20260828-persona-art-v1"></script>
   <script src="balance/persona-templates.js"></script>
   <script src="balance/target/scoring-profile.js"></script>
   <script src="balance/target/prototype-personas.js"></script>
   <script src="balance/target/growth-profiles.js"></script>
-  <script src="balance/target/stage-nodes.js"></script>
-  <script src="balance/target/run-template.js"></script>
+  <script src="balance/target/shop-config.js"></script>
+  <script src="balance/target/stage-nodes.js?v=20260825-gallery-loadout"></script>
+  <script src="balance/target/run-template.js?v=20260825-gallery-loadout"></script>
   <script src="balance/boss-profiles.js"></script>
   <script src="balance/interventions.js"></script>
   <script src="balance/encounters.js"></script>
   <script src="balance/stage-nodes.js"></script>
   <script src="balance/run-templates.js"></script>
-  <script src="balance/schema-validation.js"></script>
-  <script src="balance/manifest.js"></script>
+  <script src="balance/schema-validation.js?v=20260826-flat-affixes-v5"></script>
+  <script src="balance/manifest.js?v=20260826-persona-affix-v3"></script>
   <script src="balance-v2.1.js"></script>
-  <script src="persona/persona-instance.js"></script>
-  <script src="persona/persona-condition-evaluator.js"></script>
-  <script src="persona/persona-effect-executor.js"></script>
-  <script src="persona/legacy-persona-adapter.js"></script>
-<script src="persona/persona-feedback.js"></script>
-<script src="persona/persona-runtime.js"></script>
+  <script src="persona/persona-instance.js?v=20260824-persona-v2"></script>
+  <script src="persona/persona-condition-evaluator.js?v=20260826-persona-affix-v3"></script>
+  <script src="persona/persona-effect-executor.js?v=20260826-flat-affixes-v5"></script>
+  <script src="persona/legacy-persona-adapter.js?v=20260826-affix-lineage-v3"></script>
+<script src="persona/persona-feedback.js?v=20260826-flat-affixes-v5"></script>
+<script src="persona/persona-runtime.js?v=20260826-flat-affixes-v5"></script>
+<script src="persona/persona-collection.js?v=20260826-permanent-collection-v1"></script>
 <script src="run-controller.js"></script>
 <script src="save-system.js"></script>
 <script src="poker-engine.js"></script>
-<script src="game.js"></script>
-  <script src="shell.js"></script>
-  <script src="audio-effects.js"></script>
+<script src="shop/shop-runtime.js"></script>
+<script src="deck-sort-runtime.js"></script>
+<script src="card-art-manifest.js?v=20260827-full-deck-v2"></script>
+  <script src="game.js?v=20260828-battle-tools-v3&art=20260827-card-v1"></script>
+  <script src="shell.js?v=20260826-main-menu-cleanup-v2"></script>
+  <script src="audio-effects.js?v=20260826-persona-flow-sound"></script>
   <script src="tutorial.js"></script>
 </body>
 </html>

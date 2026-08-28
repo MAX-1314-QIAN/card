@@ -1,0 +1,49 @@
+﻿source_sheet,excel_column,standard_field,type,example,required,handling,note
+人格牌配置,人格牌_ID,personas[].id,string,PER_001,是,direct,正式人格 ID
+人格牌配置,人格牌名称,personas[].name,string,人格牌01,是,direct,显示名
+人格牌配置,词条_ID,personas[].trigger_id,string,ENTRY_001,是,direct,触发词条外键
+人格牌配置,主属性_ID,personas[].primary_effect_id,string,MAIN_001,是,direct,主效果外键
+人格牌配置,次级属性_ID,personas[].initial_subtrait_id,string,SUB_001,否,direct,初始候选引用
+人格牌配置,最大属性数量,personas[].max_effect_count_raw,integer,3,否,preserved,语义待确认，不作为副词条槽
+人格牌配置,最大次级属性数量,personas[].max_subtrait_slots,integer,3,是,override,原始 2 按最新确认覆盖为 3
+人格牌配置,次级属性池数量,personas[].subtrait_pool_size,integer,5,是,direct,每人格候选数量
+人格牌_词条,词条_ID,triggers[].id,string,ENTRY_001,是,override,原始 MAIN_### 修正为 ENTRY_###
+人格牌_词条,触发条件描述,triggers[].description,string,连续两次使用相同牌型,是,direct,触发说明
+人格牌_词条,条件类型,triggers[].condition_type,string,连续牌型,是,direct,条件类型
+人格牌_词条,比较符,triggers[].operator,enum,EQ,是,direct,由比较符定义表约束
+人格牌_词条,条件参数,triggers[].condition_value,number|string|array,2,是,direct,不得统一转字符串
+人格牌_主属性,主属性_ID,primary_effects[].id,string,MAIN_001,是,direct,主效果 ID
+人格牌_主属性,属性类型,primary_effects[].effect_type,string,基础筹码,是,direct,效果分类
+人格牌_主属性,属性参数1,primary_effects[].operation,enum,增加,是,direct,操作符
+人格牌_主属性,属性参数2,primary_effects[].value,number,15,是,direct,效果值
+人格牌_主属性,开放节点,primary_effects[].open_stage,string,默认,否,direct,主效果开放节点
+人格牌_次级属性,次级属性_ID,subtraits[].id,string,SUB_001,是,direct,副词条 ID
+人格牌_次级属性,所属人格,subtraits[].persona_id,string,PER_001,是,mapped,按人格名称唯一映射，原文本保留
+人格牌_次级属性,权重,subtraits[].weight,number,40,是,direct,相对权重，不是裸概率
+人格牌_次级属性,属性类型,subtraits[].effect_type,string,基础筹码,是,direct,效果分类
+人格牌_次级属性,属性参数1,subtraits[].operation,enum,增加,是,direct,操作符
+人格牌_次级属性,属性参数2,subtraits[].value,number,8,是,direct,金币/筹码应为整数，异常仅告警
+人格牌_次级属性,开放节点,subtraits[].open_stage,enum,AI1,是,direct,表示最早开放，后续持续进入池
+商店_人格铸造,功能_ID,training_actions[].id,string,FORGE_001,是,direct,培养行为 ID
+商店_人格铸造,功能名称,training_actions[].name,string,解锁第二词条,是,direct,培养行为名称
+商店_人格铸造,价格,training_actions[].cost,integer,5,是,override,原始 6/12 按最新确认覆盖 5/8
+关卡流程,阶段_ID,stages[].id,string,STAGE_01,是,direct,关卡 ID
+关卡流程,关卡名称,stages[].name,string,关卡1,是,direct,显示名
+关卡流程,顺序,stages[].order,integer,1,是,direct,必须连续 1～13
+关卡流程,关卡类型描述,stages[].type,enum,BATTLE,是,mapped/override,战斗/商店映射；STAGE_13 强制 BOSS
+关卡流程,分数类型,stages[].score_rule_type,string,通关分数,否,direct,计分规则类型
+关卡流程,分数参数,stages[].target_score,number,550,否,direct,目标分
+关卡流程,手牌限制,stages[].play_limit,integer,4,否,direct,出牌次数
+关卡流程,弃牌限制,stages[].discard_limit,integer,3,否,direct,弃牌次数
+关卡流程,AI节点,stages[].ai_index,integer,1,否,direct,AI 商店序号
+关卡流程,人格牌生成数量,stages[].persona_generate_count,integer,1,否,direct,AI 节点候选生成数
+关卡流程,奖励类型1,stages[].reward.type,enum,金币,否,mapped,金币/无
+关卡流程,奖励参数1,stages[].base_coin,integer,5,否,mapped/override,9 战读取整数；Boss 强制 0
+商品_商品,商品_ID,shop.items[].id,string,SHOP_CARD_001,是,direct,商品 ID
+商品_商品,商品类型,shop.items[].type,enum,CARD,是,mapped,卡牌/人格牌/服务统一枚举
+商品_商品,价格,shop.items[].price,integer,2,是,preserved,标记 LEGACY_OR_UNCONFIRMED
+商店_商品槽位刷新规则,商品类型,shop.slot_refresh_rules[].item_type,enum,PERSONA,是,mapped,人格与人格牌统一为 PERSONA
+商店_商品刷新规则,权重,shop.item_pool_rules[].weight,number,1,是,direct,商品池相对权重
+图片配置,卡牌链接,assets[].url,string|null,assets/...,否,preserved,当前 103 条均为空
+无正式列,剩余出牌奖励规则,economy.remaining_play_reward,object,floor(remaining_play/2),否/待确认,recommendation,status=UNSPECIFIED
+无正式列,剩余弃牌奖励规则,economy.remaining_discard_reward,object,floor(remaining_discard/2),否/待确认,recommendation,status=UNSPECIFIED

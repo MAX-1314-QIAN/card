@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert');
+const stored=new Map(),context={console,JSON,Date,localStorage:{getItem:key=>stored.get(key)||null,setItem:(key,value)=>stored.set(key,value)}};context.globalThis=context;vm.createContext(context);vm.runInContext(fs.readFileSync('persona/persona-collection.js','utf8'),context);
+const initial=[{id:'PER_001',name:'人格牌01'},{id:'PER_002',name:'人格牌02'}],collection=context.PersonaCollection.create({storage:context.localStorage,initialTemplates:initial,now:()=>100});
+assert.deepStrictEqual(Array.from(collection.list().map(record=>record.cardId)),['PER_001','PER_002'],'initial collection is always available');
+const template={id:'GENERATED_01',name:'新生人格',conditions:[{type:'HAND_HAS_STRAIGHT'}],effects:[{type:'ADD_CHIPS',value:20}],runtimeDefaults:{counter:0},subAffixRules:{slotCount:2,defaultUnlockedCount:0,unlockCosts:[6,12],poolIds:['SUB_001','SUB_002']}};
+const instance={instanceId:'RUN_INSTANCE_01',templateId:'GENERATED_01',runtimeState:{counter:3},subAffixSlots:[{slotIndex:0,unlocked:true,affixId:'SUB_001'},{slotIndex:1,unlocked:true,affixId:'SUB_002'}]};
+const added=collection.carryOut({instance,template,runTemplateId:'RUN_TEMPLATE_TARGET',nodeId:'TARGET_PERSONA_CARRY_OUT'});assert.strictEqual(added.ok,true);assert.strictEqual(added.record.templateSnapshot.id,'GENERATED_01');assert.ok(!('runtimeState' in added.record)&&!('subAffixSlots' in added.record),'run state and unlocked affixes must never enter permanent collection');
+const restored=context.PersonaCollection.create({storage:context.localStorage,initialTemplates:initial});assert.strictEqual(restored.list().length,3);assert.strictEqual(restored.get(added.record.cardId).templateSnapshot.effects[0].value,20);
+const duplicate=restored.carryOut({instance,template});assert.strictEqual(duplicate.ok,true);assert.strictEqual(duplicate.duplicate,true);assert.strictEqual(restored.list().length,3,'same carry-out confirmation must be idempotent');
+console.log('persona-collection-tests: initial roster, carry-out persistence, affix stripping and idempotency passed');

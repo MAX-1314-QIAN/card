@@ -45,14 +45,6 @@ body{
   opacity:.82;
   filter:brightness(.62) sepia(.14);
 }
-.menu-content:before{
-  content:"";
-  position:absolute;
-  inset:-32px -46px;
-  z-index:-1;
-  background:radial-gradient(ellipse,#050403d9 0,#050403a6 44%,transparent 76%);
-  pointer-events:none;
-}
 .menu-content h1{filter:drop-shadow(0 5px 12px #000)}
 
 .ornate-panel,.settings-content,.settings-help,dialog{
@@ -456,11 +448,14 @@ dialog::backdrop{
   line-height:1.25;
 }
 .persona-copy .persona-battle-summary{
-  max-width:155px;
+  max-width:none;
   margin:0;
-  color:#b9a582;
-  font-size:11px;
-  line-height:1.65;
+  color:#d8c49a;
+  font-size:clamp(14px,.72vw,16px);
+  font-weight:500;
+  line-height:1.55;
+  letter-spacing:.015em;
+  text-wrap:pretty;
 }
 .persona-copy .persona-keyword{
   color:#f1d49a;
@@ -470,6 +465,28 @@ dialog::backdrop{
   color:#f0b94f;
   font-weight:800;
   text-shadow:0 0 9px #c17b2738;
+}
+
+/* Keep the two battle-side rule summaries readable at desktop resolutions. */
+.protocol p{
+  margin-top:9px;
+  color:#d5c29c;
+  font-size:clamp(14.5px,.76vw,16.5px);
+  font-weight:500;
+  line-height:1.65;
+  letter-spacing:.015em;
+  text-wrap:pretty;
+}
+
+@media(max-width:1250px){
+  .persona-copy .persona-battle-summary{
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .protocol p{
+    font-size:14px;
+    line-height:1.55;
+  }
 }
 
 @media(max-height:760px){

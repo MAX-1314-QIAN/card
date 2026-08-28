@@ -33,7 +33,8 @@
     cards.forEach(card=>counts[card.ri]=(counts[card.ri]||0)+1);
     const amounts=Object.values(counts).sort((a,b)=>b-a),flush=cards.length===maxSelection&&cards.every(card=>card.si===cards[0].si),unique=[...new Set(values)];
     const straight=cards.length===maxSelection&&unique.length===maxSelection&&(unique[maxSelection-1]-unique[0]===maxSelection-1||JSON.stringify(unique)==='[2,3,4,5,14]');
-    const matches={straight_flush:flush&&straight,four_kind:amounts[0]===4,full_house:amounts[0]===3&&amounts[1]===2,flush,straight,three_kind:amounts[0]===3,two_pair:amounts[0]===2&&amounts[1]===2,pair:amounts[0]===2,high_card:true};
+    const fullHouse=amounts[0]===3&&amounts[1]===2,royalFlush=flush&&unique.length===maxSelection&&JSON.stringify(unique)==='[10,11,12,13,14]';
+    const matches={royal_flush:royalFlush,flush_house:flush&&fullHouse,straight_flush:flush&&straight,four_kind:amounts[0]===4,full_house:fullHouse,flush,straight,three_kind:amounts[0]===3,two_pair:amounts[0]===2&&amounts[1]===2,pair:amounts[0]===2,high_card:true};
     const typeConfig=orderedTypes.find(config=>matches[config.id])||orderedTypes.find(config=>config.id==='high_card');
     let scoringCards;
     if(typeConfig.scoringRule==='ALL')scoringCards=[...cards];
@@ -41,6 +42,7 @@
       const scoringRanks=new Set(Object.entries(counts).filter(([,amount])=>amount>=2).map(([rank])=>Number(rank)));
       scoringCards=cards.filter(card=>scoringRanks.has(card.ri));
     }else scoringCards=[cards.reduce((highest,card)=>card.ri>highest.ri?card:highest)];
+    if(Number.isInteger(typeConfig.scoringCardCount)&&scoringCards.length>typeConfig.scoringCardCount)scoringCards=[...scoringCards].sort((a,b)=>b.ri-a.ri).slice(0,typeConfig.scoringCardCount);
     return{type:typeConfig.name,typeId:typeConfig.id,chips:typeConfig.chips,mult:typeConfig.mult,flush,straight,pair:amounts[0]>=2,scoringCards};
   }
 

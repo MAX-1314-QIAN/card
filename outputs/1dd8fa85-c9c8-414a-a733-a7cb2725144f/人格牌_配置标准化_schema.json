@@ -1,0 +1,440 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.persona-card.example/schema/persona-balance-next.schema.json",
+  "title": "《人格牌》标准化配置",
+  "type": "object",
+  "required": [
+    "meta",
+    "global_rules",
+    "stages",
+    "personas",
+    "triggers",
+    "primary_effects",
+    "subtraits",
+    "training_actions",
+    "shop",
+    "economy",
+    "ai_economy",
+    "player_profiles",
+    "conflicts",
+    "parse_issues",
+    "validation"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "config_version",
+        "source_files",
+        "priority_rule"
+      ],
+      "additionalProperties": true
+    },
+    "global_rules": {
+      "type": "object",
+      "required": [
+        "active_persona_slots",
+        "subtrait_slots_per_persona",
+        "initial_unlocked_subtrait_slots",
+        "ai_generated_personas",
+        "boss_gold"
+      ],
+      "properties": {
+        "active_persona_slots": {
+          "const": 4
+        },
+        "subtrait_slots_per_persona": {
+          "const": 3
+        },
+        "initial_unlocked_subtrait_slots": {
+          "const": 1
+        },
+        "ai_generated_personas": {
+          "const": 3
+        },
+        "boss_gold": {
+          "const": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "items": {
+        "$ref": "#/$defs/stage"
+      }
+    },
+    "personas": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/persona"
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trigger"
+      }
+    },
+    "primary_effects": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/effect"
+      }
+    },
+    "subtraits": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/subtrait"
+      }
+    },
+    "training_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/training"
+      }
+    },
+    "shop": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "economy": {
+      "type": "object",
+      "required": [
+        "gold_battle_count",
+        "base_coin_sequence",
+        "base_coin_total",
+        "boss_gold"
+      ],
+      "additionalProperties": true
+    },
+    "ai_economy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "player_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "id_aliases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/issue"
+      }
+    },
+    "parse_issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/issue"
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "errors",
+        "warnings"
+      ],
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/issue"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/issue"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "probability_preview": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "poker_hands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "required": [
+        "id",
+        "order",
+        "type",
+        "gold_eligible",
+        "base_coin"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^STAGE_[0-9]{2}$"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 13
+        },
+        "type": {
+          "enum": [
+            "BATTLE",
+            "SHOP",
+            "BOSS"
+          ]
+        },
+        "gold_eligible": {
+          "type": "boolean"
+        },
+        "base_coin": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "difficulty": {
+          "enum": [
+            "NORMAL",
+            "ELITE",
+            "UNSPECIFIED",
+            "N/A"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "BOSS"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "gold_eligible": {
+                "const": false
+              },
+              "base_coin": {
+                "const": 0
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": true
+    },
+    "persona": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "trigger_id",
+        "primary_effect_id",
+        "max_subtrait_slots",
+        "initial_unlocked_subtrait_slots"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^PER_[0-9]{3}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trigger_id": {
+          "type": "string",
+          "pattern": "^ENTRY_[0-9]{3}$"
+        },
+        "primary_effect_id": {
+          "type": "string",
+          "pattern": "^MAIN_[0-9]{3}$"
+        },
+        "max_subtrait_slots": {
+          "const": 3
+        },
+        "initial_unlocked_subtrait_slots": {
+          "const": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "trigger": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "condition_type",
+        "operator",
+        "condition_value"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^ENTRY_[0-9]{3}$"
+        }
+      },
+      "additionalProperties": true
+    },
+    "effect": {
+      "type": "object",
+      "required": [
+        "id",
+        "effect_type",
+        "operation",
+        "value"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^MAIN_[0-9]{3}$"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true
+    },
+    "subtrait": {
+      "type": "object",
+      "required": [
+        "id",
+        "persona_id",
+        "weight",
+        "effect_type",
+        "operation",
+        "value",
+        "open_stage"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^SUB_[0-9]{3}$"
+        },
+        "persona_id": {
+          "type": "string",
+          "pattern": "^PER_[0-9]{3}$"
+        },
+        "weight": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "value": {
+          "type": "number"
+        },
+        "open_stage": {
+          "enum": [
+            "AI1",
+            "AI2",
+            "AI3"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "training": {
+      "type": "object",
+      "required": [
+        "id",
+        "action",
+        "slot_index",
+        "cost",
+        "open_stage"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FORGE_[0-9]{3}$"
+        },
+        "action": {
+          "const": "UNLOCK_SUBTRAIT"
+        },
+        "slot_index": {
+          "enum": [
+            2,
+            3
+          ]
+        },
+        "cost": {
+          "type": "integer",
+          "enum": [
+            5,
+            8
+          ]
+        },
+        "open_stage": {
+          "enum": [
+            "AI1",
+            "AI2"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "issue": {
+      "type": "object",
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "ERROR",
+            "WARNING",
+            "INFO"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,46 @@
+/* Isolated battle-scene composition: art background below readable UI panels. */
+#battle-screen.game-frame{
+  background-color:#080807;
+  background-image:
+    linear-gradient(180deg,#0202011f 0,#02020114 42%,#02020138 100%),
+    var(--background-battle);
+  background-size:cover;
+  background-position:center 46%;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+
+#battle-screen .battle-stage{
+  isolation:isolate;
+}
+
+#battle-screen .battle-stage:before{
+  inset:0;
+  clip-path:none;
+  background:linear-gradient(180deg,#05040324 0,transparent 30% 72%,#0504033d 100%);
+  opacity:1;
+}
+
+/* The supplied background already contains the stone table. */
+#battle-screen .battle-stage:after{
+  display:none;
+}
+
+#battle-screen>.persona-rail,
+#battle-screen>.boss-rail{
+  background:
+    linear-gradient(145deg,#12100ce8,#070604e3),
+    radial-gradient(circle at 50% 0,#4b321526,transparent 58%);
+  backdrop-filter:blur(2px);
+}
+
+#battle-screen .score-preview{
+  background:linear-gradient(180deg,#0d0a06e8,#070604e3);
+}
+
+@media(max-width:880px){
+  #battle-screen.game-frame{
+    background-position:center top;
+    background-attachment:scroll;
+  }
+}

@@ -1,6 +1,12 @@
 const fs=require('fs');
 const assert=require('assert');
 const html=fs.readFileSync('index.html','utf8'),shell=fs.readFileSync('shell.js','utf8'),game=fs.readFileSync('game.js','utf8');
-for(const id of ['start-target-run','target-loadout-dialog','target-loadout-options','target-loadout-slots','target-loadout-confirm','persona-growth-keep','target-report-dialog','target-report-continue','target-carry-dialog','target-carry-confirm'])assert.ok(html.includes(`id="${id}"`),`missing target UI: ${id}`);
-assert.ok(shell.includes("querySelector('#start-target-run').onclick"),'target run must have a visible development entry');assert.ok(game.includes("window.startTargetRun=()=>"));assert.ok(game.includes("startRun('RUN_TEMPLATE_TARGET')"));assert.ok(!shell.match(/startRun\('RUN_TEMPLATE_TARGET'\).*#start-game/),'default start must not be switched to target');assert.ok(html.includes('target-run.css'));
-console.log('target-ui-tests: visible dev entry, loadout, growth keep, report, carry-out and isolated default entry passed');
+for(const id of ['start-game','persona-growth-keep','result-coins-reward','result-hands-reward','result-persona-reward','shop-dialog','shop-leave','deck-sort-rank','deck-sort-suit','target-report-dialog','target-report-continue','target-carry-dialog','target-carry-confirm'])assert.ok(html.includes(`id="${id}"`),`missing target UI: ${id}`);
+for(const id of ['target-loadout-dialog','target-loadout-options','target-loadout-slots','target-loadout-confirm'])assert.ok(!html.includes(`id="${id}"`),`formal start loadout UI must be removed: ${id}`);
+assert.ok(!html.includes('id="start-target-run"'),'formal run must not expose a development entry');assert.ok(!shell.includes("querySelector('#start-target-run').onclick"));assert.ok(shell.includes("window.runController.startRun(window.BALANCE_V21.meta.activeRunTemplateId)"),'default start must use active formal template');assert.ok(html.includes('target-run.css'));
+assert.ok(html.includes('aria-label="牌库排序方式"'),'deck sorting must expose an accessible control group');
+assert.ok(html.indexOf('deck-sort-runtime.js')<html.indexOf('game.js'),'deck sorting runtime must load before game integration');
+assert.ok(html.includes('persona/persona-collection.js?v=20260826-permanent-collection-v1')&&html.indexOf('persona/persona-collection.js')<html.indexOf('game.js'),'permanent persona collection must load before game integration');
+assert.ok(html.includes('只有在这里确认的人格牌会进入永久收藏')&&html.includes('第二、第三属性不会带出'),'carry-out UI must explain the permanent collection boundary');
+assert.match(game,/function sortedDeckCards\(cards\)\{return globalThis\.DeckSortRuntime\.sortCards\(cards,deckSortMode\)\}/);
+console.log('target-ui-tests: formal direct start, gallery loadout, milestone reward, shop cadence, report and carry-out passed');

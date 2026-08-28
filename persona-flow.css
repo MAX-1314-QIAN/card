@@ -1,0 +1,37 @@
+.persona-flow-canvas{position:fixed;inset:0;z-index:72;width:100vw;height:100vh;pointer-events:none;mix-blend-mode:screen}
+.persona.persona-charging{z-index:8;background:linear-gradient(90deg,#130e0a,#201407 58%,#0d0b0a);box-shadow:inset -18px 0 28px #b3792525;animation:personaChargeV2 .34s ease-out both}
+.persona.persona-charging .portrait{filter:brightness(1.3) saturate(1.15);box-shadow:inset 0 0 14px #deb55b42,inset 0 0 0 3px #070a11,inset 0 0 0 4px #d4af67,0 0 13px #b57c3059}
+.persona.persona-released{animation:personaReleaseV2 .42s ease-out}
+.persona-effect-callout{position:fixed;z-index:74;display:flex;align-items:center;gap:9px;max-width:260px;padding:5px 10px 6px;border-left:2px solid #e2bd6a;background:linear-gradient(90deg,#100c08ed,#100c08a8 76%,transparent);color:#ead5a5;filter:drop-shadow(0 5px 9px #000c);pointer-events:none;transform:translate(-50%,-50%);animation:personaCalloutV2 1.05s ease both}
+.persona-effect-callout b{color:#f8e5b2;font-size:11px;font-weight:500;white-space:nowrap}.persona-effect-callout span{color:#d6ad61;font-size:12px;font-weight:700;white-space:nowrap}
+.persona-effect-callout em{padding-left:7px;border-left:1px solid #856d48;color:#bda77f;font-size:9px;font-style:normal;white-space:nowrap}
+.persona-effect-callout[data-flow-kind="mult"]{border-color:#bca1f3;background:linear-gradient(90deg,#110d1aed,#110d1aaa 76%,transparent)}.persona-effect-callout[data-flow-kind="mult"] span{color:#cdb5ff}
+.persona-effect-callout[data-flow-kind="final"]{border-color:#f0c9bc;background:linear-gradient(90deg,#1d0b0ced,#15090aaa 76%,transparent)}.persona-effect-callout[data-flow-kind="final"] span{color:#ffd0bc}
+.persona-impact-ring{position:fixed;z-index:73;width:18px;height:18px;border:1px solid #ffe2a0;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:personaImpactRing .62s ease-out forwards;box-shadow:0 0 10px #d79639,inset 0 0 6px #fff1bf}
+.persona-impact-ring.mult{border-color:#d1b7ff;box-shadow:0 0 10px #8e67db,inset 0 0 6px #efe4ff}.persona-impact-ring.final{border-color:#ffd4c1;box-shadow:0 0 12px #b8513b,inset 0 0 6px #fff0e8}
+.played-card.persona-card-linked{z-index:7;filter:brightness(1.45);box-shadow:0 0 22px #d8ac5f,0 10px 20px #0009}
+.played-row .played-card{overflow:visible;transition:transform .18s ease,filter .18s ease,box-shadow .18s ease}
+.played-row .played-card.scoring-card-active{z-index:8;transform:translateY(-9px) scale(1.035)!important;filter:brightness(1.22) saturate(1.08);box-shadow:0 0 0 1px #f2cf81,0 0 24px #d59a3c99,0 16px 24px #000b}
+.played-row .played-card.scoring-card-spent{box-shadow:0 0 0 1px #8d754c,0 9px 18px #0009}
+.card-chip-float{position:absolute;left:50%;bottom:-29px;z-index:12;min-width:76px;padding:3px 7px;border:1px solid #a17b3d;background:#0b0804ed;color:#f0ce79;font:700 11px "Noto Serif SC","Microsoft YaHei",serif;text-align:center;white-space:nowrap;pointer-events:none;transform:translateX(-50%);box-shadow:0 5px 12px #000b,0 0 12px #bd7f2f42;animation:cardChipFloat .92s ease-out forwards}
+.card-chip-float.zero{border-color:#655f56;color:#9d9587;box-shadow:0 5px 12px #000b}
+@keyframes cardChipFloat{0%{opacity:0;transform:translate(-50%,7px) scale(.9)}18%,68%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-8px) scale(.97)}}
+.score-preview.persona-receiving{box-shadow:inset 0 0 18px #b9852424}
+.score-preview .number-receiving{color:#fff0ad!important;text-shadow:0 0 7px #ffc94d,0 0 16px #b86e1d;animation:numberReceiveV2 .58s ease-out}
+.persona-chain{position:absolute;left:50%;top:-23px;z-index:5;padding:3px 12px;border:1px solid #816d49;background:#090806e8;color:#d9be7b;font-size:10px;letter-spacing:.12em;transform:translateX(-50%);animation:chainReveal .28s ease-out}
+@keyframes chainReveal{from{opacity:0;transform:translate(-50%,5px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes personaChargeV2{0%{transform:translateX(0);filter:brightness(1)}60%{transform:translateX(4px);filter:brightness(1.3)}100%{transform:translateX(3px);filter:brightness(1.18)}}
+@keyframes personaReleaseV2{0%{filter:brightness(1.55);transform:translateX(3px)}45%{filter:brightness(1.2);transform:translateX(5px)}100%{filter:brightness(1);transform:translateX(0)}}
+@keyframes personaCalloutV2{0%{opacity:0;transform:translate(-56%,-50%)}15%,72%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(-44%,-50%)}}
+@keyframes personaImpactRing{0%{opacity:1;transform:translate(-50%,-50%) scale(.35)}65%{opacity:.75}100%{opacity:0;transform:translate(-50%,-50%) scale(4.4)}}
+@keyframes numberReceiveV2{0%{transform:scale(.96)}38%{transform:scale(1.15)}100%{transform:scale(1)}}
+.reduce-motion .persona-flow-canvas,.reduce-motion .persona-impact-ring{display:none}.reduce-motion .persona.persona-charging,.reduce-motion .persona.persona-released,.reduce-motion .score-preview .number-receiving,.reduce-motion .persona-chain,.reduce-motion .card-chip-float{animation:none}
+.settlement-speed-setting{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:12px;border-top:1px solid #302a35;padding-top:12px}.settlement-speed-setting>span{display:block;min-width:0}.settlement-speed-setting>span>b{display:block;color:#d8c8b5;font-size:12px}.settlement-speed-setting>span>small{display:block;margin-top:3px;color:#81798a;font-size:9px;line-height:1.45}.settlement-speed-options{display:flex;flex:0 0 auto;gap:7px}.settlement-speed-options label{cursor:pointer}.settlement-speed-options input{position:absolute;opacity:0;pointer-events:none}.settlement-speed-options span{display:grid;grid-template-rows:auto auto;align-content:center;min-width:62px;height:42px;border:1px solid #60451f;background:#0b0805;color:#a99570;text-align:center;transition:.16s ease}.settlement-speed-options span b{color:inherit;font-size:12px;line-height:1.15}.settlement-speed-options span small{margin:2px 0 0;color:#74664d;font-size:8px;line-height:1}.settlement-speed-options input:checked+span{border-color:#d29a42;background:linear-gradient(#3a240d,#171006);color:#f2d399;box-shadow:inset 0 0 12px #d28b2826,0 0 10px #c67f2320}.settlement-speed-options input:checked+span small{color:#c7a66b}.settlement-speed-options input:focus-visible+span{outline:2px solid #e4ae50;outline-offset:2px}.settlement-speed-options label:hover span{border-color:#a97731;color:#e5c68e}
+
+.resolution-playing .persona.persona-charging{animation-duration:calc(.34s * var(--resolution-duration-scale,1))}
+.resolution-playing .persona.persona-released{animation-duration:calc(.42s * var(--resolution-duration-scale,1))}
+.resolution-playing .persona-effect-callout{animation-duration:calc(1.05s * var(--resolution-duration-scale,1))}
+.resolution-playing .persona-impact-ring{animation-duration:calc(.62s * var(--resolution-duration-scale,1))}
+.resolution-playing .card-chip-float{animation-duration:calc(.92s * var(--resolution-duration-scale,1))}
+.resolution-playing .score-preview .number-receiving{animation-duration:calc(.58s * var(--resolution-duration-scale,1))}
+.resolution-playing .persona-chain{animation-duration:calc(.28s * var(--resolution-duration-scale,1))}

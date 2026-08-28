@@ -1,0 +1,18 @@
+const assert=require('assert'),fs=require('fs'),vm=require('vm'),path=require('path');
+const context={};vm.createContext(context);vm.runInContext(fs.readFileSync('card-art-manifest.js','utf8'),context);
+const manifest=context.CARD_ART_MANIFEST,cards=manifest.cards;
+assert.strictEqual(Object.keys(cards).length,52,'扑克牌美术映射必须包含完整52张牌');
+const ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+ranks.forEach((rank,index)=>assert.strictEqual(cards[`♠${rank}`],`assets/art/cards/image${String(index+1).padStart(3,'0')}.png`,`黑桃${rank}映射错误`));
+ranks.forEach((rank,index)=>assert.strictEqual(cards[`♥${rank}`],`assets/art/cards/image${String(index+14).padStart(3,'0')}.png`,`红桃${rank}映射错误`));
+ranks.forEach((rank,index)=>assert.strictEqual(cards[`♣${rank}`],`assets/art/cards/image${String(index+27).padStart(3,'0')}.png`,`梅花${rank}映射错误`));
+ranks.forEach((rank,index)=>assert.strictEqual(cards[`♦${rank}`],`assets/art/cards/image${String(index+40).padStart(3,'0')}.png`,`方块${rank}映射错误`));
+Object.values(cards).forEach(file=>assert(fs.existsSync(path.join(__dirname,file)),`素材文件不存在：${file}`));
+const game=fs.readFileSync('game.js','utf8'),html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('playing-cards.css','utf8'),deckCss=fs.readFileSync('extended-flow.css','utf8');
+assert.strictEqual(manifest.usage,'ALL_CARD_SURFACES','美术清单必须覆盖所有卡牌展示界面');
+assert(html.includes('card-art-manifest.js?v=20260827-full-deck-v2'),'页面必须加载完整扑克牌美术清单');
+assert(game.includes('function cardArtPath(')&&game.includes("function cardArtImage(card,className='card-art-image')"),'手牌渲染必须读取美术清单');
+assert(game.includes('cardArtClass(card)')&&css.includes('.card.playing-card.has-card-art'),'有素材的手牌和出牌区必须启用美术样式');
+assert(game.includes("cardArtImage(card,'deck-card-art')")&&game.includes('class="deck-item ${cardArtClass(card)}'),'牌库、已用牌和已弃牌必须读取同一份卡牌美术清单');
+assert(deckCss.includes('.deck-item.has-card-art')&&deckCss.includes('.deck-card-art'),'牌库弹窗必须提供完整卡面显示样式');
+console.log('card-art-tests: 52 assets, exact four-suit mapping and shared hand/played/deck rendering passed');

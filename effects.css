@@ -22,6 +22,9 @@
 .score-preview.resolution-pulse{animation:resolutionPulse .34s ease-out}
 .score-preview.resolution-pulse strong{animation:numberTick .3s ease-out}
 .allow-shake .battle-stage.battle-impact{animation:battleImpact .28s ease-out}
+.resolution-playing .score-preview.resolution-pulse{animation-duration:calc(.34s * var(--resolution-duration-scale,1))}
+.resolution-playing .score-preview.resolution-pulse strong{animation-duration:calc(.3s * var(--resolution-duration-scale,1))}
+.resolution-playing.allow-shake .battle-stage.battle-impact{animation-duration:calc(.28s * var(--resolution-duration-scale,1))}
 .boss-rail.boss-rule-hit .protocol{animation:bossRuleHit .48s ease-out}
 .persona.persona-hit{animation:personaHit .5s ease-out}
 .played-row .played-card:not(.settled){animation:playedDeal .38s cubic-bezier(.2,.8,.2,1) both,playedCardArrival .65s ease-out .3s both}

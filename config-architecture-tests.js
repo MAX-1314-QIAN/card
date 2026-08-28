@@ -12,22 +12,25 @@ const manifest=context.PERSONA_BALANCE_MANIFEST;
 const runtime=context.PERSONA_BALANCE_RUNTIME_CONFIG;
 const validation=context.PERSONA_CONFIG_VALIDATOR.validate(manifest);
 assert.strictEqual(validation.valid,true,validation.errors.join('\n'));
-assert.strictEqual(manifest.configVersion,'phase-c.0');
-assert.strictEqual(manifest.rulesetId,'CURRENT_DEMO_V2_1');
+assert.strictEqual(manifest.configVersion,'phase-c.1');
+assert.strictEqual(manifest.rulesetId,'TARGET_RUN_V1');
 assert.strictEqual(manifest.saveCompatibilityVersion,2);
-assert.strictEqual(manifest.activeRunTemplateId,'RUN_TEMPLATE_CURRENT_DEMO');
-assert.ok(manifest.reservedRunTemplateIds.includes('RUN_TEMPLATE_TARGET'));
-assert.strictEqual(manifest.featureFlags.targetRunTemplateEnabled,true);
+assert.strictEqual(manifest.activeRunTemplateId,'RUN_TEMPLATE_TARGET');
+assert.deepStrictEqual(Array.from(manifest.reservedRunTemplateIds),[]);
+assert.ok(!manifest.runTemplates.some(item=>item.id==='RUN_TEMPLATE_CURRENT_DEMO'),'production manifest must not register the removed three-battle template');
+assert.ok(!manifest.stageNodes.some(item=>/^(DEMO_BATTLE|DEMO_ROUTE|DEMO_REPORT|DEMO_FORGE)/.test(item.id)),'production manifest must not contain removed three-battle nodes');
+assert.strictEqual(manifest.featureFlags.targetRunTemplateEnabled,undefined);
 
 const template=manifest.runTemplates.find(item=>item.id===manifest.activeRunTemplateId);
 assert.ok(template);
 assert.strictEqual(template.runTemplateId,template.id);
-assert.strictEqual(template.startNodeId,'DEMO_BATTLE_01');
-assert.strictEqual(template.endCondition.nodeId,'DEMO_FORGE');
-assert.deepStrictEqual(Array.from(template.nodeIds),['DEMO_BATTLE_01','DEMO_ROUTE_01','DEMO_BATTLE_02','DEMO_ROUTE_02','DEMO_BATTLE_03','DEMO_REPORT','DEMO_FORGE']);
+assert.strictEqual(template.startNodeId,'N01');
+assert.deepStrictEqual(Array.from(template.compatibilityNodeIds),['TARGET_PERSONA_SELECT']);
+assert.strictEqual(template.endCondition.nodeId,'TARGET_PERSONA_CARRY_OUT');
+assert.deepStrictEqual(Array.from(template.coreNodeIds),['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13']);
 
 const battleNodes=template.nodeIds.map(id=>manifest.stageNodes.find(node=>node.id===id)).filter(node=>node.type==='BATTLE');
-assert.deepStrictEqual(Array.from(battleNodes.map(node=>node.targetScore)),[280,420,620]);
+assert.deepStrictEqual(Array.from(battleNodes.map(node=>node.targetScore)),[550,625,675,775,875,975,1050,1275,1425,1900]);
 assert.ok(battleNodes.every(node=>node.encounterId&&Array.isArray(node.transitions)));
 assert.strictEqual(new Set(manifest.stageNodes.map(node=>node.id)).size,manifest.stageNodes.length);
 assert.strictEqual(new Set(manifest.encounters.map(item=>item.id)).size,manifest.encounters.length);
@@ -35,8 +38,8 @@ assert.strictEqual(new Set(manifest.basePersonas.templates.map(item=>item.id)).s
 assert.ok(manifest.basePersonas.templates.every(item=>manifest.personaTemplates.templates.includes(item)),'正式基础人格必须直接汇入统一模板注册表');
 
 assert.strictEqual(context.BALANCE_V21,runtime,'旧入口必须直接转发运行时兼容视图');
-assert.deepStrictEqual(Array.from(runtime.battle.targets),[280,420,620]);
-assert.strictEqual(runtime.meta.activeRunTemplateId,'RUN_TEMPLATE_CURRENT_DEMO');
+assert.deepStrictEqual(Array.from(runtime.battle.targets),[550,625,675,775,875,975,1050,1275,1425,1900]);
+assert.strictEqual(runtime.meta.activeRunTemplateId,'RUN_TEMPLATE_TARGET');
 assert.strictEqual(runtime.runTemplate,template);
 
 function containsFunction(value,seen=new Set()){
@@ -70,7 +73,7 @@ for(const forbidden of ['280','420','620','straight_flush','opening_tax','observ
 
 const html=fs.readFileSync('index.html','utf8');
 let previousIndex=-1;
-for(const file of BALANCE_SCRIPT_FILES){const index=html.indexOf(`src="${file}"`);assert.ok(index>previousIndex,`index.html 配置脚本加载顺序错误：${file}`);previousIndex=index}
+for(const file of BALANCE_SCRIPT_FILES){const index=html.indexOf(`src="${file}`);assert.ok(index>previousIndex,`index.html 配置脚本加载顺序错误：${file}`);previousIndex=index}
 
 const functionConfig=JSON.parse(JSON.stringify(manifest));functionConfig.featureFlags.invalidFunction=()=>{};
 assert.strictEqual(context.PERSONA_CONFIG_VALIDATOR.validate(functionConfig).valid,false);

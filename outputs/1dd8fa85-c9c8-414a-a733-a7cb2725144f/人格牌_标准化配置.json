@@ -1,0 +1,8060 @@
+{
+  "meta": {
+    "config_version": "balance-next-2026-08-24",
+    "generated_at": "2026-08-24T00:00:00+08:00",
+    "source_files": [
+      "人格牌.xlsx",
+      "pasted-text.txt"
+    ],
+    "source_sha256": "093bed388d8483ef7a3b04adb1367eaaef36788aed5b14ca13882b298e3b08d0",
+    "priority_rule": "CURRENT_REQUEST_CONFIRMED > LATEST_EXCEL > LEGACY_EXCEL > WEB_PROTOTYPE > HISTORICAL_GDD",
+    "schema_version": "https://json-schema.org/draft/2020-12/schema",
+    "source_tables": [
+      {
+        "sheet": "全局配置",
+        "header_row": 1,
+        "fields": [
+          "规则_ID",
+          "规则名称",
+          "数值类型",
+          "配置数值"
+        ],
+        "record_count": 13,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "关卡流程",
+        "header_row": 1,
+        "fields": [
+          "阶段_ID",
+          "关卡名称",
+          "顺序",
+          "关卡类型描述",
+          "分数类型",
+          "分数参数",
+          "手牌限制",
+          "弃牌限制",
+          "AI节点",
+          "人格牌生成数量",
+          "奖励类型1",
+          "奖励参数1",
+          "奖励类型2",
+          "奖励参数2"
+        ],
+        "record_count": 13,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "牌型配置",
+        "header_row": 1,
+        "fields": [
+          "手牌_ID",
+          "牌型名称",
+          "计分牌数",
+          "牌型品质_ID",
+          "基础筹码",
+          "基础倍率",
+          "显示顺序"
+        ],
+        "record_count": 11,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "卡牌配置",
+        "header_row": 1,
+        "fields": [
+          "卡牌_ID",
+          "卡牌名称",
+          "卡牌类型",
+          "花色",
+          "点数",
+          "参数类型",
+          "参数1"
+        ],
+        "record_count": 52,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "人格牌配置",
+        "header_row": 1,
+        "fields": [
+          "人格牌_ID",
+          "人格牌名称",
+          "词条_ID",
+          "主属性_ID",
+          "次级属性_ID",
+          "最大属性数量",
+          "最大次级属性数量",
+          "次级属性池数量"
+        ],
+        "record_count": 8,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "人格牌_词条",
+        "header_row": 1,
+        "fields": [
+          "词条_ID",
+          "触发条件描述",
+          "条件类型",
+          "比较符",
+          "条件参数"
+        ],
+        "record_count": 8,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "人格牌_主属性",
+        "header_row": 1,
+        "fields": [
+          "主属性_ID",
+          "属性类型",
+          "属性参数1",
+          "属性参数2",
+          "开放节点"
+        ],
+        "record_count": 8,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "人格牌_次级属性",
+        "header_row": 1,
+        "fields": [
+          "次级属性_ID",
+          "所属人格",
+          "权重",
+          "属性类型",
+          "属性参数1",
+          "属性参数2",
+          "开放节点"
+        ],
+        "record_count": 40,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "商品_商品",
+        "header_row": 1,
+        "fields": [
+          "商品_ID",
+          "商品名称",
+          "商品类型",
+          "价格",
+          "购买次数限制",
+          "效果类型",
+          "效果参数1",
+          "效果参数2"
+        ],
+        "record_count": 65,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "商店_人格铸造",
+        "header_row": 1,
+        "fields": [
+          "功能_ID",
+          "功能名称",
+          "价格"
+        ],
+        "record_count": 2,
+        "source_role": "authoritative_with_overrides"
+      },
+      {
+        "sheet": "商店_商品槽位刷新规则",
+        "header_row": 1,
+        "fields": [
+          "刷新_ID",
+          "商店刷新节点",
+          "商品类型",
+          "出现数量",
+          "出现权重"
+        ],
+        "record_count": 9,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "商店_商品刷新规则",
+        "header_row": 1,
+        "fields": [
+          "商品池_ID",
+          "商品_ID",
+          "权重"
+        ],
+        "record_count": 65,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "牌型品质定义表",
+        "header_row": 1,
+        "fields": [
+          "牌型品质_ID",
+          "品质名称",
+          "品质等级"
+        ],
+        "record_count": 2,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "比较符定义表",
+        "header_row": 1,
+        "fields": [
+          "比较符_ID",
+          "中文名称",
+          "说明"
+        ],
+        "record_count": 8,
+        "source_role": "supporting_or_unconfirmed"
+      },
+      {
+        "sheet": "图片配置",
+        "header_row": 1,
+        "fields": [
+          "图片_ID",
+          "卡牌名称",
+          "卡牌类型",
+          "卡牌链接"
+        ],
+        "record_count": 103,
+        "source_role": "supporting_or_unconfirmed"
+      }
+    ],
+    "implementation_note": "规范化配置尚未自动覆盖网页运行时；NOT_IMPLEMENTED / CONFIG_READY_NOT_WIRED 字段必须保留。"
+  },
+  "global_rules": {
+    "active_persona_slots": 4,
+    "base_play_limit": 4,
+    "base_discard_limit": 3,
+    "base_persona_count": 8,
+    "subtrait_slots_per_persona": 3,
+    "initial_unlocked_subtrait_slots": 1,
+    "ai_generated_personas": 3,
+    "ai_carry_out_count": 1,
+    "boss_gold": 0
+  },
+  "stages": [
+    {
+      "id": "STAGE_01",
+      "name": "关卡1",
+      "order": 1,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 5,
+      "target_score": 550,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 2,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 5
+        }
+      }
+    },
+    {
+      "id": "STAGE_02",
+      "name": "关卡2",
+      "order": 2,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 5,
+      "target_score": 625,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 3,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 5
+        }
+      }
+    },
+    {
+      "id": "STAGE_03",
+      "name": "关卡3",
+      "order": 3,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 8,
+      "target_score": 675,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 4,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 8
+        }
+      }
+    },
+    {
+      "id": "STAGE_04",
+      "name": "AI1",
+      "order": 4,
+      "type": "SHOP",
+      "gold_eligible": false,
+      "base_coin": 0,
+      "target_score": 0,
+      "score_rule_type": "无",
+      "play_limit": 0,
+      "discard_limit": 0,
+      "difficulty": "N/A",
+      "ai_index": 1,
+      "persona_generate_count": 1,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 5,
+        "raw": {
+          "type": "商店",
+          "reward_type": "无",
+          "reward_value": "无"
+        }
+      }
+    },
+    {
+      "id": "STAGE_05",
+      "name": "关卡4",
+      "order": 5,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 5,
+      "target_score": 775,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 6,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 5
+        }
+      }
+    },
+    {
+      "id": "STAGE_06",
+      "name": "关卡5",
+      "order": 6,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 5,
+      "target_score": 875,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 7,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 5
+        }
+      }
+    },
+    {
+      "id": "STAGE_07",
+      "name": "关卡6",
+      "order": 7,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 8,
+      "target_score": 975,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 8,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 8
+        }
+      }
+    },
+    {
+      "id": "STAGE_08",
+      "name": "AI2",
+      "order": 8,
+      "type": "SHOP",
+      "gold_eligible": false,
+      "base_coin": 0,
+      "target_score": 0,
+      "score_rule_type": "无",
+      "play_limit": 0,
+      "discard_limit": 0,
+      "difficulty": "N/A",
+      "ai_index": 1,
+      "persona_generate_count": 1,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 9,
+        "raw": {
+          "type": "商店",
+          "reward_type": "无",
+          "reward_value": "无"
+        }
+      }
+    },
+    {
+      "id": "STAGE_09",
+      "name": "关卡7",
+      "order": 9,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 5,
+      "target_score": 1050,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 10,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 5
+        }
+      }
+    },
+    {
+      "id": "STAGE_10",
+      "name": "关卡8",
+      "order": 10,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 5,
+      "target_score": 1275,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 11,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 5
+        }
+      }
+    },
+    {
+      "id": "STAGE_11",
+      "name": "关卡9",
+      "order": 11,
+      "type": "BATTLE",
+      "gold_eligible": true,
+      "base_coin": 8,
+      "target_score": 1475,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "UNSPECIFIED",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 12,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "金币",
+          "reward_value": 8
+        }
+      }
+    },
+    {
+      "id": "STAGE_12",
+      "name": "AI3",
+      "order": 12,
+      "type": "SHOP",
+      "gold_eligible": false,
+      "base_coin": 0,
+      "target_score": 0,
+      "score_rule_type": "无",
+      "play_limit": 0,
+      "discard_limit": 0,
+      "difficulty": "N/A",
+      "ai_index": 1,
+      "persona_generate_count": 1,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 13,
+        "raw": {
+          "type": "商店",
+          "reward_type": "无",
+          "reward_value": 0
+        }
+      }
+    },
+    {
+      "id": "STAGE_13",
+      "name": "关卡10",
+      "order": 13,
+      "type": "BOSS",
+      "gold_eligible": false,
+      "base_coin": 0,
+      "target_score": 1900,
+      "score_rule_type": "通关分数",
+      "play_limit": 4,
+      "discard_limit": 3,
+      "difficulty": "N/A",
+      "ai_index": 0,
+      "persona_generate_count": 0,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 14,
+        "raw": {
+          "type": "战斗",
+          "reward_type": "无",
+          "reward_value": "无"
+        }
+      }
+    }
+  ],
+  "personas": [
+    {
+      "id": "PER_001",
+      "name": "人格牌01",
+      "trigger_id": "ENTRY_001",
+      "primary_effect_id": "MAIN_001",
+      "initial_subtrait_id": "SUB_001",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 2,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_002",
+      "name": "人格牌02",
+      "trigger_id": "ENTRY_002",
+      "primary_effect_id": "MAIN_002",
+      "initial_subtrait_id": "SUB_006",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 3,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_003",
+      "name": "人格牌03",
+      "trigger_id": "ENTRY_003",
+      "primary_effect_id": "MAIN_003",
+      "initial_subtrait_id": "SUB_011",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 4,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_004",
+      "name": "人格牌04",
+      "trigger_id": "ENTRY_004",
+      "primary_effect_id": "MAIN_004",
+      "initial_subtrait_id": "SUB_016",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 5,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_005",
+      "name": "人格牌05",
+      "trigger_id": "ENTRY_005",
+      "primary_effect_id": "MAIN_005",
+      "initial_subtrait_id": "SUB_021",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 6,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_006",
+      "name": "人格牌06",
+      "trigger_id": "ENTRY_006",
+      "primary_effect_id": "MAIN_006",
+      "initial_subtrait_id": "SUB_026",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 7,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_007",
+      "name": "人格牌07",
+      "trigger_id": "ENTRY_007",
+      "primary_effect_id": "MAIN_007",
+      "initial_subtrait_id": "SUB_031",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 8,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    },
+    {
+      "id": "PER_008",
+      "name": "人格牌08",
+      "trigger_id": "ENTRY_008",
+      "primary_effect_id": "MAIN_008",
+      "initial_subtrait_id": "SUB_036",
+      "max_effect_count_raw": 3,
+      "max_subtrait_slots": 3,
+      "initial_unlocked_subtrait_slots": 1,
+      "subtrait_pool_size": 5,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 9,
+        "raw": {
+          "max_subtrait_slots": 2
+        }
+      }
+    }
+  ],
+  "triggers": [
+    {
+      "id": "ENTRY_001",
+      "description": "连续两次使用相同牌型",
+      "condition_type": "连续牌型",
+      "operator": "EQ",
+      "condition_value": 2,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 2,
+        "raw": {
+          "id": "MAIN_001"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_002",
+      "description": "本次计分牌数量 ≥4",
+      "condition_type": "计分牌数量",
+      "operator": "GTE",
+      "condition_value": 4,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 3,
+        "raw": {
+          "id": "MAIN_002"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_003",
+      "description": "打出牌型，品质为普通",
+      "condition_type": "牌型品质",
+      "operator": "EQ",
+      "condition_value": "NORMAL",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 4,
+        "raw": {
+          "id": "MAIN_003"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_004",
+      "description": "本回合没有使用弃牌",
+      "condition_type": "弃牌次数",
+      "operator": "EQ",
+      "condition_value": 0,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 5,
+        "raw": {
+          "id": "MAIN_004"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_005",
+      "description": "使用弃牌后下一次出牌",
+      "condition_type": "弃牌后出牌",
+      "operator": "EQ",
+      "condition_value": 1,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 6,
+        "raw": {
+          "id": "MAIN_005"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_006",
+      "description": "连续两次使用不同牌型",
+      "condition_type": "连续牌型",
+      "operator": "NEQ",
+      "condition_value": 2,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 7,
+        "raw": {
+          "id": "MAIN_006"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_007",
+      "description": "出牌数量不足5张",
+      "condition_type": "出牌数量",
+      "operator": "LTE",
+      "condition_value": 4,
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 8,
+        "raw": {
+          "id": "MAIN_007"
+        }
+      }
+    },
+    {
+      "id": "ENTRY_008",
+      "description": "打出牌型，品质为稀有",
+      "condition_type": "牌型品质",
+      "operator": "EQ",
+      "condition_value": "RARE",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 9,
+        "raw": {
+          "id": "MAIN_008"
+        }
+      }
+    }
+  ],
+  "primary_effects": [
+    {
+      "id": "MAIN_001",
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 15,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_002",
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_003",
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 40,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 4,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_004",
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 30,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 5,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_005",
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 6,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_006",
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 20,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 7,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_007",
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 20,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 8,
+        "raw": {}
+      }
+    },
+    {
+      "id": "MAIN_008",
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.05,
+      "open_stage": "默认",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_主属性",
+        "row": 9,
+        "raw": {}
+      }
+    }
+  ],
+  "subtraits": [
+    {
+      "id": "SUB_001",
+      "persona_id": "PER_001",
+      "weight": 40,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 8,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 2,
+        "raw": {
+          "persona_name": "人格牌01"
+        }
+      }
+    },
+    {
+      "id": "SUB_002",
+      "persona_id": "PER_001",
+      "weight": 25,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.3,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 3,
+        "raw": {
+          "persona_name": "人格牌01"
+        }
+      }
+    },
+    {
+      "id": "SUB_003",
+      "persona_id": "PER_001",
+      "weight": 20,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 10,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 4,
+        "raw": {
+          "persona_name": "人格牌01"
+        }
+      }
+    },
+    {
+      "id": "SUB_004",
+      "persona_id": "PER_001",
+      "weight": 10,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 20,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 5,
+        "raw": {
+          "persona_name": "人格牌01"
+        }
+      }
+    },
+    {
+      "id": "SUB_005",
+      "persona_id": "PER_001",
+      "weight": 5,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 6,
+        "raw": {
+          "persona_name": "人格牌01"
+        }
+      }
+    },
+    {
+      "id": "SUB_006",
+      "persona_id": "PER_002",
+      "weight": 35,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.3,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 7,
+        "raw": {
+          "persona_name": "人格牌02"
+        }
+      }
+    },
+    {
+      "id": "SUB_007",
+      "persona_id": "PER_002",
+      "weight": 30,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 8,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 8,
+        "raw": {
+          "persona_name": "人格牌02"
+        }
+      }
+    },
+    {
+      "id": "SUB_008",
+      "persona_id": "PER_002",
+      "weight": 20,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 12,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 9,
+        "raw": {
+          "persona_name": "人格牌02"
+        }
+      }
+    },
+    {
+      "id": "SUB_009",
+      "persona_id": "PER_002",
+      "weight": 10,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 15,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 10,
+        "raw": {
+          "persona_name": "人格牌02"
+        }
+      }
+    },
+    {
+      "id": "SUB_010",
+      "persona_id": "PER_002",
+      "weight": 5,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 11,
+        "raw": {
+          "persona_name": "人格牌02"
+        }
+      }
+    },
+    {
+      "id": "SUB_011",
+      "persona_id": "PER_003",
+      "weight": 40,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 15,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 12,
+        "raw": {
+          "persona_name": "人格牌03"
+        }
+      }
+    },
+    {
+      "id": "SUB_012",
+      "persona_id": "PER_003",
+      "weight": 25,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.5,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 13,
+        "raw": {
+          "persona_name": "人格牌03"
+        }
+      }
+    },
+    {
+      "id": "SUB_013",
+      "persona_id": "PER_003",
+      "weight": 15,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 14,
+        "raw": {
+          "persona_name": "人格牌03"
+        }
+      }
+    },
+    {
+      "id": "SUB_014",
+      "persona_id": "PER_003",
+      "weight": 10,
+      "effect_type": "出牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 15,
+        "raw": {
+          "persona_name": "人格牌03"
+        }
+      }
+    },
+    {
+      "id": "SUB_015",
+      "persona_id": "PER_003",
+      "weight": 10,
+      "effect_type": "金币",
+      "operation": "增加",
+      "value": 5,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 16,
+        "raw": {
+          "persona_name": "人格牌03"
+        }
+      }
+    },
+    {
+      "id": "SUB_016",
+      "persona_id": "PER_004",
+      "weight": 35,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 10,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 17,
+        "raw": {
+          "persona_name": "人格牌04"
+        }
+      }
+    },
+    {
+      "id": "SUB_017",
+      "persona_id": "PER_004",
+      "weight": 25,
+      "effect_type": "弃牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 18,
+        "raw": {
+          "persona_name": "人格牌04"
+        }
+      }
+    },
+    {
+      "id": "SUB_018",
+      "persona_id": "PER_004",
+      "weight": 20,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.3,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 19,
+        "raw": {
+          "persona_name": "人格牌04"
+        }
+      }
+    },
+    {
+      "id": "SUB_019",
+      "persona_id": "PER_004",
+      "weight": 10,
+      "effect_type": "出牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 20,
+        "raw": {
+          "persona_name": "人格牌04"
+        }
+      }
+    },
+    {
+      "id": "SUB_020",
+      "persona_id": "PER_004",
+      "weight": 10,
+      "effect_type": "金币",
+      "operation": "增加",
+      "value": 5,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 21,
+        "raw": {
+          "persona_name": "人格牌04"
+        }
+      }
+    },
+    {
+      "id": "SUB_021",
+      "persona_id": "PER_005",
+      "weight": 35,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.5,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 22,
+        "raw": {
+          "persona_name": "人格牌05"
+        }
+      }
+    },
+    {
+      "id": "SUB_022",
+      "persona_id": "PER_005",
+      "weight": 25,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 15,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 23,
+        "raw": {
+          "persona_name": "人格牌05"
+        }
+      }
+    },
+    {
+      "id": "SUB_023",
+      "persona_id": "PER_005",
+      "weight": 15,
+      "effect_type": "弃牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 24,
+        "raw": {
+          "persona_name": "人格牌05"
+        }
+      }
+    },
+    {
+      "id": "SUB_024",
+      "persona_id": "PER_005",
+      "weight": 15,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 25,
+        "raw": {
+          "persona_name": "人格牌05"
+        }
+      }
+    },
+    {
+      "id": "SUB_025",
+      "persona_id": "PER_005",
+      "weight": 10,
+      "effect_type": "出牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 26,
+        "raw": {
+          "persona_name": "人格牌05"
+        }
+      }
+    },
+    {
+      "id": "SUB_026",
+      "persona_id": "PER_006",
+      "weight": 35,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 10,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 27,
+        "raw": {
+          "persona_name": "人格牌06"
+        }
+      }
+    },
+    {
+      "id": "SUB_027",
+      "persona_id": "PER_006",
+      "weight": 25,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.3,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 28,
+        "raw": {
+          "persona_name": "人格牌06"
+        }
+      }
+    },
+    {
+      "id": "SUB_028",
+      "persona_id": "PER_006",
+      "weight": 15,
+      "effect_type": "出牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 29,
+        "raw": {
+          "persona_name": "人格牌06"
+        }
+      }
+    },
+    {
+      "id": "SUB_029",
+      "persona_id": "PER_006",
+      "weight": 15,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 30,
+        "raw": {
+          "persona_name": "人格牌06"
+        }
+      }
+    },
+    {
+      "id": "SUB_030",
+      "persona_id": "PER_006",
+      "weight": 10,
+      "effect_type": "金币",
+      "operation": "增加",
+      "value": 5,
+      "open_stage": "AI3",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 31,
+        "raw": {
+          "persona_name": "人格牌06"
+        }
+      }
+    },
+    {
+      "id": "SUB_031",
+      "persona_id": "PER_007",
+      "weight": 40,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 8,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 32,
+        "raw": {
+          "persona_name": "人格牌07"
+        }
+      }
+    },
+    {
+      "id": "SUB_032",
+      "persona_id": "PER_007",
+      "weight": 25,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.3,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 33,
+        "raw": {
+          "persona_name": "人格牌07"
+        }
+      }
+    },
+    {
+      "id": "SUB_033",
+      "persona_id": "PER_007",
+      "weight": 15,
+      "effect_type": "出牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 34,
+        "raw": {
+          "persona_name": "人格牌07"
+        }
+      }
+    },
+    {
+      "id": "SUB_034",
+      "persona_id": "PER_007",
+      "weight": 10,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 35,
+        "raw": {
+          "persona_name": "人格牌07"
+        }
+      }
+    },
+    {
+      "id": "SUB_035",
+      "persona_id": "PER_007",
+      "weight": 10,
+      "effect_type": "金币",
+      "operation": "增加",
+      "value": 5,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 36,
+        "raw": {
+          "persona_name": "人格牌07"
+        }
+      }
+    },
+    {
+      "id": "SUB_036",
+      "persona_id": "PER_008",
+      "weight": 35,
+      "effect_type": "独立倍率",
+      "operation": "增加",
+      "value": 0.03,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 37,
+        "raw": {
+          "persona_name": "人格牌08"
+        }
+      }
+    },
+    {
+      "id": "SUB_037",
+      "persona_id": "PER_008",
+      "weight": 25,
+      "effect_type": "基础倍率",
+      "operation": "增加",
+      "value": 0.5,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 38,
+        "raw": {
+          "persona_name": "人格牌08"
+        }
+      }
+    },
+    {
+      "id": "SUB_038",
+      "persona_id": "PER_008",
+      "weight": 20,
+      "effect_type": "基础筹码",
+      "operation": "增加",
+      "value": 0.2,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 39,
+        "raw": {
+          "persona_name": "人格牌08"
+        }
+      }
+    },
+    {
+      "id": "SUB_039",
+      "persona_id": "PER_008",
+      "weight": 10,
+      "effect_type": "出牌次数",
+      "operation": "增加",
+      "value": 1,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 40,
+        "raw": {
+          "persona_name": "人格牌08"
+        }
+      }
+    },
+    {
+      "id": "SUB_040",
+      "persona_id": "PER_008",
+      "weight": 10,
+      "effect_type": "金币",
+      "operation": "增加",
+      "value": 0.08,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_次级属性",
+        "row": 41,
+        "raw": {
+          "persona_name": "人格牌08"
+        }
+      }
+    }
+  ],
+  "training_actions": [
+    {
+      "id": "FORGE_001",
+      "name": "解锁第二词条",
+      "action": "UNLOCK_SUBTRAIT",
+      "slot_index": 2,
+      "cost": 5,
+      "open_stage": "AI1",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "商店_人格铸造",
+        "row": 2,
+        "raw": {
+          "cost": 6
+        }
+      }
+    },
+    {
+      "id": "FORGE_002",
+      "name": "解锁第三词条",
+      "action": "UNLOCK_SUBTRAIT",
+      "slot_index": 3,
+      "cost": 8,
+      "open_stage": "AI2",
+      "implementation_status": "NOT_IMPLEMENTED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "商店_人格铸造",
+        "row": 3,
+        "raw": {
+          "cost": 12
+        }
+      }
+    }
+  ],
+  "shop": {
+    "items": [
+      {
+        "id": "SHOP_CARD_001",
+        "name": "黑桃A",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 2,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_002",
+        "name": "黑桃2",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 3,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_003",
+        "name": "黑桃3",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 4,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_004",
+        "name": "黑桃4",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 5,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_005",
+        "name": "黑桃5",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 6,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_006",
+        "name": "黑桃6",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 7,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_007",
+        "name": "黑桃7",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 8,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_008",
+        "name": "黑桃8",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 9,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_009",
+        "name": "黑桃9",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 10,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_010",
+        "name": "黑桃10",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 11,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_011",
+        "name": "黑桃J",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 12,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_012",
+        "name": "黑桃Q",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 13,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_013",
+        "name": "黑桃K",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 14,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_014",
+        "name": "红桃A",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 15,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_015",
+        "name": "红桃2",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 16,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_016",
+        "name": "红桃3",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 17,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_017",
+        "name": "红桃4",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 18,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_018",
+        "name": "红桃5",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 19,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_019",
+        "name": "红桃6",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 20,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_020",
+        "name": "红桃7",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 21,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_021",
+        "name": "红桃8",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 22,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_022",
+        "name": "红桃9",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 23,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_023",
+        "name": "红桃10",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 24,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_024",
+        "name": "红桃J",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 25,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_025",
+        "name": "红桃Q",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 26,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_026",
+        "name": "红桃K",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 27,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_027",
+        "name": "梅花A",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 28,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_028",
+        "name": "梅花2",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 29,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_029",
+        "name": "梅花3",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 30,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_030",
+        "name": "梅花4",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 31,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_031",
+        "name": "梅花5",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 32,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_032",
+        "name": "梅花6",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 33,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_033",
+        "name": "梅花7",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 34,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_034",
+        "name": "梅花8",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 35,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_035",
+        "name": "梅花9",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 36,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_036",
+        "name": "梅花10",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 37,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_037",
+        "name": "梅花J",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 38,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_038",
+        "name": "梅花Q",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 39,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_039",
+        "name": "梅花K",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 40,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_040",
+        "name": "方块A",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 41,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_041",
+        "name": "方块2",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 42,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_042",
+        "name": "方块3",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 43,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_043",
+        "name": "方块4",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 44,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_044",
+        "name": "方块5",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 45,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_045",
+        "name": "方块6",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 46,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_046",
+        "name": "方块7",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 47,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_047",
+        "name": "方块8",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 48,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_048",
+        "name": "方块9",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 49,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_049",
+        "name": "方块10",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 50,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_050",
+        "name": "方块J",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 51,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_051",
+        "name": "方块Q",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 52,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_CARD_052",
+        "name": "方块K",
+        "type": "CARD",
+        "price": 2,
+        "purchase_limit": 1,
+        "effect_type": "增加卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 53,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_001",
+        "name": "人格牌01",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 54,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_002",
+        "name": "人格牌02",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 55,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_003",
+        "name": "人格牌03",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 56,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_004",
+        "name": "人格牌04",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 57,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_005",
+        "name": "人格牌05",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 58,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_006",
+        "name": "人格牌06",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 59,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_007",
+        "name": "人格牌07",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 60,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_PER_008",
+        "name": "人格牌08",
+        "type": "PERSONA",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "增加人格牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 61,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_SERVICE_001",
+        "name": "筹码强化",
+        "type": "SERVICE",
+        "price": 20,
+        "purchase_limit": 1,
+        "effect_type": "强化卡牌",
+        "effect_param_1": "基础筹码",
+        "effect_param_2": 5,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 62,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_SERVICE_002",
+        "name": "金币强化",
+        "type": "SERVICE",
+        "price": 20,
+        "purchase_limit": 1,
+        "effect_type": "强化卡牌",
+        "effect_param_1": "金币",
+        "effect_param_2": 2,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 63,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_SERVICE_003",
+        "name": "倍率强化",
+        "type": "SERVICE",
+        "price": 25,
+        "purchase_limit": 1,
+        "effect_type": "强化卡牌",
+        "effect_param_1": "基础倍率",
+        "effect_param_2": 0.5,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 64,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_SERVICE_004",
+        "name": "独立乘区强化",
+        "type": "SERVICE",
+        "price": 30,
+        "purchase_limit": 1,
+        "effect_type": "强化卡牌",
+        "effect_param_1": "独立倍率",
+        "effect_param_2": 0.03,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 65,
+          "raw": {}
+        }
+      },
+      {
+        "id": "SHOP_SERVICE_005",
+        "name": "卡牌移除",
+        "type": "SERVICE",
+        "price": 25,
+        "purchase_limit": 1,
+        "effect_type": "移除卡牌",
+        "effect_param_1": 1,
+        "effect_param_2": null,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "implementation_status": "NOT_IMPLEMENTED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商品_商品",
+          "row": 66,
+          "raw": {}
+        }
+      }
+    ],
+    "slot_refresh_rules": [
+      {
+        "id": "REFRESH_001",
+        "node": "AI1",
+        "item_type": "CARD",
+        "appearance_count": 1,
+        "weight": 45,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 2,
+          "raw": {
+            "item_type": "卡牌"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_002",
+        "node": "AI1",
+        "item_type": "PERSONA",
+        "appearance_count": 1,
+        "weight": 20,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 3,
+          "raw": {
+            "item_type": "人格"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_003",
+        "node": "AI1",
+        "item_type": "SERVICE",
+        "appearance_count": 1,
+        "weight": 35,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 4,
+          "raw": {
+            "item_type": "服务"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_005",
+        "node": "AI2",
+        "item_type": "CARD",
+        "appearance_count": 1,
+        "weight": 40,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 5,
+          "raw": {
+            "item_type": "卡牌"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_006",
+        "node": "AI2",
+        "item_type": "PERSONA",
+        "appearance_count": 1,
+        "weight": 25,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 6,
+          "raw": {
+            "item_type": "人格"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_007",
+        "node": "AI2",
+        "item_type": "SERVICE",
+        "appearance_count": 1,
+        "weight": 35,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 7,
+          "raw": {
+            "item_type": "服务"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_008",
+        "node": "AI3",
+        "item_type": "CARD",
+        "appearance_count": 1,
+        "weight": 30,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 8,
+          "raw": {
+            "item_type": "卡牌"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_009",
+        "node": "AI3",
+        "item_type": "PERSONA",
+        "appearance_count": 1,
+        "weight": 30,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 9,
+          "raw": {
+            "item_type": "人格"
+          }
+        }
+      },
+      {
+        "id": "REFRESH_010",
+        "node": "AI3",
+        "item_type": "SERVICE",
+        "appearance_count": 1,
+        "weight": 40,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品槽位刷新规则",
+          "row": 10,
+          "raw": {
+            "item_type": "服务"
+          }
+        }
+      }
+    ],
+    "item_pool_rules": [
+      {
+        "pool_id": "POLL_CARD_001",
+        "item_id": "SHOP_CARD_001",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 2,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_002",
+        "item_id": "SHOP_CARD_002",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 3,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_003",
+        "item_id": "SHOP_CARD_003",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 4,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_004",
+        "item_id": "SHOP_CARD_004",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 5,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_005",
+        "item_id": "SHOP_CARD_005",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 6,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_006",
+        "item_id": "SHOP_CARD_006",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 7,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_007",
+        "item_id": "SHOP_CARD_007",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 8,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_008",
+        "item_id": "SHOP_CARD_008",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 9,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_009",
+        "item_id": "SHOP_CARD_009",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 10,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_010",
+        "item_id": "SHOP_CARD_010",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 11,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_011",
+        "item_id": "SHOP_CARD_011",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 12,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_012",
+        "item_id": "SHOP_CARD_012",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 13,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_013",
+        "item_id": "SHOP_CARD_013",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 14,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_014",
+        "item_id": "SHOP_CARD_014",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 15,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_015",
+        "item_id": "SHOP_CARD_015",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 16,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_016",
+        "item_id": "SHOP_CARD_016",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 17,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_017",
+        "item_id": "SHOP_CARD_017",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 18,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_018",
+        "item_id": "SHOP_CARD_018",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 19,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_019",
+        "item_id": "SHOP_CARD_019",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 20,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_020",
+        "item_id": "SHOP_CARD_020",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 21,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_021",
+        "item_id": "SHOP_CARD_021",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 22,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_022",
+        "item_id": "SHOP_CARD_022",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 23,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_023",
+        "item_id": "SHOP_CARD_023",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 24,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_024",
+        "item_id": "SHOP_CARD_024",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 25,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_025",
+        "item_id": "SHOP_CARD_025",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 26,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_026",
+        "item_id": "SHOP_CARD_026",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 27,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_027",
+        "item_id": "SHOP_CARD_027",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 28,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_028",
+        "item_id": "SHOP_CARD_028",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 29,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_029",
+        "item_id": "SHOP_CARD_029",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 30,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_030",
+        "item_id": "SHOP_CARD_030",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 31,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_031",
+        "item_id": "SHOP_CARD_031",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 32,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_032",
+        "item_id": "SHOP_CARD_032",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 33,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_033",
+        "item_id": "SHOP_CARD_033",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 34,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_034",
+        "item_id": "SHOP_CARD_034",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 35,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_035",
+        "item_id": "SHOP_CARD_035",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 36,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_036",
+        "item_id": "SHOP_CARD_036",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 37,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_037",
+        "item_id": "SHOP_CARD_037",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 38,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_038",
+        "item_id": "SHOP_CARD_038",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 39,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_039",
+        "item_id": "SHOP_CARD_039",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 40,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_040",
+        "item_id": "SHOP_CARD_040",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 41,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_041",
+        "item_id": "SHOP_CARD_041",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 42,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_042",
+        "item_id": "SHOP_CARD_042",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 43,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_043",
+        "item_id": "SHOP_CARD_043",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 44,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_044",
+        "item_id": "SHOP_CARD_044",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 45,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_045",
+        "item_id": "SHOP_CARD_045",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 46,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_046",
+        "item_id": "SHOP_CARD_046",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 47,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_047",
+        "item_id": "SHOP_CARD_047",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 48,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_048",
+        "item_id": "SHOP_CARD_048",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 49,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_049",
+        "item_id": "SHOP_CARD_049",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 50,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_050",
+        "item_id": "SHOP_CARD_050",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 51,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_051",
+        "item_id": "SHOP_CARD_051",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 52,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POLL_CARD_052",
+        "item_id": "SHOP_CARD_052",
+        "weight": 1,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 53,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_001",
+        "item_id": "SHOP_PER_001",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 54,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_002",
+        "item_id": "SHOP_PER_002",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 55,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_003",
+        "item_id": "SHOP_PER_003",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 56,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_004",
+        "item_id": "SHOP_PER_004",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 57,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_005",
+        "item_id": "SHOP_PER_005",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 58,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_006",
+        "item_id": "SHOP_PER_006",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 59,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_007",
+        "item_id": "SHOP_PER_007",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 60,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_PERSONA_008",
+        "item_id": "SHOP_PER_008",
+        "weight": 10,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 61,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_SERVICE_001",
+        "item_id": "SHOP_SERVICE_001",
+        "weight": 20,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 62,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_SERVICE_002",
+        "item_id": "SHOP_SERVICE_002",
+        "weight": 20,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 63,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_SERVICE_003",
+        "item_id": "SHOP_SERVICE_003",
+        "weight": 20,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 64,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_SERVICE_004",
+        "item_id": "SHOP_SERVICE_004",
+        "weight": 20,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 65,
+          "raw": {}
+        }
+      },
+      {
+        "pool_id": "POOL_SERVICE_005",
+        "item_id": "SHOP_SERVICE_005",
+        "weight": 20,
+        "balance_status": "LEGACY_OR_UNCONFIRMED",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_商品刷新规则",
+          "row": 66,
+          "raw": {}
+        }
+      }
+    ],
+    "balance_status": "LEGACY_OR_UNCONFIRMED",
+    "implementation_status": "NOT_IMPLEMENTED"
+  },
+  "economy": {
+    "gold_battle_count": 9,
+    "base_coin_sequence": [
+      5,
+      5,
+      8,
+      5,
+      5,
+      8,
+      5,
+      5,
+      8
+    ],
+    "base_coin_total": 54,
+    "boss_gold": 0,
+    "remaining_play_reward": {
+      "status": "UNSPECIFIED",
+      "recommendation": {
+        "formula": "floor(remaining_play / 2)",
+        "divisor": 2,
+        "coin_per_unit": 1
+      }
+    },
+    "remaining_discard_reward": {
+      "status": "UNSPECIFIED",
+      "recommendation": {
+        "formula": "floor(remaining_discard / 2)",
+        "divisor": 2,
+        "coin_per_unit": 1
+      }
+    },
+    "per_persona_full_unlock_cost": 13,
+    "four_persona_full_unlock_cost": 52,
+    "one_replacement_full_unlock_cost": 65,
+    "two_replacements_full_unlock_cost": 78,
+    "three_replacements_full_unlock_cost": 91,
+    "recommended_gross_income_range": [
+      54,
+      72
+    ],
+    "implementation_status": "CONFIG_READY_NOT_WIRED"
+  },
+  "ai_economy": [
+    {
+      "node": "AI1",
+      "completed_gold_battles": 3,
+      "cumulative_base_income": 18,
+      "cumulative_gross_range": [
+        18,
+        24
+      ],
+      "recommended_action": "优先解锁 2～3 张核心人格的第二副词条",
+      "status": "RECOMMENDATION_DEPENDS_ON_UNSPECIFIED_ACTION_REWARD"
+    },
+    {
+      "node": "AI2",
+      "completed_gold_battles": 6,
+      "cumulative_base_income": 36,
+      "cumulative_gross_range": [
+        36,
+        48
+      ],
+      "recommended_action": "核心人格开启第三副词条并处理替换",
+      "status": "RECOMMENDATION_DEPENDS_ON_UNSPECIFIED_ACTION_REWARD"
+    },
+    {
+      "node": "AI3",
+      "completed_gold_battles": 9,
+      "cumulative_base_income": 54,
+      "cumulative_gross_range": [
+        54,
+        72
+      ],
+      "recommended_action": "最终培养、替换与补强",
+      "status": "RECOMMENDATION_DEPENDS_ON_UNSPECIFIED_ACTION_REWARD"
+    }
+  ],
+  "player_profiles": [
+    {
+      "type": "LOW",
+      "label": "低收益玩家",
+      "gross_coin_range": [
+        54,
+        59
+      ],
+      "design_reading": "可覆盖四人格培养，商店余量极低",
+      "status": "PROPOSED_SEGMENT"
+    },
+    {
+      "type": "NORMAL",
+      "label": "正常玩家",
+      "gross_coin_range": [
+        60,
+        66
+      ],
+      "design_reading": "四人格培养后可承担有限替换或服务",
+      "status": "PROPOSED_SEGMENT"
+    },
+    {
+      "type": "EXPERT",
+      "label": "高手玩家",
+      "gross_coin_range": [
+        67,
+        72
+      ],
+      "design_reading": "可多培养一个换入人格，但不足以覆盖两次完整替换",
+      "status": "PROPOSED_SEGMENT"
+    }
+  ],
+  "poker_hands": [
+    {
+      "id": "HAND_01",
+      "name": "高牌",
+      "scoring_card_count": 1,
+      "quality_id": "NORMAL",
+      "base_chips": 55,
+      "base_multiplier": 1,
+      "display_order": 1,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_02",
+      "name": "对子",
+      "scoring_card_count": 2,
+      "quality_id": "NORMAL",
+      "base_chips": 48,
+      "base_multiplier": 2,
+      "display_order": 2,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_03",
+      "name": "两队",
+      "scoring_card_count": 4,
+      "quality_id": "NORMAL",
+      "base_chips": 52,
+      "base_multiplier": 2.5,
+      "display_order": 3,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 4,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_04",
+      "name": "三条",
+      "scoring_card_count": 3,
+      "quality_id": "NORMAL",
+      "base_chips": 57,
+      "base_multiplier": 3,
+      "display_order": 4,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 5,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_05",
+      "name": "顺子",
+      "scoring_card_count": 5,
+      "quality_id": "NORMAL",
+      "base_chips": 60,
+      "base_multiplier": 4,
+      "display_order": 5,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 6,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_06",
+      "name": "同花",
+      "scoring_card_count": 5,
+      "quality_id": "RARE",
+      "base_chips": 65,
+      "base_multiplier": 4,
+      "display_order": 6,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 7,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_07",
+      "name": "葫芦",
+      "scoring_card_count": 5,
+      "quality_id": "RARE",
+      "base_chips": 74,
+      "base_multiplier": 5,
+      "display_order": 7,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 8,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_08",
+      "name": "四条",
+      "scoring_card_count": 4,
+      "quality_id": "RARE",
+      "base_chips": 100,
+      "base_multiplier": 6,
+      "display_order": 8,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 9,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_09",
+      "name": "同花顺",
+      "scoring_card_count": 5,
+      "quality_id": "RARE",
+      "base_chips": 95,
+      "base_multiplier": 10,
+      "display_order": 9,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 10,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_10",
+      "name": "同花葫芦",
+      "scoring_card_count": 5,
+      "quality_id": "RARE",
+      "base_chips": 70,
+      "base_multiplier": 12,
+      "display_order": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 11,
+        "raw": {}
+      }
+    },
+    {
+      "id": "HAND_11",
+      "name": "皇家同花顺",
+      "scoring_card_count": 4,
+      "quality_id": "RARE",
+      "base_chips": 100,
+      "base_multiplier": 12,
+      "display_order": 11,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "牌型配置",
+        "row": 12,
+        "raw": {}
+      }
+    }
+  ],
+  "cards": [
+    {
+      "id": "CARD_001",
+      "name": "黑桃A",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": "A",
+      "parameter_type": "筹码",
+      "value": 11,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_002",
+      "name": "黑桃2",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 2,
+      "parameter_type": "筹码",
+      "value": 2,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_003",
+      "name": "黑桃3",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 3,
+      "parameter_type": "筹码",
+      "value": 3,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 4,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_004",
+      "name": "黑桃4",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 4,
+      "parameter_type": "筹码",
+      "value": 4,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 5,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_005",
+      "name": "黑桃5",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 5,
+      "parameter_type": "筹码",
+      "value": 5,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 6,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_006",
+      "name": "黑桃6",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 6,
+      "parameter_type": "筹码",
+      "value": 6,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 7,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_007",
+      "name": "黑桃7",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 7,
+      "parameter_type": "筹码",
+      "value": 7,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 8,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_008",
+      "name": "黑桃8",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 8,
+      "parameter_type": "筹码",
+      "value": 8,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 9,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_009",
+      "name": "黑桃9",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 9,
+      "parameter_type": "筹码",
+      "value": 9,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 10,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_010",
+      "name": "黑桃10",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": 10,
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 11,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_011",
+      "name": "黑桃J",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": "J",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 12,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_012",
+      "name": "黑桃Q",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": "Q",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 13,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_013",
+      "name": "黑桃K",
+      "type": "手牌",
+      "suit": "黑桃",
+      "rank": "K",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 14,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_014",
+      "name": "红桃A",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": "A",
+      "parameter_type": "筹码",
+      "value": 11,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 15,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_015",
+      "name": "红桃2",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 2,
+      "parameter_type": "筹码",
+      "value": 2,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 16,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_016",
+      "name": "红桃3",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 3,
+      "parameter_type": "筹码",
+      "value": 3,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 17,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_017",
+      "name": "红桃4",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 4,
+      "parameter_type": "筹码",
+      "value": 4,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 18,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_018",
+      "name": "红桃5",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 5,
+      "parameter_type": "筹码",
+      "value": 5,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 19,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_019",
+      "name": "红桃6",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 6,
+      "parameter_type": "筹码",
+      "value": 6,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 20,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_020",
+      "name": "红桃7",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 7,
+      "parameter_type": "筹码",
+      "value": 7,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 21,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_021",
+      "name": "红桃8",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 8,
+      "parameter_type": "筹码",
+      "value": 8,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 22,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_022",
+      "name": "红桃9",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 9,
+      "parameter_type": "筹码",
+      "value": 9,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 23,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_023",
+      "name": "红桃10",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": 10,
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 24,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_024",
+      "name": "红桃J",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": "J",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 25,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_025",
+      "name": "红桃Q",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": "Q",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 26,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_026",
+      "name": "红桃K",
+      "type": "手牌",
+      "suit": "红桃",
+      "rank": "K",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 27,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_027",
+      "name": "梅花A",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": "A",
+      "parameter_type": "筹码",
+      "value": 11,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 28,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_028",
+      "name": "梅花2",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 2,
+      "parameter_type": "筹码",
+      "value": 2,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 29,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_029",
+      "name": "梅花3",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 3,
+      "parameter_type": "筹码",
+      "value": 3,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 30,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_030",
+      "name": "梅花4",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 4,
+      "parameter_type": "筹码",
+      "value": 4,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 31,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_031",
+      "name": "梅花5",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 5,
+      "parameter_type": "筹码",
+      "value": 5,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 32,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_032",
+      "name": "梅花6",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 6,
+      "parameter_type": "筹码",
+      "value": 6,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 33,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_033",
+      "name": "梅花7",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 7,
+      "parameter_type": "筹码",
+      "value": 7,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 34,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_034",
+      "name": "梅花8",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 8,
+      "parameter_type": "筹码",
+      "value": 8,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 35,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_035",
+      "name": "梅花9",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 9,
+      "parameter_type": "筹码",
+      "value": 9,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 36,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_036",
+      "name": "梅花10",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": 10,
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 37,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_037",
+      "name": "梅花J",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": "J",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 38,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_038",
+      "name": "梅花Q",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": "Q",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 39,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_039",
+      "name": "梅花K",
+      "type": "手牌",
+      "suit": "梅花",
+      "rank": "K",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 40,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_040",
+      "name": "方块A",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": "A",
+      "parameter_type": "筹码",
+      "value": 11,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 41,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_041",
+      "name": "方块2",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 2,
+      "parameter_type": "筹码",
+      "value": 2,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 42,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_042",
+      "name": "方块3",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 3,
+      "parameter_type": "筹码",
+      "value": 3,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 43,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_043",
+      "name": "方块4",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 4,
+      "parameter_type": "筹码",
+      "value": 4,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 44,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_044",
+      "name": "方块5",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 5,
+      "parameter_type": "筹码",
+      "value": 5,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 45,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_045",
+      "name": "方块6",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 6,
+      "parameter_type": "筹码",
+      "value": 6,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 46,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_046",
+      "name": "方块7",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 7,
+      "parameter_type": "筹码",
+      "value": 7,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 47,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_047",
+      "name": "方块8",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 8,
+      "parameter_type": "筹码",
+      "value": 8,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 48,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_048",
+      "name": "方块9",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 9,
+      "parameter_type": "筹码",
+      "value": 9,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 49,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_049",
+      "name": "方块10",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": 10,
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 50,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_050",
+      "name": "方块J",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": "J",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 51,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_051",
+      "name": "方块Q",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": "Q",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 52,
+        "raw": {}
+      }
+    },
+    {
+      "id": "CARD_052",
+      "name": "方块K",
+      "type": "手牌",
+      "suit": "方块",
+      "rank": "K",
+      "parameter_type": "筹码",
+      "value": 10,
+      "implementation_status": "CONFIG_READY_NOT_WIRED",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "卡牌配置",
+        "row": 53,
+        "raw": {}
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "IMAGE_001",
+      "name": "黑桃A",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_002",
+      "name": "黑桃2",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_003",
+      "name": "黑桃3",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 4,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_004",
+      "name": "黑桃4",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 5,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_005",
+      "name": "黑桃5",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 6,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_006",
+      "name": "黑桃6",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 7,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_007",
+      "name": "黑桃7",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 8,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_008",
+      "name": "黑桃8",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 9,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_009",
+      "name": "黑桃9",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 10,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_010",
+      "name": "黑桃10",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 11,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_011",
+      "name": "黑桃J",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 12,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_012",
+      "name": "黑桃Q",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 13,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_013",
+      "name": "黑桃K",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 14,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_014",
+      "name": "红桃A",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 15,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_015",
+      "name": "红桃2",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 16,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_016",
+      "name": "红桃3",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 17,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_017",
+      "name": "红桃4",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 18,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_018",
+      "name": "红桃5",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 19,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_019",
+      "name": "红桃6",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 20,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_020",
+      "name": "红桃7",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 21,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_021",
+      "name": "红桃8",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 22,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_022",
+      "name": "红桃9",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 23,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_023",
+      "name": "红桃10",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 24,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_024",
+      "name": "红桃J",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 25,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_025",
+      "name": "红桃Q",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 26,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_026",
+      "name": "红桃K",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 27,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_027",
+      "name": "梅花A",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 28,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_028",
+      "name": "梅花2",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 29,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_029",
+      "name": "梅花3",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 30,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_030",
+      "name": "梅花4",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 31,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_031",
+      "name": "梅花5",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 32,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_032",
+      "name": "梅花6",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 33,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_033",
+      "name": "梅花7",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 34,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_034",
+      "name": "梅花8",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 35,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_035",
+      "name": "梅花9",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 36,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_036",
+      "name": "梅花10",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 37,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_037",
+      "name": "梅花J",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 38,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_038",
+      "name": "梅花Q",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 39,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_039",
+      "name": "梅花K",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 40,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_040",
+      "name": "方块A",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 41,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_041",
+      "name": "方块2",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 42,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_042",
+      "name": "方块3",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 43,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_043",
+      "name": "方块4",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 44,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_044",
+      "name": "方块5",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 45,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_045",
+      "name": "方块6",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 46,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_046",
+      "name": "方块7",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 47,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_047",
+      "name": "方块8",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 48,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_048",
+      "name": "方块9",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 49,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_049",
+      "name": "方块10",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 50,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_050",
+      "name": "方块J",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 51,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_051",
+      "name": "方块Q",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 52,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_052",
+      "name": "方块K",
+      "type": "手牌",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 53,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_053",
+      "name": "高牌",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 54,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_054",
+      "name": "对子",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 55,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_055",
+      "name": "两队",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 56,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_056",
+      "name": "三条",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 57,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_057",
+      "name": "顺子",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 58,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_058",
+      "name": "同花",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 59,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_059",
+      "name": "葫芦",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 60,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_060",
+      "name": "四条",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 61,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_061",
+      "name": "同花顺",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 62,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_062",
+      "name": "同花葫芦",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 63,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_063",
+      "name": "皇家同花顺",
+      "type": "牌型ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 64,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_064",
+      "name": "人格牌01",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 65,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_065",
+      "name": "人格牌02",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 66,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_066",
+      "name": "人格牌03",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 67,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_067",
+      "name": "人格牌04",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 68,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_068",
+      "name": "人格牌05",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 69,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_069",
+      "name": "人格牌06",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 70,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_070",
+      "name": "人格牌07",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 71,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_071",
+      "name": "人格牌08",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 72,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_072",
+      "name": "人格牌09",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 73,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_073",
+      "name": "人格牌10",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 74,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_074",
+      "name": "人格牌11",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 75,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_075",
+      "name": "人格牌12",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 76,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_076",
+      "name": "人格牌13",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 77,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_077",
+      "name": "人格牌14",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 78,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_078",
+      "name": "人格牌15",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 79,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_079",
+      "name": "人格牌16",
+      "type": "人格牌原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 80,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_080",
+      "name": "主界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 81,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_081",
+      "name": "设置界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 82,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_082",
+      "name": "战斗界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 83,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_083",
+      "name": "准备界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 84,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_084",
+      "name": "结算界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 85,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_085",
+      "name": "报告界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 86,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_086",
+      "name": "商店界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 87,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_087",
+      "name": "仓库界面",
+      "type": "背景底图",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 88,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_088",
+      "name": "战斗界面_牌堆",
+      "type": "ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 89,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_089",
+      "name": "战斗界面_卡牌",
+      "type": "ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 90,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_090",
+      "name": "商店界面_金币",
+      "type": "ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 91,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_091",
+      "name": "设置界面_画面",
+      "type": "ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 92,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_092",
+      "name": "设置界面_声音",
+      "type": "ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 93,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_093",
+      "name": "设置界面_操作",
+      "type": "ICON",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 94,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_094",
+      "name": "关卡1",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 95,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_095",
+      "name": "关卡2",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 96,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_096",
+      "name": "关卡3",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 97,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_097",
+      "name": "关卡4",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 98,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_098",
+      "name": "关卡5",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 99,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_099",
+      "name": "关卡6",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 100,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_100",
+      "name": "关卡7",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 101,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_101",
+      "name": "关卡8",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 102,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_102",
+      "name": "关卡9",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 103,
+        "raw": {}
+      }
+    },
+    {
+      "id": "IMAGE_103",
+      "name": "关卡10",
+      "type": "Boss原画",
+      "url": null,
+      "implementation_status": "MISSING_ASSET_LINK",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "图片配置",
+        "row": 104,
+        "raw": {}
+      }
+    }
+  ],
+  "id_aliases": [
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_001",
+      "current_id": "ENTRY_001",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_002",
+      "current_id": "ENTRY_002",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_003",
+      "current_id": "ENTRY_003",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_004",
+      "current_id": "ENTRY_004",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_005",
+      "current_id": "ENTRY_005",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_006",
+      "current_id": "ENTRY_006",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_007",
+      "current_id": "ENTRY_007",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    },
+    {
+      "entity": "trigger",
+      "legacy_id": "MAIN_008",
+      "current_id": "ENTRY_008",
+      "confidence": 1,
+      "note": "源表前缀冲突的确定性一一修正"
+    }
+  ],
+  "probability_preview": [
+    {
+      "node": "AI1",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_001",
+      "weight": 40,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.5
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_002",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.3125
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_003",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_004",
+      "weight": 10,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.125
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_005",
+      "weight": 5,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.0625
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_001",
+      "weight": 40,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.4
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_002",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_003",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_004",
+      "weight": 10,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_005",
+      "weight": 5,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.05
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_001",
+      "weight": 40,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.4
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_002",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_003",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_004",
+      "weight": 10,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_001",
+      "subtrait_id": "SUB_005",
+      "weight": 5,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.05
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_006",
+      "weight": 35,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_007",
+      "weight": 30,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.8571428571428571
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_008",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_009",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_010",
+      "weight": 5,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.14285714285714285
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_006",
+      "weight": 35,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.3888888888888889
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_007",
+      "weight": 30,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.3333333333333333
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_008",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2222222222222222
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_009",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_010",
+      "weight": 5,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.05555555555555555
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_006",
+      "weight": 35,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.35
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_007",
+      "weight": 30,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.3
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_008",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_009",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_002",
+      "subtrait_id": "SUB_010",
+      "weight": 5,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.05
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_011",
+      "weight": 40,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_012",
+      "weight": 25,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_013",
+      "weight": 15,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_014",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_015",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_011",
+      "weight": 40,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.6153846153846154
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_012",
+      "weight": 25,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_013",
+      "weight": 15,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.23076923076923078
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_014",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.15384615384615385
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_015",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_011",
+      "weight": 40,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.4
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_012",
+      "weight": 25,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_013",
+      "weight": 15,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_014",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_003",
+      "subtrait_id": "SUB_015",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_016",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.7777777777777778
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_017",
+      "weight": 25,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_018",
+      "weight": 20,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_019",
+      "weight": 10,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.2222222222222222
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_020",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_016",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.4375
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_017",
+      "weight": 25,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.3125
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_018",
+      "weight": 20,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_019",
+      "weight": 10,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.125
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_020",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.125
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_016",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.35
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_017",
+      "weight": 25,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_018",
+      "weight": 20,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_019",
+      "weight": 10,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_004",
+      "subtrait_id": "SUB_020",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_021",
+      "weight": 35,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_022",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_023",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_024",
+      "weight": 15,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_025",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_021",
+      "weight": 35,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_022",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.5
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_023",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.3
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_024",
+      "weight": 15,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_025",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_021",
+      "weight": 35,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.35
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_022",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_023",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_024",
+      "weight": 15,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_005",
+      "subtrait_id": "SUB_025",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_026",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_027",
+      "weight": 25,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_028",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_029",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_030",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_026",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.3888888888888889
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_027",
+      "weight": 25,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2777777777777778
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_028",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.16666666666666666
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_029",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.16666666666666666
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_030",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_026",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.35
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_027",
+      "weight": 25,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_028",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_029",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_006",
+      "subtrait_id": "SUB_030",
+      "weight": 10,
+      "open_stage": "AI3",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_031",
+      "weight": 40,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.6153846153846154
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_032",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.38461538461538464
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_033",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_034",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_035",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_031",
+      "weight": 40,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.4
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_032",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_033",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_034",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_035",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_031",
+      "weight": 40,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.4
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_032",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_033",
+      "weight": 15,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.15
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_034",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_007",
+      "subtrait_id": "SUB_035",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_036",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.5833333333333334
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_037",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.4166666666666667
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_038",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_039",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI1",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_040",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": false,
+      "probability": 0
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_036",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.35
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_037",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_038",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_039",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI2",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_040",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_036",
+      "weight": 35,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.35
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_037",
+      "weight": 25,
+      "open_stage": "AI1",
+      "eligible": true,
+      "probability": 0.25
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_038",
+      "weight": 20,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.2
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_039",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    },
+    {
+      "node": "AI3",
+      "persona_id": "PER_008",
+      "subtrait_id": "SUB_040",
+      "weight": 10,
+      "open_stage": "AI2",
+      "eligible": true,
+      "probability": 0.1
+    }
+  ],
+  "conflicts": [
+    {
+      "code": "STAGE_13_TYPE_OVERRIDE",
+      "severity": "ERROR",
+      "message": "STAGE_13 按最新规则必须为 BOSS。",
+      "field": "stages[12].type",
+      "raw_value": "战斗",
+      "normalized_value": "BOSS",
+      "reason": "当前请求明确确认最终节点为 Boss",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 14,
+        "raw": {}
+      }
+    },
+    {
+      "code": "BOSS_GOLD_OVERRIDE",
+      "severity": "ERROR",
+      "message": "Boss 金币必须为整数 0。",
+      "field": "stages[12].base_coin",
+      "raw_value": "无",
+      "normalized_value": 0,
+      "reason": "当前请求明确确认 Boss 不产金币",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "关卡流程",
+        "row": 14,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_001 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_001.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_002 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_002.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_003 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_003.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 4,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_004 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_004.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 5,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_005 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_005.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 6,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_006 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_006.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 7,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_007 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_007.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 8,
+        "raw": {}
+      }
+    },
+    {
+      "code": "PERSONA_SUBTRAIT_SLOT_OVERRIDE",
+      "severity": "ERROR",
+      "message": "PER_008 的最大副词条数量由 2 覆盖为 3。",
+      "field": "PER_008.max_subtrait_slots",
+      "raw_value": 2,
+      "normalized_value": 3,
+      "reason": "当前请求明确确认每张人格有 3 个副词条槽",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌配置",
+        "row": 9,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_001 与主属性 ID 空间冲突，规范化为 ENTRY_001。",
+      "field": "triggers[0].id",
+      "raw_value": "MAIN_001",
+      "normalized_value": "ENTRY_001",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_002 与主属性 ID 空间冲突，规范化为 ENTRY_002。",
+      "field": "triggers[1].id",
+      "raw_value": "MAIN_002",
+      "normalized_value": "ENTRY_002",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_003 与主属性 ID 空间冲突，规范化为 ENTRY_003。",
+      "field": "triggers[2].id",
+      "raw_value": "MAIN_003",
+      "normalized_value": "ENTRY_003",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 4,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_004 与主属性 ID 空间冲突，规范化为 ENTRY_004。",
+      "field": "triggers[3].id",
+      "raw_value": "MAIN_004",
+      "normalized_value": "ENTRY_004",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 5,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_005 与主属性 ID 空间冲突，规范化为 ENTRY_005。",
+      "field": "triggers[4].id",
+      "raw_value": "MAIN_005",
+      "normalized_value": "ENTRY_005",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 6,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_006 与主属性 ID 空间冲突，规范化为 ENTRY_006。",
+      "field": "triggers[5].id",
+      "raw_value": "MAIN_006",
+      "normalized_value": "ENTRY_006",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 7,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_007 与主属性 ID 空间冲突，规范化为 ENTRY_007。",
+      "field": "triggers[6].id",
+      "raw_value": "MAIN_007",
+      "normalized_value": "ENTRY_007",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 8,
+        "raw": {}
+      }
+    },
+    {
+      "code": "TRIGGER_ID_PREFIX_OVERRIDE",
+      "severity": "ERROR",
+      "message": "MAIN_008 与主属性 ID 空间冲突，规范化为 ENTRY_008。",
+      "field": "triggers[7].id",
+      "raw_value": "MAIN_008",
+      "normalized_value": "ENTRY_008",
+      "reason": "人格引用使用 ENTRY_ 前缀，触发词条与主属性不得共用 MAIN_ 前缀",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "人格牌_词条",
+        "row": 9,
+        "raw": {}
+      }
+    },
+    {
+      "code": "FORGE_COST_OVERRIDE",
+      "severity": "ERROR",
+      "message": "FORGE_001 价格由 6 覆盖为 5。",
+      "field": "FORGE_001.cost",
+      "raw_value": 6,
+      "normalized_value": 5,
+      "reason": "当前请求明确确认第二/第三副词条解锁成本为 5/8",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "商店_人格铸造",
+        "row": 2,
+        "raw": {}
+      }
+    },
+    {
+      "code": "FORGE_COST_OVERRIDE",
+      "severity": "ERROR",
+      "message": "FORGE_002 价格由 12 覆盖为 8。",
+      "field": "FORGE_002.cost",
+      "raw_value": 12,
+      "normalized_value": 8,
+      "reason": "当前请求明确确认第二/第三副词条解锁成本为 5/8",
+      "source": {
+        "file": "人格牌.xlsx",
+        "sheet": "商店_人格铸造",
+        "row": 3,
+        "raw": {}
+      }
+    },
+    {
+      "code": "WEB_STAGE_11_TARGET_MISMATCH",
+      "severity": "WARNING",
+      "message": "网页端 N11 目标分为 1425，最新 Excel 为 1475；规范化结果采用 1475。",
+      "field": "stages[10].target_score",
+      "raw_value": 1425,
+      "normalized_value": 1475,
+      "reason": "最新 Excel 的优先级高于当前网页原型/实现",
+      "source": {
+        "file": "balance/target/stage-nodes.js",
+        "line": 7
+      }
+    }
+  ],
+  "parse_issues": [
+    {
+      "code": "POOL_ID_SPELLING_INCONSISTENT",
+      "severity": "WARNING",
+      "message": "卡牌池使用 POLL_CARD_，人格/服务池使用 POOL_；保留原值并要求开发确认是否为拼写错误。",
+      "source": {
+        "sheet": "商店_商品刷新规则"
+      }
+    },
+    {
+      "code": "SHOP_PERSONA_TYPE_ALIAS",
+      "severity": "WARNING",
+      "message": "槽位刷新表使用“人格”，商品表使用“人格牌”；已在标准化层统一为 PERSONA，原值保留。",
+      "source": {
+        "sheet": "商店_商品槽位刷新规则 / 商品_商品"
+      }
+    },
+    {
+      "code": "DIFFICULTY_NOT_PROVIDED",
+      "severity": "WARNING",
+      "message": "9 个产金战斗没有 difficulty 字段，均标记为 UNSPECIFIED；不得仅凭 5/8 金币推断普通或精英。",
+      "source": {
+        "sheet": "关卡流程"
+      }
+    },
+    {
+      "code": "REMAINING_ACTION_REWARD_UNSPECIFIED",
+      "severity": "WARNING",
+      "message": "Excel 未提供剩余出牌/弃牌奖励正式值；仅输出每 2 次 +1 的建议，不作为确认配置。",
+      "source": {
+        "sheet": "关卡流程"
+      }
+    }
+  ],
+  "validation": {
+    "errors": [
+      {
+        "code": "STAGE_13_NOT_BOSS",
+        "severity": "ERROR",
+        "message": "原始 STAGE_13 类型为战斗，已在规范化结果中覆盖为 BOSS。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "关卡流程",
+          "row": 14,
+          "raw": {}
+        }
+      },
+      {
+        "code": "BOSS_GOLD_NOT_ZERO",
+        "severity": "ERROR",
+        "message": "原始 Boss 奖励不是整数 0，已规范化为 0。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "关卡流程",
+          "row": 14,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_001 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 2,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_002 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 3,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_003 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 4,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_004 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 5,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_005 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 6,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_006 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 7,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_007 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 8,
+          "raw": {}
+        }
+      },
+      {
+        "code": "PERSONA_SUBTRAIT_SLOT_INVALID",
+        "severity": "ERROR",
+        "message": "PER_008 原始副词条槽不是 3。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌配置",
+          "row": 9,
+          "raw": {}
+        }
+      },
+      {
+        "code": "TRIGGER_FOREIGN_KEYS_MISSING_IN_RAW",
+        "severity": "ERROR",
+        "message": "人格牌配置引用 ENTRY_001～ENTRY_008，但原始触发词条表未定义这些 ID；规范化时已确定性修正。",
+        "source": {
+          "sheet": "人格牌配置 / 人格牌_词条"
+        }
+      },
+      {
+        "code": "FORGE_COST_INVALID",
+        "severity": "ERROR",
+        "message": "FORGE_001 原始价格不是确认值 5。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_人格铸造",
+          "row": 2,
+          "raw": {}
+        }
+      },
+      {
+        "code": "FORGE_COST_INVALID",
+        "severity": "ERROR",
+        "message": "FORGE_002 原始价格不是确认值 8。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "商店_人格铸造",
+          "row": 3,
+          "raw": {}
+        }
+      }
+    ],
+    "warnings": [
+      {
+        "code": "SUSPICIOUS_FRACTIONAL_INTEGER_EFFECT",
+        "severity": "WARNING",
+        "message": "SUB_038 的基础筹码值为 0.2，禁止自动取整或解释。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌_次级属性",
+          "row": 39,
+          "raw": {}
+        }
+      },
+      {
+        "code": "SUSPICIOUS_FRACTIONAL_INTEGER_EFFECT",
+        "severity": "WARNING",
+        "message": "SUB_040 的金币值为 0.08，禁止自动取整或解释。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "人格牌_次级属性",
+          "row": 41,
+          "raw": {}
+        }
+      },
+      {
+        "code": "ROYAL_FLUSH_CARD_COUNT_SUSPICIOUS",
+        "severity": "WARNING",
+        "message": "HAND_11 皇家同花顺的计分牌数为 4，高度可疑；未自动修改。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "牌型配置",
+          "row": 12,
+          "raw": {}
+        }
+      },
+      {
+        "code": "TWO_PAIR_NAME_SUSPECTED_TYPO",
+        "severity": "WARNING",
+        "message": "HAND_03 名称为“两队”，疑似“两对”；未自动修改。",
+        "source": {
+          "file": "人格牌.xlsx",
+          "sheet": "牌型配置",
+          "row": 4,
+          "raw": {}
+        }
+      },
+      {
+        "code": "ASSET_LINKS_EMPTY",
+        "severity": "WARNING",
+        "message": "图片配置共 103 条链接为空；配置保留但不能作为网页资源入口。",
+        "source": {
+          "sheet": "图片配置"
+        }
+      },
+      {
+        "code": "SHOP_BALANCE_UNCONFIRMED",
+        "severity": "WARNING",
+        "message": "卡牌、人格与服务商品价格来自当前 Excel，但与网页端原型价格属于不同经济版本，统一标记 LEGACY_OR_UNCONFIRMED。",
+        "source": {
+          "sheet": "商品_商品"
+        }
+      },
+      {
+        "code": "WEB_RUNTIME_NOT_MIGRATED",
+        "severity": "WARNING",
+        "message": "当前网页端仍使用旧金币公式和硬编码商店；本配置仅作为下一版数据基线，未自动接入生产运行时。"
+      },
+      {
+        "code": "WEB_GOLD_FORMULA_CONFLICT",
+        "severity": "WARNING",
+        "message": "网页端仍按 baseCoins=6、battleIndex×2、剩余出牌×1 结算，且最终 Boss 也会获得金币；与 5/5/8×3、Boss=0 的确认规则冲突。",
+        "source": {
+          "file": "game.js",
+          "line": 319
+        }
+      },
+      {
+        "code": "WEB_STAGE_ADAPTER_REQUIRED",
+        "severity": "WARNING",
+        "message": "网页端当前节点处理器使用 10 个 BATTLE + 3 个 PERSONA_GROWTH；标准配置保留 9 个 BATTLE + 3 个 SHOP + 1 个 BOSS，接入时必须通过适配层映射，不能直接改类型。",
+        "source": {
+          "file": "balance/target/stage-nodes.js",
+          "lines": "3-15"
+        }
+      },
+      {
+        "code": "WEB_FORGE_RUNTIME_NOT_IMPLEMENTED",
+        "severity": "WARNING",
+        "message": "网页端铸造页可以读取 runPersonaPool，但副词条槽、5/8 金币解锁、权重归一化抽取、恢复不重抽和培养存档均未实现。",
+        "source": {
+          "file": "game.js",
+          "lines": "384-388"
+        }
+      },
+      {
+        "code": "WEB_SHOP_PRICE_DUPLICATION",
+        "severity": "WARNING",
+        "message": "网页端服务商品展示价与实际扣费价各维护一份 4/6/5 硬编码，标准配置接入前必须改单源读取。",
+        "source": {
+          "file": "game.js",
+          "lines": "383,392"
+        }
+      },
+      {
+        "code": "WEB_STANDARD_JSON_ENTRY_MISSING",
+        "severity": "WARNING",
+        "message": "网页端当前通过同步 JS Manifest 加载配置，没有标准化 JSON 的唯一入口、Schema 业务校验或配置哈希存档绑定。",
+        "source": {
+          "file": "balance/manifest.js"
+        }
+      }
+    ],
+    "normalized_invariants": {
+      "stage_count": 13,
+      "shop_count": 3,
+      "boss_count": 1,
+      "gold_battle_count": 9,
+      "boss_gold": 0,
+      "persona_slots": 4,
+      "subtrait_slots": 3,
+      "second_slot_cost": 5,
+      "third_slot_cost": 8,
+      "four_persona_full_unlock_cost": 52,
+      "probability_groups_checked": 24
+    }
+  }
+}

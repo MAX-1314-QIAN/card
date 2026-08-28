@@ -8,10 +8,13 @@ assert.deepStrictEqual(first,second,'固定 Seed 必须得到完全一致的 Tar
 
 assert.strictEqual(simulator.pokerEngine,simulator.rules.PokerEngine,'模拟器必须使用正式 PokerEngine');
 const straightCards=simulator.pokerEngine.createStandardDeck().filter(card=>card.s==='♠'&&['10','J','Q','K','A'].includes(card.r));
-assert.strictEqual(simulator.pokerEngine.evaluate(straightCards,simulator.targetHandProfile.hands,5).typeId,'straight_flush');
+const royalResult=simulator.pokerEngine.evaluate(straightCards,simulator.targetHandProfile.hands,5);
+assert.strictEqual(royalResult.typeId,'royal_flush');
+assert.strictEqual(royalResult.scoringCards.length,4,'皇家同花顺按最新配置只计算四张牌的牌面筹码');
 
 assert(simulator.rules.PersonaRuntime?.create,'模拟器必须加载正式 Persona Runtime');
 assert.strictEqual(simulator.targetHandProfile.id,'POKER_HAND_PROFILE_TARGET_V1','模拟器必须读取正式 Target Scoring Profile');
+assert.strictEqual(simulator.targetHandProfile.hands.length,11,'正式 Target 计分表必须包含十一种牌型');
 assert.strictEqual(simulator.battleNodes.length,10,'完整 Target Run 必须批量运行十场战斗');
 assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,1425,'正式 N11 目标分必须为1425');
 const archive=simulator.manifest.personaTemplates.templates.find(item=>item.id==='TARGET_PROTO_GROWTH_ARCHIVE');
@@ -25,6 +28,7 @@ const batch=simulator.runSimulation({runsPerPolicy:2,seed:24680});
 assert.strictEqual(batch.meta.totalRuns,4);
 assert.strictEqual(batch.summaries.GREEDY_SCORE.runCount,2);
 assert.strictEqual(batch.summaries.PERSONA_AWARE.runCount,2);
+assert.ok(Object.values(batch.handTypes).every(item=>Number.isFinite(item.targetSingleHandScore)&&item.targetSingleHandScore>0),'模拟审计必须为新牌型表提供有效基础分锚点');
 const overridden=simulator.runSimulation({runsPerPolicy:1,seed:24680,targetOverrides:{N11:1400}});
 assert.strictEqual(overridden.summaries.GREEDY_SCORE.nodeStats.N11.targetScore,1400,'参数扫描只应在模拟结果中覆盖N11');
 assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,1425,'临时覆盖不得回写正式配置');

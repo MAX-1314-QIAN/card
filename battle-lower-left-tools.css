@@ -1,0 +1,75 @@
+/* Generated battle utilities live together at the upper-left; sorting belongs between play/discard. */
+#battle-screen .battle-utility-bar{
+  position:absolute;
+  z-index:30;
+  top:10px;
+  left:10px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+#battle-screen .battle-utility-button{
+  appearance:none;
+  position:relative;
+  inset:auto;
+  flex:0 0 54px;
+  width:54px;
+  height:54px;
+  margin:0;
+  padding:0;
+  overflow:visible;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  transform:none;
+  cursor:pointer;
+  transition:transform .16s ease,filter .16s ease;
+}
+
+#battle-screen .battle-utility-button img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 7px #000b);
+  pointer-events:none;
+}
+
+#battle-screen .battle-utility-button:hover{
+  z-index:2;
+  filter:brightness(1.15);
+  transform:translateY(-2px);
+}
+
+#battle-screen .battle-utility-button:active{transform:translateY(1px)}
+#battle-screen .battle-utility-button:focus-visible{outline:1px solid #efbf65;outline-offset:1px}
+
+#battle-screen .battle-actions{gap:18px}
+
+#battle-screen .battle-action-sort{
+  position:static;
+  inset:auto;
+  flex:0 0 auto;
+  align-self:center;
+  padding:5px;
+  transform:none;
+  border-color:#8d642c;
+  background:#090704e8;
+  box-shadow:inset 0 0 0 1px #2a1a09,0 5px 16px #0008;
+}
+
+#battle-screen .battle-action-sort>span{padding-inline:6px;color:#b99a69}
+#battle-screen .battle-action-sort button{min-width:43px}
+
+@media(max-width:1050px){
+  #battle-screen .battle-utility-bar{top:7px;left:7px;gap:3px}
+  #battle-screen .battle-utility-button{flex-basis:46px;width:46px;height:46px}
+  #battle-screen .battle-actions{gap:8px}
+  #battle-screen .battle-action-sort{transform:scale(.84);transform-origin:center}
+  #battle-screen .battle-action-sort>span{display:none}
+}
+
+@media(max-width:880px){
+  #battle-screen .battle-action-sort{display:flex}
+}

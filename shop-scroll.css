@@ -1,0 +1,71 @@
+/* Keep the shop footer reachable while the goods/persona columns own scrolling. */
+[hidden]{display:none!important}
+.shop-dialog:not([open]){display:none}
+@media (min-width:901px){
+  .shop-dialog[open]{
+    width:min(1320px,calc(100vw - 40px));
+    height:min(760px,calc(100dvh - 40px));
+    max-height:none;
+    box-sizing:border-box;
+    overflow:hidden;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto;
+  }
+  .shop-header{padding-bottom:9px}
+  .shop-header h2{font-size:30px}
+  .shop-layout{min-height:0;height:100%;margin-top:12px}
+  .shop-resource-panel{display:grid;grid-template-rows:repeat(3,minmax(0,1fr))}
+  .shop-resource-panel section{min-height:0}
+  .shop-browser{
+    min-height:0;
+    overflow:hidden;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  #shop-goods-panel,#shop-forge-panel{
+    min-height:0;
+    overflow:hidden;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr);
+  }
+  .shop-item-list,.shop-forge-list{
+    height:429px;
+    min-height:0;
+    max-height:none;
+    align-self:start;
+    grid-auto-rows:102px;
+    gap:7px;
+  }
+  .shop-item,.shop-forge-item{height:102px;min-height:0;box-sizing:border-box}
+  .shop-item{padding:8px 10px}
+  .shop-forge-list{padding-bottom:0}
+  .shop-forge-item{grid-template-columns:46px 1fr;gap:9px;padding:6px 10px}
+  .shop-forge-item h4{margin-bottom:2px}
+  .shop-forge-item p{margin-bottom:3px}
+  .shop-forge-item em{margin-top:2px}
+  .shop-footer{margin-top:11px;padding-top:11px}
+}
+
+.shop-item-list,.shop-forge-list{
+  min-height:0;
+  max-height:none;
+  padding-bottom:0;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  scrollbar-gutter:stable;
+  overscroll-behavior:contain;
+  touch-action:pan-y;
+  scrollbar-width:thin;
+  scrollbar-color:#b67a2c #100b06;
+}
+.shop-item-list::-webkit-scrollbar,.shop-forge-list::-webkit-scrollbar{width:11px}
+.shop-item-list::-webkit-scrollbar-track,.shop-forge-list::-webkit-scrollbar-track{background:#100b06;border-left:1px solid #3f2c15}
+.shop-item-list::-webkit-scrollbar-thumb,.shop-forge-list::-webkit-scrollbar-thumb{background:linear-gradient(#d6a34e,#8b581e);border:2px solid #100b06;border-radius:8px;min-height:44px}
+.shop-item-list::-webkit-scrollbar-thumb:hover,.shop-forge-list::-webkit-scrollbar-thumb:hover{background:linear-gradient(#efc46c,#aa6b25)}
+#shop-detail-tag{font-size:11px;font-style:normal;color:#d9ae65;border:1px solid #6b512b;padding:2px 7px}
+.shop-item:focus-visible,.shop-forge-item:focus-visible{outline:2px solid #e4ae50;outline-offset:-3px}
+
+@media(max-width:900px){
+  .shop-dialog{overflow-y:auto}
+  .shop-item-list,.shop-forge-list{max-height:clamp(240px,45dvh,405px)}
+}

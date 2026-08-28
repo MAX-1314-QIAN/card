@@ -1,0 +1,65 @@
+/* Desktop battle sidebars: independent floating components over the scene. */
+@media(min-width:881px){
+  #battle-screen.game-frame>.persona-rail,
+  #battle-screen.game-frame>.boss-rail{
+    position:relative;
+    padding:10px;
+    border:0;
+    background:transparent;
+    box-shadow:none;
+    backdrop-filter:none;
+  }
+
+  #battle-screen.game-frame>.persona-rail::before,
+  #battle-screen.game-frame>.persona-rail::after,
+  #battle-screen .boss-rail-content::before,
+  #battle-screen .boss-rail-content::after{
+    display:none;
+  }
+
+  #battle-screen .persona-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  #battle-screen .persona{
+    border:1px solid #8e642f99;
+    background:linear-gradient(145deg,#12100dd9,#070604c9);
+    box-shadow:inset 0 0 0 2px #050403b8,0 10px 24px #0007;
+    backdrop-filter:blur(4px);
+  }
+
+  #battle-screen .persona-footer{
+    left:10px;
+    bottom:10px;
+  }
+
+  #battle-screen .boss-rail-content{
+    padding:0;
+    border:0;
+    background:transparent;
+    box-shadow:none;
+    backdrop-filter:none;
+    gap:10px;
+  }
+
+  #battle-screen .boss-title,
+  #battle-screen .boss-dialogue,
+  #battle-screen .protocol,
+  #battle-screen .run-score,
+  #battle-screen .turns{
+    border:1px solid #8e642f99;
+    background:linear-gradient(145deg,#12100dd9,#070604c9);
+    box-shadow:inset 0 0 0 2px #050403b8,0 10px 24px #0007;
+    backdrop-filter:blur(4px);
+  }
+
+  #battle-screen .boss-title{
+    padding:18px 42px 14px 16px;
+  }
+
+  #battle-screen .boss-dialogue{
+    padding:12px;
+  }
+}

@@ -1,0 +1,68 @@
+/* Page-specific production backgrounds supplied by art. */
+:root{
+  --background-main-menu:url("assets/art/backgrounds/image080.png");
+  --background-settings:url("assets/art/backgrounds/image081.png");
+  --background-battle:url("assets/art/backgrounds/image082.png");
+  --background-shop:url("assets/art/backgrounds/image086.png");
+}
+
+#main-menu.main-menu{
+  background-color:#030302;
+  background-image:
+    radial-gradient(ellipse at 50% 18%,transparent 0,#03030220 48%,#020201a8 100%),
+    linear-gradient(90deg,#0202016b,transparent 24% 76%,#0202016b),
+    var(--background-main-menu);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+#settings-screen.settings-screen{
+  background-color:#030302;
+  background-image:
+    radial-gradient(ellipse at 50% 42%,#02020112 0,#02020170 72%,#020201b5 100%),
+    linear-gradient(#02020146,#02020178),
+    var(--background-settings);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+#battle-screen.game-frame{
+  background-color:#030302;
+  background-image:
+    radial-gradient(ellipse at 50% 47%,transparent 0,#02020138 55%,#02020194 100%),
+    linear-gradient(#02020148,#02020178),
+    var(--background-battle);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+
+dialog#shop-dialog.shop-dialog{
+  background-color:#080604;
+  background-image:
+    linear-gradient(90deg,#050403d8,#05040398 28%,#0504038c 72%,#050403d8),
+    linear-gradient(#0504038f,#050403b5),
+    var(--background-shop);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+dialog#shop-dialog.shop-dialog .shop-header,
+dialog#shop-dialog.shop-dialog .shop-footer{
+  background:#08060480;
+  backdrop-filter:blur(2px);
+}
+
+@media(max-width:880px){
+  #main-menu.main-menu,
+  #settings-screen.settings-screen,
+  #battle-screen.game-frame{
+    background-position:center top;
+    background-attachment:scroll;
+  }
+
+}

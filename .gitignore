@@ -1,0 +1,4 @@
+# Local document and audit scratch data
+.docx-update/
+.tmp_workbook_audit/
+tmp/

@@ -10,7 +10,7 @@ const stored=new Map();
 const context={console,setTimeout(){},clearTimeout,document:documentStub,window:{},localStorage:{getItem(key){return stored.get(key)||null},setItem(key,value){stored.set(key,value)}},Math,Date,Set,Map,JSON,Number,Array,Object,String};
 context.window=context;
 vm.createContext(context);
-loadBalance(context);
+loadBalance(context,{includeSystemTestRun:true});
 vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 
 assert.deepStrictEqual([1,6,11,16,20].map(roll=>context.forgeValue('chips',roll)),[20,35,55,80,80]);
@@ -25,7 +25,7 @@ assert.strictEqual(forged.roll,20);
 assert.ok(forged.desc.includes('额外回响一次'));
 
 context.testPersona=forged;
-vm.runInContext("personaPool.push(testPersona);equippedPersonaIds=[testPersona.id];runController.startRun('RUN_TEMPLATE_CURRENT_DEMO');ensurePersonaRuntimeInitialized(true);currentEncounter=null",context);
+vm.runInContext("personaPool.push(testPersona);equippedPersonaIds=[testPersona.id];runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');ensurePersonaRuntimeInitialized(true);currentEncounter=null",context);
 const first=vm.runInContext("resolveScore([{r:'A',ri:14,s:suits[0],si:0,uid:'test-a',bonus:0}],true)",context);
 assert.strictEqual(first.events.filter(event=>event.source===forged.name&&Number.isFinite(event.chipsDelta)).length,2);
 const second=vm.runInContext("resolveScore([{r:'A',ri:14,s:suits[0],si:0,uid:'test-b',bonus:0}],false)",context);

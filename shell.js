@@ -9,14 +9,14 @@ function startRun(){if(!window.PERSONA_GAME_READY||!window.BALANCE_V21||!window.
 window.showRouteMap=()=>{runResumeScreen='map';showScreen('map')};
 window.showBattleFromRoute=()=>{runResumeScreen='battle';showScreen('battle')};
 window.goMainMenuFromRun=()=>{runStarted=false;runResumeScreen='battle';showScreen('menu');document.querySelector('#menu-hint').textContent='上一局已经结束，可以开始新的牌局'};
-const defaults={brightness:100,volume:80,motion:true,shake:true};
-function readControls(){return{brightness:Number(document.querySelector('#brightness').value),volume:Number(document.querySelector('#master-volume').value),motion:document.querySelector('#ui-motion').checked,shake:document.querySelector('#screen-shake').checked}}
-function writeControls(settings){document.querySelector('#brightness').value=settings.brightness;document.querySelector('#master-volume').value=settings.volume;document.querySelector('#ui-motion').checked=settings.motion;document.querySelector('#screen-shake').checked=settings.shake;updateSettingPreview()}
+const defaults={brightness:100,volume:80,motion:true,shake:true,settlementSpeed:1};
+function normalizedSettlementSpeed(value){const speed=Number(value);return speed===2?2:speed===1.5?1.5:1}
+function readControls(){return{brightness:Number(document.querySelector('#brightness').value),volume:Number(document.querySelector('#master-volume').value),motion:document.querySelector('#ui-motion').checked,shake:document.querySelector('#screen-shake').checked,settlementSpeed:normalizedSettlementSpeed(document.querySelector('input[name="settlement-speed"]:checked')?.value)}}
+function writeControls(settings){document.querySelector('#brightness').value=settings.brightness;document.querySelector('#master-volume').value=settings.volume;document.querySelector('#ui-motion').checked=settings.motion;document.querySelector('#screen-shake').checked=settings.shake;const speed=normalizedSettlementSpeed(settings.settlementSpeed);document.querySelector(`input[name="settlement-speed"][value="${speed}"]`).checked=true;updateSettingPreview()}
 function loadSettings(){let saved=defaults;try{saved={...defaults,...JSON.parse(localStorage.getItem('persona-settings')||'{}')}}catch{}writeControls(saved)}
-function updateSettingPreview(){const values=readControls();document.querySelector('#brightness-value').textContent=values.brightness+'%';document.querySelector('#volume-value').textContent=values.volume+'%';document.documentElement.style.filter=`brightness(${values.brightness}%)`;document.documentElement.classList.toggle('reduce-motion',!values.motion);document.documentElement.classList.toggle('allow-shake',values.motion&&values.shake)}
+function updateSettingPreview(){const values=readControls();document.querySelector('#brightness-value').textContent=values.brightness+'%';document.querySelector('#volume-value').textContent=values.volume+'%';document.documentElement.style.filter=`brightness(${values.brightness}%)`;document.documentElement.classList.toggle('reduce-motion',!values.motion);document.documentElement.classList.toggle('allow-shake',values.motion&&values.shake);window.personaResolutionSpeed=values.settlementSpeed}
 function saveSettings(){const values=readControls();localStorage.setItem('persona-settings',JSON.stringify(values));updateSettingPreview();closeSettings()}
 document.querySelector('#start-game').onclick=startRun;
-document.querySelector('#start-target-run').onclick=()=>{const oldSave=window.runSave?.summary();if(oldSave&&!window.confirm('启动目标长局会覆盖当前进度，是否继续？'))return;if(window.startTargetRun?.()){runStarted=true;runResumeScreen='battle';showScreen('battle')}};
 document.querySelector('#continue-game').onclick=()=>{if(window.runSave?.summary()){runStarted=true;if(!window.runSave.restore())document.querySelector('#menu-hint').textContent='存档无法恢复，请开始新游戏'}else if(runStarted)showScreen(runResumeScreen);else document.querySelector('#menu-hint').textContent='当前没有可继续的牌局'};
 document.querySelector('#open-settings').onclick=openSettings;
 document.querySelector('.gear').onclick=openSettings;
@@ -29,9 +29,9 @@ document.querySelector('#route-menu').onclick=()=>{showScreen('menu');document.q
 document.querySelector('#brightness').oninput=updateSettingPreview;
 document.querySelector('#master-volume').oninput=updateSettingPreview;
 document.querySelector('#ui-motion').onchange=updateSettingPreview;
-document.querySelector('#open-gallery').onclick=()=>window.openPersonaLibrary?.();
-document.querySelector('#exit-game').onclick=()=>document.querySelector('#menu-hint').textContent='网页演示版可直接关闭浏览器标签页';
+document.querySelectorAll('input[name="settlement-speed"]').forEach(input=>input.onchange=updateSettingPreview);
+document.querySelector('#open-gallery').onclick=()=>{const hint=document.querySelector('#menu-hint');if(typeof window.openPersonaLibrary!=='function'){hint.textContent='人格图鉴资源未完成加载，请刷新页面后重试。';return}try{window.openPersonaLibrary()}catch(error){console.error('人格图鉴打开失败',error);hint.textContent='人格图鉴打开失败，请刷新页面后重试。'}};
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(!screens.settings.classList.contains('hidden')){loadSettings();closeSettings()}else if(!screens.battle.classList.contains('hidden'))openSettings()}});
 function refreshContinueState(){const save=window.runSave?.summary(),button=document.querySelector('#continue-game');runStarted=!!save||runStarted;button.classList.toggle('has-save',!!save)}
 window.addEventListener('run-save-changed',refreshContinueState);
-loadSettings();showScreen('menu');refreshContinueState();
+loadSettings();showScreen('menu');refreshContinueState();if(window.runSave?.hadInvalidatedLegacySave?.())document.querySelector('#menu-hint').textContent='旧三战版本存档已失效，请开始新的 13 节点长局';
