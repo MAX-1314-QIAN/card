@@ -1,6 +1,6 @@
 const {Worker,isMainThread,parentPort,workerData}=require('worker_threads');
 
-const candidates=[1475,1450,1425,1400];
+const candidates=[2250,2200,2150,2100];
 const runsPerPolicy=500;
 const seed=20260815;
 const currentBaselineHighest=1768;
@@ -14,7 +14,7 @@ if(isMainThread){
   Promise.all(candidates.map(target=>new Promise((resolve,reject)=>{
     const worker=new Worker(__filename,{workerData:{target}});
     worker.once('message',resolve);worker.once('error',reject);worker.once('exit',code=>{if(code!==0)reject(new Error(`N11 ${target} worker exited with ${code}`))});
-  }))).then(results=>{results.sort((a,b)=>b.target-a.target);console.log(JSON.stringify({seed,runsPerPolicy,formalN11Target:1425,temporaryOverridesOnly:true,results},null,2))}).catch(error=>{console.error(error);process.exitCode=1});
+  }))).then(results=>{results.sort((a,b)=>b.target-a.target);console.log(JSON.stringify({seed,runsPerPolicy,formalN11Target:2150,temporaryOverridesOnly:true,results},null,2))}).catch(error=>{console.error(error);process.exitCode=1});
 }else{
   const simulator=require('./target-balance-simulator'),result=simulator.runSimulation({runsPerPolicy,seed,targetOverrides:{N11:workerData.target}});
   parentPort.postMessage(compact(workerData.target,result));

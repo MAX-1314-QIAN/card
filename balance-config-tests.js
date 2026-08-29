@@ -7,7 +7,7 @@ const context={globalThis:null};context.globalThis=context;vm.createContext(cont
 const config=context.BALANCE_V21;
 
 assert.strictEqual(config.meta.version,'2.1');
-assert.deepStrictEqual(Array.from(config.battle.targets),[550,625,675,775,875,975,1050,1275,1425,1900]);
+assert.deepStrictEqual(Array.from(config.battle.targets),[950,1100,1250,1350,1500,1650,1750,1950,2150,2600]);
 assert.strictEqual(config.battle.baseHands,4);
 assert.strictEqual(config.battle.baseDiscards,3);
 assert.strictEqual(config.battle.startingHandSize,8);

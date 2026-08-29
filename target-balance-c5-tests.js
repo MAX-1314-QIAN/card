@@ -16,7 +16,7 @@ assert(simulator.rules.PersonaRuntime?.create,'模拟器必须加载正式 Perso
 assert.strictEqual(simulator.targetHandProfile.id,'POKER_HAND_PROFILE_TARGET_V1','模拟器必须读取正式 Target Scoring Profile');
 assert.strictEqual(simulator.targetHandProfile.hands.length,11,'正式 Target 计分表必须包含十一种牌型');
 assert.strictEqual(simulator.battleNodes.length,10,'完整 Target Run 必须批量运行十场战斗');
-assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,1425,'正式 N11 目标分必须为1425');
+assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,2150,'正式 N11 目标分必须为2150');
 const archive=simulator.manifest.personaTemplates.templates.find(item=>item.id==='TARGET_PROTO_GROWTH_ARCHIVE');
 assert.deepStrictEqual(Array.from(archive.effects.map(effect=>[effect.type,effect.value??null,effect.valuePerStack??null])),[['ADD_MULT',.4,null],['ADD_MULT',null,.25]],'牌型档案生长体必须同时提供立即倍率和每层倍率');
 assert.strictEqual(archive.caps.growthStacks,4,'牌型档案生长体最多成长4层');
@@ -29,9 +29,9 @@ assert.strictEqual(batch.meta.totalRuns,4);
 assert.strictEqual(batch.summaries.GREEDY_SCORE.runCount,2);
 assert.strictEqual(batch.summaries.PERSONA_AWARE.runCount,2);
 assert.ok(Object.values(batch.handTypes).every(item=>Number.isFinite(item.targetSingleHandScore)&&item.targetSingleHandScore>0),'模拟审计必须为新牌型表提供有效基础分锚点');
-const overridden=simulator.runSimulation({runsPerPolicy:1,seed:24680,targetOverrides:{N11:1400}});
-assert.strictEqual(overridden.summaries.GREEDY_SCORE.nodeStats.N11.targetScore,1400,'参数扫描只应在模拟结果中覆盖N11');
-assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,1425,'临时覆盖不得回写正式配置');
+const overridden=simulator.runSimulation({runsPerPolicy:1,seed:24680,targetOverrides:{N01:900}});
+assert.strictEqual(overridden.summaries.GREEDY_SCORE.nodeStats.N01.targetScore,900,'参数扫描只应在模拟结果中覆盖指定节点');
+assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,2150,'临时覆盖不得回写正式配置');
 
 const growthImpact=simulator.verifyGrowthImpact();
 assert(growthImpact.changed&&growthImpact.after>growthImpact.before,'Growth 人格必须确实改变后续正式得分');

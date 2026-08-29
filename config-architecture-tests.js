@@ -30,7 +30,7 @@ assert.strictEqual(template.endCondition.nodeId,'TARGET_PERSONA_CARRY_OUT');
 assert.deepStrictEqual(Array.from(template.coreNodeIds),['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13']);
 
 const battleNodes=template.nodeIds.map(id=>manifest.stageNodes.find(node=>node.id===id)).filter(node=>node.type==='BATTLE');
-assert.deepStrictEqual(Array.from(battleNodes.map(node=>node.targetScore)),[550,625,675,775,875,975,1050,1275,1425,1900]);
+assert.deepStrictEqual(Array.from(battleNodes.map(node=>node.targetScore)),[950,1100,1250,1350,1500,1650,1750,1950,2150,2600]);
 assert.ok(battleNodes.every(node=>node.encounterId&&Array.isArray(node.transitions)));
 assert.strictEqual(new Set(manifest.stageNodes.map(node=>node.id)).size,manifest.stageNodes.length);
 assert.strictEqual(new Set(manifest.encounters.map(item=>item.id)).size,manifest.encounters.length);
@@ -38,7 +38,7 @@ assert.strictEqual(new Set(manifest.basePersonas.templates.map(item=>item.id)).s
 assert.ok(manifest.basePersonas.templates.every(item=>manifest.personaTemplates.templates.includes(item)),'正式基础人格必须直接汇入统一模板注册表');
 
 assert.strictEqual(context.BALANCE_V21,runtime,'旧入口必须直接转发运行时兼容视图');
-assert.deepStrictEqual(Array.from(runtime.battle.targets),[550,625,675,775,875,975,1050,1275,1425,1900]);
+assert.deepStrictEqual(Array.from(runtime.battle.targets),[950,1100,1250,1350,1500,1650,1750,1950,2150,2600]);
 assert.strictEqual(runtime.meta.activeRunTemplateId,'RUN_TEMPLATE_TARGET');
 assert.strictEqual(runtime.runTemplate,template);
 
