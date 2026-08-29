@@ -38,7 +38,7 @@
     id:`SHOP_PER_${pad(index+1)}`,
     name,
     itemType:'PERSONA',
-    price:30,
+    price:13,
     purchaseLimit:1,
     purchaseLimitScope:'SHOP_VISIT',
     effect:{type:'ADD_PERSONA',quantity:1,personaTemplateId},
@@ -48,27 +48,27 @@
   }));
   const serviceItems=[
     {
-      id:'SHOP_SERVICE_001',name:'筹码强化',itemType:'SERVICE',price:20,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      id:'SHOP_SERVICE_001',name:'筹码强化',itemType:'SERVICE',price:5,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
       effect:{type:'UPGRADE_CARD',targetStat:'BONUS_CHIPS',amount:5,requiresTarget:true},
       sourceEffect:{type:'强化卡牌',parameter1:'基础筹码',parameter2:5}
     },
     {
-      id:'SHOP_SERVICE_002',name:'金币强化',itemType:'SERVICE',price:20,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      id:'SHOP_SERVICE_002',name:'金币强化',itemType:'SERVICE',price:6,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
       effect:{type:'UPGRADE_CARD',targetStat:'BONUS_COINS',amount:2,requiresTarget:true},
       sourceEffect:{type:'强化卡牌',parameter1:'金币',parameter2:2}
     },
     {
-      id:'SHOP_SERVICE_003',name:'倍率强化',itemType:'SERVICE',price:25,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      id:'SHOP_SERVICE_003',name:'倍率强化',itemType:'SERVICE',price:6,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
       effect:{type:'UPGRADE_CARD',targetStat:'BONUS_MULT',amount:.5,requiresTarget:true},
       sourceEffect:{type:'强化卡牌',parameter1:'基础倍率',parameter2:.5}
     },
     {
-      id:'SHOP_SERVICE_004',name:'独立乘区强化',itemType:'SERVICE',price:30,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      id:'SHOP_SERVICE_004',name:'独立乘区强化',itemType:'SERVICE',price:8,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
       effect:{type:'UPGRADE_CARD',targetStat:'BONUS_XMULT_RATE',amount:.03,requiresTarget:true},
       sourceEffect:{type:'强化卡牌',parameter1:'独立倍率',parameter2:.03,parameter2Display:'3%'}
     },
     {
-      id:'SHOP_SERVICE_005',name:'卡牌移除',itemType:'SERVICE',price:25,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      id:'SHOP_SERVICE_005',name:'卡牌移除',itemType:'SERVICE',price:5,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
       effect:{type:'REMOVE_CARD',quantity:1,requiresTarget:true},
       sourceEffect:{type:'移除卡牌',parameter1:1,parameter2:null}
     }

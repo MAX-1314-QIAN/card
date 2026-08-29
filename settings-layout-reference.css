@@ -132,6 +132,8 @@ body[data-screen="settings"]{overflow:hidden}
   grid-template-columns:1fr 46px!important;
 }
 
+#settings-screen .setting-card:nth-child(2) .toggle-row{min-height:40px}
+
 #settings-screen .toggle-row i{
   width:44px;
   height:23px;
@@ -154,16 +156,6 @@ body[data-screen="settings"]{overflow:hidden}
   left:24px;
   background:#ffe1a0;
 }
-
-#settings-screen .sound-note{
-  margin-top:13px;
-  padding:10px 13px;
-  border-left:1px solid #765a36;
-  background:#a27b3110;
-}
-
-#settings-screen .sound-note b{color:#d6ba83}
-#settings-screen .sound-note p{color:#8e816e}
 
 #settings-screen .controls-card{
   grid-column:1/-1;
@@ -204,10 +196,20 @@ body[data-screen="settings"]{overflow:hidden}
   margin-top:14px;
   padding-top:0;
   border-top:0;
+  align-items:center;
+  gap:28px;
 }
 
-#settings-screen .settlement-speed-setting>span{flex:1}
-#settings-screen .settlement-speed-setting>span>small{max-width:420px}
+#settings-screen .settlement-speed-title{
+  flex:1;
+  padding-left:2px;
+  color:#e6c98e;
+  font-size:18px;
+  font-weight:600;
+  letter-spacing:.08em;
+  line-height:1.2;
+  white-space:nowrap;
+}
 
 #settings-screen .settlement-speed-options{
   display:grid;
@@ -296,6 +298,7 @@ body[data-screen="settings"]{overflow:hidden}
   #settings-screen .controls-card{grid-column:auto}
   #settings-screen .key-grid{grid-template-columns:1fr}
   #settings-screen .settlement-speed-setting{align-items:flex-start;flex-direction:column}
+  #settings-screen .settlement-speed-title{padding-left:0;font-size:17px}
   #settings-screen .settlement-speed-options{width:100%;grid-template-columns:repeat(3,1fr)}
   #settings-screen .settings-actions{height:auto;margin-top:14px;gap:10px;grid-template-columns:1fr}
 }

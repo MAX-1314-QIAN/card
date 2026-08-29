@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="shell.css">
   <link rel="stylesheet" href="shell-overrides.css?v=20260824-settings-layout">
   <link rel="stylesheet" href="playing-cards.css?v=20260827-card-art-v1">
-  <link rel="stylesheet" href="effects.css">
+  <link rel="stylesheet" href="effects.css?v=20260829-hand-motion-v1">
   <link rel="stylesheet" href="played-cards.css">
   <link rel="stylesheet" href="played-cards-fix.css">
   <link rel="stylesheet" href="card-flow.css">
@@ -43,14 +43,15 @@
   <link rel="stylesheet" href="shop-scroll.css?v=20260826-persona-affix-v3">
   <link rel="stylesheet" href="persona-affixes.css?v=20260826-shop-unified-v4">
   <link rel="stylesheet" href="persona-growth-acquire.css?v=20260826-growth-clarity">
-  <link rel="stylesheet" href="background-art.css?v=20260827-page-backgrounds-v2">
+  <link rel="stylesheet" href="background-art.css?v=20260829-shop-background-v3">
+  <link rel="stylesheet" href="shop-simplified.css?v=20260829-shop-background-v5">
   <link rel="stylesheet" href="main-menu-buttons.css?v=20260827-isolated-component-v1">
   <link rel="stylesheet" href="battle-background.css?v=20260827-battle-scene-v1">
-  <link rel="stylesheet" href="battle-action-buttons.css?v=20260827-battle-actions-v2">
+  <link rel="stylesheet" href="battle-action-buttons.css?v=20260829-battle-actions-v3">
   <link rel="stylesheet" href="battle-chrome-cleanup.css?v=20260827-icon-only-v1">
-  <link rel="stylesheet" href="settings-layout-reference.css?v=20260827-reference-layout-v1">
+  <link rel="stylesheet" href="settings-layout-reference.css?v=20260829-speed-title-v2">
   <link rel="stylesheet" href="battle-floating-sidebars.css?v=20260828-floating-v1">
-  <link rel="stylesheet" href="battle-persona-card-hierarchy.css?v=20260828-hierarchy-v2">
+  <link rel="stylesheet" href="battle-persona-card-hierarchy.css?v=20260829-hierarchy-v3">
   <link rel="stylesheet" href="battle-lower-left-tools.css?v=20260828-battle-tools-v4">
   <link rel="stylesheet" href="battle-viewport-lock.css?v=20260828-no-page-scrollbar-v1">
 </head>
@@ -86,12 +87,13 @@
             <section class="setting-card">
               <header><span>◖</span><div><h2>声音</h2></div></header>
               <label class="range-row"><span>主音量</span><input id="master-volume" type="range" min="0" max="100" value="80"><output id="volume-value">80%</output></label>
-              <div class="sound-note"><b>本地合成音效</b><p>按钮、选牌、出牌、弃牌与结算音效统一受主音量控制。</p></div>
+              <label class="toggle-row"><span>背景音乐</span><input type="checkbox" id="music-enabled" checked><i></i></label>
+              <label class="toggle-row"><span>操作音效</span><input type="checkbox" id="sfx-enabled" checked><i></i></label>
             </section>
             <section class="setting-card controls-card">
               <header><span>⌘</span><div><h2>操作</h2></div></header>
-              <div class="key-grid"><div class="key-row"><span>出牌</span><kbd>空格键</kbd></div><div class="key-row"><span>弃牌</span><kbd>弃牌键</kbd></div><div class="key-row"><span>设置 / 返回</span><kbd>退出键</kbd></div></div>
-              <div class="settlement-speed-setting"><span><b>结算播放速度</b><small>控制计分牌、人格触发、数字演算与结算特效的播放速度。</small></span><div class="settlement-speed-options" role="radiogroup" aria-label="结算播放倍率"><label><input type="radio" name="settlement-speed" id="settlement-speed-10" value="1" checked><span><b>1.0×</b><small>标准</small></span></label><label><input type="radio" name="settlement-speed" id="settlement-speed-15" value="1.5"><span><b>1.5×</b><small>流畅</small></span></label><label><input type="radio" name="settlement-speed" id="settlement-speed-20" value="2"><span><b>2.0×</b><small>快速</small></span></label></div></div>
+              <div class="key-grid"><div class="key-row"><span>出牌</span><kbd>空格键</kbd></div><div class="key-row"><span>弃牌</span><kbd>D</kbd></div><div class="key-row"><span>设置 / 返回</span><kbd>Esc</kbd></div></div>
+              <div class="settlement-speed-setting"><div class="settlement-speed-title">结算播放速度</div><div class="settlement-speed-options" role="radiogroup" aria-label="结算播放倍率"><label><input type="radio" name="settlement-speed" id="settlement-speed-10" value="1" checked><span><b>1.0×</b><small>标准</small></span></label><label><input type="radio" name="settlement-speed" id="settlement-speed-15" value="1.5"><span><b>1.5×</b><small>流畅</small></span></label><label><input type="radio" name="settlement-speed" id="settlement-speed-20" value="2"><span><b>2.0×</b><small>快速</small></span></label></div></div>
               <button id="replay-tutorial" class="tutorial-replay" type="button">重新查看战斗教学</button>
             </section>
           </div>
@@ -170,13 +172,13 @@
       </section>
 
       <footer class="battle-actions">
-        <button id="play-btn" class="battle-action-button"><img src="assets/art/battle-actions/play-icon-v1.png" alt="" aria-hidden="true"><span>出牌</span></button>
+        <button id="discard-btn" class="battle-action-button" aria-label="弃牌，快捷键 D"><img class="battle-action-label" src="assets/art/battle-actions/discard-label-v2.png" alt="" aria-hidden="true" draggable="false"></button>
         <div class="hand-sort battle-action-sort" role="group" aria-label="手牌排序方式">
           <span>手牌排序</span>
           <button id="sort-by-rank" class="active" type="button" aria-pressed="true">大小</button>
           <button id="sort-by-suit" type="button" aria-pressed="false">花色</button>
         </div>
-        <button id="discard-btn" class="battle-action-button"><img src="assets/art/battle-actions/discard-icon-v1.png" alt="" aria-hidden="true"><span>弃牌</span></button>
+        <button id="play-btn" class="battle-action-button" aria-label="出牌，快捷键空格键"><img class="battle-action-label" src="assets/art/battle-actions/play-label-v2.png" alt="" aria-hidden="true" draggable="false"></button>
       </footer>
     </section>
 
@@ -227,9 +229,9 @@
   </dialog>
 
   <dialog id="shop-dialog" class="shop-dialog">
-    <header class="shop-header"><span>幕间整备</span><h2>商店</h2><p class="shop-copy">金币只在本局有效；每件商品仅可购买一次。</p></header>
-    <div class="shop-layout"><aside class="shop-resource-panel"><section><small>当前金币</small><strong>◉ <b id="shop-coins">0</b></strong></section><section><small>牌库数量</small><strong>▰ <b id="shop-deck-count">0</b></strong></section><section><small>已有人格</small><strong>◇ <b id="shop-persona-count">0</b></strong></section></aside><section class="shop-browser"><nav class="shop-tabs"><button type="button" class="active" data-shop-tab="goods" aria-selected="true">商品</button><button type="button" data-shop-tab="forge" aria-selected="false">人格铸造</button></nav><div id="shop-goods-panel"><h3>商品列表</h3><div class="shop-item-list" id="shop-item-list" tabindex="0" aria-label="商品列表，可上下滚动"></div></div><div id="shop-forge-panel" class="hidden" hidden><h3>已拥有人格</h3><div class="shop-forge-list" id="shop-forge-list" tabindex="0" aria-label="已拥有人格列表，可上下滚动"></div></div></section><section class="shop-detail-panel"><small>商品详情</small><div class="shop-detail-hero"><div class="shop-detail-icon" id="shop-detail-icon">◇</div><div><h3 id="shop-detail-name">选择商品</h3><span id="shop-detail-tag">服务</span><p id="shop-detail-effect">从左侧选择一项商品查看效果。</p></div></div><section><h4>完整说明</h4><p id="shop-detail-description">购买效果会在本局后续战斗中生效。</p></section><dl class="shop-purchase-meta"><div><dt>价格</dt><dd id="shop-detail-price">—</dd></div><div><dt>购买上限</dt><dd id="shop-detail-limit">—</dd></div><div><dt>当前状态</dt><dd id="shop-detail-status">—</dd></div></dl><section><h4 id="shop-result-title">购买结果</h4><div id="shop-result" aria-live="polite">选择商品后显示购买结果。</div></section></section></div>
-    <footer class="shop-footer"><p class="shop-note" id="shop-note" aria-live="polite">首领的目光暂时离开了牌桌。</p><div><button id="shop-buy" type="button">购买商品</button><button id="shop-leave" type="button">离开商店</button></div></footer>
+    <header class="shop-header"><h2>商店</h2></header>
+    <div class="shop-layout"><aside class="shop-resource-panel"><section><small>当前金币</small><strong>◉ <b id="shop-coins">0</b></strong></section><section><small>牌库数量</small><strong>▰ <b id="shop-deck-count">0</b></strong></section><section><small>已有人格</small><strong>◇ <b id="shop-persona-count">0</b></strong></section></aside><section class="shop-browser"><nav class="shop-tabs"><button type="button" class="active" data-shop-tab="goods" aria-selected="true">商品</button><button type="button" data-shop-tab="forge" aria-selected="false">人格铸造</button></nav><div id="shop-goods-panel"><div class="shop-item-list" id="shop-item-list" tabindex="0" aria-label="商品列表，可上下滚动"></div></div><div id="shop-forge-panel" class="hidden" hidden><div class="shop-forge-list" id="shop-forge-list" tabindex="0" aria-label="已拥有人格列表，可上下滚动"></div></div></section><section class="shop-detail-panel"><div class="shop-detail-hero"><div class="shop-detail-icon" id="shop-detail-icon">◇</div><div><h3 id="shop-detail-name">选择商品</h3><p id="shop-detail-effect">从左侧选择一项商品查看效果。</p></div></div><div id="shop-result" class="shop-forge-only shop-affix-slots" aria-live="polite"></div></section></div>
+    <footer class="shop-footer"><p class="shop-note" id="shop-note" aria-live="polite"></p><div><button id="shop-buy" type="button">购买商品</button><button id="shop-leave" type="button">离开商店</button></div></footer>
   </dialog>
 
   <dialog id="persona-dialog" class="persona-dialog">
@@ -277,7 +279,7 @@
       <p>金币结算</p>
       <div class="coin-settlement">
         <ol class="coin-breakdown">
-          <li id="result-victory-reward" style="--reward-step:0"><span class="reward-source-icon">♛</span><div><small>节点胜利奖励</small><em id="result-victory-formula">基础 0 + 节点加成 0</em></div><strong>+<b id="result-victory-coins">0</b></strong></li>
+          <li id="result-victory-reward" style="--reward-step:0"><span class="reward-source-icon">♛</span><div><small>战斗固定奖励</small><em id="result-victory-formula">固定奖励 0 金币</em></div><strong>+<b id="result-victory-coins">0</b></strong></li>
           <li id="result-hands-reward" style="--reward-step:1"><span class="reward-source-icon">✦</span><div><small>剩余出牌奖励</small><em><b id="result-hands">0</b> 次 × <b id="result-hand-rate">0</b> 金币</em></div><strong>+<b id="result-hand-coins">0</b></strong></li>
           <li id="result-discards-reward" style="--reward-step:2"><span class="reward-source-icon">▱</span><div><small>剩余弃牌奖励</small><em><b id="result-discards">0</b> 次 × <b id="result-discard-rate">0</b> 金币</em></div><strong>+<b id="result-discard-coins">0</b></strong></li>
           <li id="result-card-coins-reward" class="hidden" style="--reward-step:3"><span class="reward-source-icon">◇</span><div><small>卡牌效果奖励</small><em>本战中由卡牌效果获得</em></div><strong>+<b id="result-card-coins">0</b></strong></li>
@@ -333,14 +335,14 @@
   <script src="balance/core-rules.js"></script>
   <script src="balance/feature-flags.js"></script>
   <script src="balance/poker-hands.js"></script>
-  <script src="balance/base-personas.js?v=20260828-persona-art-v1"></script>
+  <script src="balance/base-personas.js?v=20260828-economy-v1"></script>
   <script src="balance/persona-templates.js"></script>
   <script src="balance/target/scoring-profile.js"></script>
   <script src="balance/target/prototype-personas.js"></script>
   <script src="balance/target/growth-profiles.js"></script>
-  <script src="balance/target/shop-config.js"></script>
-  <script src="balance/target/stage-nodes.js?v=20260825-gallery-loadout"></script>
-  <script src="balance/target/run-template.js?v=20260825-gallery-loadout"></script>
+  <script src="balance/target/shop-config.js?v=20260828-economy-v1"></script>
+  <script src="balance/target/stage-nodes.js?v=20260828-economy-v1"></script>
+  <script src="balance/target/run-template.js?v=20260828-economy-v1"></script>
   <script src="balance/boss-profiles.js"></script>
   <script src="balance/interventions.js"></script>
   <script src="balance/encounters.js"></script>
@@ -359,12 +361,12 @@
 <script src="run-controller.js"></script>
 <script src="save-system.js"></script>
 <script src="poker-engine.js"></script>
-<script src="shop/shop-runtime.js"></script>
+<script src="shop/shop-runtime.js?v=20260829-concise-copy-v1"></script>
 <script src="deck-sort-runtime.js"></script>
 <script src="card-art-manifest.js?v=20260827-full-deck-v2"></script>
-  <script src="game.js?v=20260828-battle-tools-v3&art=20260827-card-v1"></script>
+  <script src="game.js?v=20260829-shop-card-art-v9&art=20260827-card-v1"></script>
   <script src="shell.js?v=20260826-main-menu-cleanup-v2"></script>
-  <script src="audio-effects.js?v=20260826-persona-flow-sound"></script>
+  <script src="audio-effects.js?v=20260829-audio-controls-v2"></script>
   <script src="tutorial.js"></script>
 </body>
 </html>

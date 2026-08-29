@@ -3,7 +3,7 @@
   --background-main-menu:url("assets/art/backgrounds/image080.png");
   --background-settings:url("assets/art/backgrounds/image081.png");
   --background-battle:url("assets/art/backgrounds/image082.png");
-  --background-shop:url("assets/art/backgrounds/image086.png");
+  --background-shop:url("assets/art/backgrounds/image078.png");
 }
 
 #main-menu.main-menu{
@@ -41,10 +41,10 @@
 }
 
 dialog#shop-dialog.shop-dialog{
-  background-color:#080604;
+  background-color:#08060480;
   background-image:
-    linear-gradient(90deg,#050403d8,#05040398 28%,#0504038c 72%,#050403d8),
-    linear-gradient(#0504038f,#050403b5),
+    radial-gradient(ellipse at 50% 42%,#05040312 0,#05040338 58%,#05040370 100%),
+    linear-gradient(90deg,#05040370,#05040324 26%,#05040324 74%,#05040370),
     var(--background-shop);
   background-size:cover;
   background-position:center;
@@ -53,7 +53,7 @@ dialog#shop-dialog.shop-dialog{
 
 dialog#shop-dialog.shop-dialog .shop-header,
 dialog#shop-dialog.shop-dialog .shop-footer{
-  background:#08060480;
+  background:#08060452;
   backdrop-filter:blur(2px);
 }
 

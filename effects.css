@@ -17,6 +17,50 @@
 @keyframes battleFloat{0%{opacity:0;transform:translate(-50%,18px) scale(.72)}20%{opacity:1;transform:translate(-50%,0) scale(1.08)}72%{opacity:1;transform:translate(-50%,-12px) scale(1)}100%{opacity:0;transform:translate(-50%,-31px) scale(.9)}}
 @keyframes playedCardArrival{0%{filter:brightness(1.7);box-shadow:0 0 34px #e0a84eaa,0 18px 28px #000}100%{filter:brightness(1);box-shadow:0 10px 20px #0009}}
 @keyframes progressGlint{from{transform:translateX(-180%) skewX(-20deg)}to{transform:translateX(650%) skewX(-20deg)}}
+@keyframes handCardAmbient{
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.045) drop-shadow(0 2px 5px #c9892b20)}
+}
+@keyframes handArtworkDrift{
+  0%,100%{transform:scale(1.012) translate3d(-.35%,.25%,0)}
+  50%{transform:scale(1.026) translate3d(.35%,-.3%,0)}
+}
+@keyframes handCardGlint{
+  0%{opacity:0;transform:translateX(-155%) skewX(-18deg)}
+  18%{opacity:.7}
+  70%{opacity:.24}
+  100%{opacity:0;transform:translateX(190%) skewX(-18deg)}
+}
+
+.cards .playing-card{--hand-motion-delay:0s}
+.cards .playing-card:nth-child(2){--hand-motion-delay:-.42s}
+.cards .playing-card:nth-child(3){--hand-motion-delay:-.84s}
+.cards .playing-card:nth-child(4){--hand-motion-delay:-1.26s}
+.cards .playing-card:nth-child(5){--hand-motion-delay:-1.68s}
+.cards .playing-card:nth-child(6){--hand-motion-delay:-2.1s}
+.cards .playing-card:nth-child(7){--hand-motion-delay:-2.52s}
+.cards .playing-card:nth-child(8){--hand-motion-delay:-2.94s}
+.cards:not(.opening-deal-pending):not(.opening-deal-active) .playing-card:not(.selected){
+  animation:handCardAmbient 4.2s ease-in-out var(--hand-motion-delay) infinite;
+}
+.cards:not(.opening-deal-pending):not(.opening-deal-active) .playing-card:not(.selected):hover{animation:none}
+.cards .playing-card.has-card-art .card-art-image{
+  animation:handArtworkDrift 6.4s ease-in-out var(--hand-motion-delay) infinite;
+  transform-origin:50% 50%;
+}
+.cards .playing-card::after{
+  content:"";
+  position:absolute;
+  z-index:7;
+  inset:-18% auto -18% -38%;
+  width:30%;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(90deg,transparent,#fff4c96b,transparent);
+  mix-blend-mode:screen;
+  transform:translateX(-155%) skewX(-18deg);
+}
+.cards .playing-card:hover::after{animation:handCardGlint .72s ease-out both}
 
 .cards .playing-card.selected{animation:selectedCardGlow 1.15s ease-in-out infinite}
 .score-preview.resolution-pulse{animation:resolutionPulse .34s ease-out}
@@ -50,4 +94,5 @@
 .reduce-motion .score-preview.resolution-pulse strong,.reduce-motion .battle-stage.battle-impact,
 .reduce-motion .boss-rail.boss-rule-hit .protocol,.reduce-motion .persona.persona-hit,
 .reduce-motion .played-row .played-card:not(.settled),.reduce-motion .battle-float,
-.reduce-motion .progress i:before{animation:none!important}
+.reduce-motion .progress i:before,.reduce-motion .cards .playing-card,
+.reduce-motion .cards .playing-card .card-art-image,.reduce-motion .cards .playing-card::after{animation:none!important}

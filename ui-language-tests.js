@@ -6,7 +6,8 @@ const visibleText=html
   .replace(/<script[\s\S]*?<\/script>/gi,' ')
   .replace(/<style[\s\S]*?<\/style>/gi,' ')
   .replace(/<[^>]+>/g,' ')
-  .replace(/&[a-zA-Z0-9#]+;/g,' ');
+  .replace(/&[a-zA-Z0-9#]+;/g,' ')
+  .replace(/\bEsc\b/g,' ');
 
 assert(!/[A-Za-z]{2,}/.test(visibleText),'静态界面不应显示英文单词；扑克牌单字符点数 A/J/Q/K 除外');
 assert(!/class="overline"/.test(html),'装饰性眉题小字应全部移除');

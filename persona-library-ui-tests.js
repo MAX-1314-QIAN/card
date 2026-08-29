@@ -23,9 +23,10 @@ assert(render.includes('personaAffixMarkup(template,null)')&&render.includes('�
 assert(!html.includes('id="target-loadout-dialog"')&&!game.includes('function renderTargetLoadout()'),'正式流程不得保留开局人格选择界面');
 assert(game.includes('normalizedGalleryLoadout')&&game.includes("localStorage.setItem('persona-loadout'"),'开局装备必须统一读取人格图鉴保存方案');
 assert(!game.includes('class="persona-runtime-status"'),'战斗左侧必须按最新界面要求移除当前触发状态');
-assert(game.includes('function unlockPersonaAffix(')&&game.includes('personaRuntime.unlockSubAffix(instanceId,slotIndex,{profileId:currentShopProfileId()})'),'商店铸造必须按当前 AI 档位接入属性解锁运行时');
+assert(game.includes('function unlockPersonaAffix(')&&game.includes('personaRuntime.unlockSubAffix(instanceId,slotIndex,{profileId:currentShopProfileId()})'),'人格属性解锁底层能力必须继续保留');
 assert(game.includes('getSubAffixUnlockAvailability')&&game.includes('需 ${availability.nextProfileId} 商店'),'未到开放节点的属性槽必须提前显示所需商店档位，不能等点击后才报错');
-assert(html.includes('id="shop-result-title"')&&html.includes('<div id="shop-result"'),'商店副词条槽必须使用可容纳列表的详情容器');
+assert(html.includes('data-shop-tab="forge"')&&html.includes('id="shop-result" class="shop-forge-only shop-affix-slots"'),'人格铸造分页必须接回简洁的副属性槽位容器');
+assert(!html.includes('id="shop-result-title"')&&!html.includes('人格属性详情'),'人格铸造页不得保留后台式详情标题或重复大标题');
 assert(!html.includes('<option>映照</option>')&&!html.includes('<option>偏转</option>')&&!html.includes('<option>裂变</option>'),'基础人格图鉴不得继续展示临时模式分类');
 assert(affixCss.includes('.persona-affix-slot')&&affixCss.includes('.persona-affix-slot.locked'),'副词条已解锁/未解锁必须有明确视觉状态');
 const shell=fs.readFileSync('shell.js','utf8');

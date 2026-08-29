@@ -50,22 +50,23 @@ cards.forEach((item,index)=>{
 const personaIds=['observer','wanderer','pathfinder','restraint','collector','resonance','commitment','purger'];
 const basePersonaIds=context.PERSONA_BALANCE_MODULES.basePersonas.templates.map(item=>item.id);
 assert.deepStrictEqual(Array.from(basePersonaIds),personaIds);
-config.items.filter(item=>item.itemType==='PERSONA').forEach((item,index)=>{
+const personas=config.items.filter(item=>item.itemType==='PERSONA');
+personas.forEach((item,index)=>{
   const sequence=String(index+1).padStart(3,'0');
   assert.strictEqual(item.id,`SHOP_PER_${sequence}`);
   assert.strictEqual(item.name,`人格牌${String(index+1).padStart(2,'0')}`);
-  assert.strictEqual(item.price,30);
+  assert.strictEqual(item.price,13);
   assert.strictEqual(item.effect.type,'ADD_PERSONA');
   assert.strictEqual(item.effect.quantity,1);
   assert.strictEqual(item.effect.personaTemplateId,personaIds[index]);
 });
 
 const expectedServices=[
-  ['SHOP_SERVICE_001','筹码强化',20,'BONUS_CHIPS',5],
-  ['SHOP_SERVICE_002','金币强化',20,'BONUS_COINS',2],
-  ['SHOP_SERVICE_003','倍率强化',25,'BONUS_MULT',.5],
-  ['SHOP_SERVICE_004','独立乘区强化',30,'BONUS_XMULT_RATE',.03],
-  ['SHOP_SERVICE_005','卡牌移除',25,null,1]
+  ['SHOP_SERVICE_001','筹码强化',5,'BONUS_CHIPS',5],
+  ['SHOP_SERVICE_002','金币强化',6,'BONUS_COINS',2],
+  ['SHOP_SERVICE_003','倍率强化',6,'BONUS_MULT',.5],
+  ['SHOP_SERVICE_004','独立乘区强化',8,'BONUS_XMULT_RATE',.03],
+  ['SHOP_SERVICE_005','卡牌移除',5,null,1]
 ];
 const services=config.items.filter(item=>item.itemType==='SERVICE');
 services.forEach((item,index)=>{
@@ -127,11 +128,14 @@ let upgraded=spadeAce;
 for(const service of services.slice(0,4))upgraded=ShopRuntime.applyCardUpgrade(upgraded,service);
 assert.deepStrictEqual(ShopRuntime.cardUpgradeAttributes(upgraded),{bonusChips:5,bonusCoins:2,bonusMult:.5,bonusXmultRate:.03,bonusXmultFactor:1.03});
 assert.deepStrictEqual(ShopRuntime.cardUpgradeAttributes(spadeAce),{bonusChips:0,bonusCoins:0,bonusMult:0,bonusXmultRate:0,bonusXmultFactor:1},'card upgrade must not mutate its target');
-assert.ok(ShopRuntime.describeEffect(services[0]).includes('筹码 +5'));
-assert.ok(ShopRuntime.describeEffect(services[1]).includes('金币 +2'));
-assert.ok(ShopRuntime.describeEffect(services[2]).includes('基础倍率 +0.5'));
-assert.ok(ShopRuntime.describeEffect(services[3]).includes('独立倍率 +3%'));
-assert.ok(ShopRuntime.describeEffect(services[4]).includes('移除 1 张'));
+assert.strictEqual(ShopRuntime.describeEffect(services[0]),'选择1张牌，筹码+5。');
+assert.strictEqual(ShopRuntime.describeEffect(services[1]),'选择1张牌，金币+2。');
+assert.strictEqual(ShopRuntime.describeEffect(services[2]),'选择1张牌，基础倍率+0.5。');
+assert.strictEqual(ShopRuntime.describeEffect(services[3]),'选择1张牌，独立倍率+3%。');
+assert.strictEqual(ShopRuntime.describeEffect(services[4]),'移除1张牌。');
+assert.strictEqual(ShopRuntime.describeEffect(cards.find(item=>item.name==='红桃5')),'一张红桃5扑克牌。');
+assert.strictEqual(ShopRuntime.describeEffect(cards.find(item=>item.name==='方块10')),'一张方片10扑克牌。');
+assert.strictEqual(ShopRuntime.describeEffect(personas[6]),'获得人格牌07。');
 
 const removal=ShopRuntime.removeCardByUid([spadeAce,clubAce],spadeAce.uid);assert.strictEqual(removal.removed.uid,spadeAce.uid);assert.deepStrictEqual(removal.cards.map(card=>card.uid),[clubAce.uid]);
 assert.deepStrictEqual(ShopRuntime.purchaseAvailability({item:cards[0],coins:1,purchaseCount:0}),{allowed:false,reason:'INSUFFICIENT_COINS'});

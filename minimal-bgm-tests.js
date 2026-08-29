@@ -1,0 +1,13 @@
+const assert=require('assert'),fs=require('fs');
+const audio=fs.readFileSync('audio-effects.js','utf8'),game=fs.readFileSync('game.js','utf8'),html=fs.readFileSync('index.html','utf8');
+assert(html.includes('audio-effects.js?v=20260829-audio-controls-v2'),'页面必须刷新声音控制脚本缓存');
+assert(!html.includes('本地合成音乐与音效')&&!html.includes('主菜单氛围、战斗循环、结算短句'),'设置页不得保留本地音乐说明块');
+assert(html.includes('id="music-enabled"')&&html.includes('id="sfx-enabled"'),'设置页必须提供独立的音乐与音效开关');
+for(const api of ['playMenuMusicStep','playBattleMusicStep','desiredMusicMode','startMusic','musicStinger'])assert(audio.includes(`function ${api}`),`缺少最小音乐模块：${api}`);
+assert(audio.includes("screen==='battle'")&&audio.includes("return'menu'"),'页面状态必须在主菜单氛围与战斗循环之间切换');
+assert(audio.includes("document.addEventListener('pointerdown'")&&audio.includes('syncMusic(true)'),'音乐必须在首次用户操作后启动');
+assert(audio.includes('musicMaster.gain.value=musicEnabled()?getVolume()*.18:0'),'背景音乐必须受统一主音量控制并保持可辨识响度');
+assert(audio.includes('window.gameSfx=name=>{if(!sfxEnabled())return'),'关闭操作音效后不得播放界面与战斗音效');
+assert(audio.includes("if(!musicEnabled()){if(musicMode!=='silent')startMusic('silent')"),'关闭背景音乐后必须停止循环调度');
+assert(game.includes("window.gameMusicStinger?.(win?'victory':'failure')"),'战斗结算必须播放胜负短句');
+console.log('minimal bgm tests passed');

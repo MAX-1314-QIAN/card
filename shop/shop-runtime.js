@@ -125,11 +125,12 @@
   function formatAmount(stat,amount){return stat==='BONUS_XMULT_RATE'?`${Number((amount*100).toFixed(6))}%`:String(Number(amount))}
   function describeEffect(itemOrEffect){
     const item=itemOrEffect?.effect?itemOrEffect:null,effect=normalizeUpgradeEffect(itemOrEffect);
-    if(effect?.type==='ADD_CARD')return`将 ${effect.card?.suitName||''}${effect.card?.rank||''} ×${effect.quantity||1} 加入本局牌库。`;
-    if(effect?.type==='ADD_PERSONA')return`获得${item?.name?`“${item.name}”`:'指定人格牌'}，加入本局人格池，不自动替换已装备人格。`;
-    if(effect?.type==='UPGRADE_CARD')return`选择 1 张牌，${UPGRADE_LABEL_BY_STAT[effect.targetStat]||effect.targetStat} +${formatAmount(effect.targetStat,Number(effect.amount))}。`;
-    if(effect?.type==='REMOVE_CARD')return`从本局牌库中移除 ${effect.quantity||1} 张指定卡牌。`;
-    return'未配置的商品效果。';
+    if(effect?.type==='ADD_CARD'){const suit=effect.card?.suitId==='DIAMOND'?'方片':effect.card?.suitName||'';return`一张${suit}${effect.card?.rank||''}扑克牌。`}
+    if(effect?.type==='ADD_PERSONA'){const name=item?.name;if(!name)return'获得一张新人格。';return/^人格牌\d+$/.test(name)?`获得${name}。`:`获得一张“${name}”人格牌。`}
+    if(effect?.type==='UPGRADE_CARD')return`选择1张牌，${UPGRADE_LABEL_BY_STAT[effect.targetStat]||effect.targetStat}+${formatAmount(effect.targetStat,Number(effect.amount))}。`;
+    if(effect?.type==='REMOVE_CARD')return`移除${effect.quantity||1}张牌。`;
+    if(['REFRESH_SHOP','ADD_SHOP_REFRESH'].includes(effect?.type))return'获得一次刷新机会。';
+    return'获得对应商品效果。';
   }
 
   function removeCardByUid(cards,uid){

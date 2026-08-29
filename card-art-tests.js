@@ -15,4 +15,5 @@ assert(game.includes('function cardArtPath(')&&game.includes("function cardArtIm
 assert(game.includes('cardArtClass(card)')&&css.includes('.card.playing-card.has-card-art'),'有素材的手牌和出牌区必须启用美术样式');
 assert(game.includes("cardArtImage(card,'deck-card-art')")&&game.includes('class="deck-item ${cardArtClass(card)}'),'牌库、已用牌和已弃牌必须读取同一份卡牌美术清单');
 assert(deckCss.includes('.deck-item.has-card-art')&&deckCss.includes('.deck-card-art'),'牌库弹窗必须提供完整卡面显示样式');
+assert(game.includes('function shopPlayingCard(')&&game.includes("cardArtImage(card,'shop-card-thumbnail')")&&game.includes("cardArtImage(card,'shop-card-preview')"),'商店列表与详情必须复用同一份52张牌美术清单');
 console.log('card-art-tests: 52 assets, exact four-suit mapping and shared hand/played/deck rendering passed');

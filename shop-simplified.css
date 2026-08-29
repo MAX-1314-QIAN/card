@@ -1,0 +1,93 @@
+/* Shared shop presentation: concise goods view and focused persona forging view. */
+.shop-dialog[open]{
+  width:min(1500px,96vw)!important;
+  height:min(820px,calc(100dvh - 34px))!important;
+  padding:24px 34px 26px!important;
+  grid-template-rows:auto minmax(0,1fr) auto!important;
+}
+
+.shop-dialog .shop-header{padding:0 0 18px;border-bottom:1px solid #8b632c;background:transparent}
+.shop-dialog .shop-header h2{margin:0;color:#e0ac5f;font-size:48px;font-weight:500;letter-spacing:.08em}
+.shop-dialog .shop-layout{grid-template-columns:220px 440px minmax(0,1fr)!important;gap:28px!important;min-height:0;margin-top:28px!important}
+.shop-dialog .shop-resource-panel,.shop-dialog .shop-browser,.shop-dialog .shop-detail-panel{border-color:#735227;background:#07070678;box-shadow:inset 0 0 0 1px #d9a34a1c;backdrop-filter:blur(1.5px)}
+.shop-dialog .shop-resource-panel{padding:18px 28px}
+.shop-dialog .shop-resource-panel section{min-height:0}
+.shop-dialog .shop-resource-panel small{font-size:15px;letter-spacing:.08em}
+.shop-dialog .shop-resource-panel strong{font-size:34px}
+.shop-dialog .shop-browser{display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;padding:0}
+.shop-dialog .shop-tabs{padding:12px;gap:10px;border-bottom:1px solid #5d4321}
+.shop-dialog .shop-tabs button{min-height:46px;font-size:16px}
+.shop-dialog #shop-goods-panel,.shop-dialog #shop-forge-panel{height:100%;min-height:0;overflow:hidden}
+.shop-dialog .shop-item-list{height:100%!important;max-height:none!important;padding:0;gap:12px;grid-auto-rows:minmax(104px,1fr)!important;overflow-y:auto}
+.shop-dialog .shop-item{height:auto!important;min-height:104px!important;grid-template-columns:92px minmax(0,1fr)!important;align-items:center;gap:24px;padding:12px 24px!important;border-color:#684a22}
+.shop-dialog .shop-item .shop-icon{width:72px;height:72px;font-size:38px}
+.shop-dialog .shop-item .shop-icon.has-playing-card{width:56px;height:80px;justify-self:center;border:1px solid #8e6a38;border-radius:4px;background:#070503;box-shadow:0 7px 13px #000b;overflow:hidden}
+.shop-dialog .shop-card-thumbnail{display:block;width:100%;height:100%;object-fit:fill}
+.shop-dialog .shop-item-summary{display:grid;gap:10px;align-content:center}
+.shop-dialog .shop-item h4{margin:0;font-size:24px;font-weight:500}
+.shop-dialog .shop-item small{font-size:17px;color:#e2b969}
+.shop-dialog .shop-item.sold{opacity:.42}
+.shop-dialog .shop-detail-panel{padding:40px 48px!important;overflow:hidden!important;justify-content:center}
+.shop-dialog .shop-forge-only{display:none!important}
+.shop-dialog .shop-detail-hero{grid-template-columns:minmax(230px,42%) minmax(0,1fr)!important;gap:48px!important;align-items:center}
+.shop-dialog .shop-detail-icon{height:auto!important;aspect-ratio:.7;font-size:96px!important;border-color:#9b7137;background:radial-gradient(circle,#59401d,#100c07 66%)}
+.shop-dialog .shop-detail-icon.has-playing-card{display:grid;place-items:center;padding:14px;border-color:#9b7137;background:radial-gradient(circle,#302112,#090704 70%);box-shadow:inset 0 0 36px #0008,0 0 30px #a870211a;overflow:hidden}
+.shop-dialog .shop-card-preview{display:block;width:100%;height:100%;border-radius:6px;object-fit:contain;filter:drop-shadow(0 14px 18px #000b)}
+.shop-dialog .shop-detail-hero h3{margin:0 0 34px!important;padding-bottom:24px;border-bottom:1px solid #684a22;color:#e1b467;font-size:42px!important;font-weight:500}
+.shop-dialog .shop-detail-hero p{margin:0!important;color:#d1b27a;font-size:18px!important;line-height:1.75!important}
+.shop-dialog .shop-footer{justify-content:flex-end;margin-top:22px!important;padding-top:0!important;border-top:0;background:transparent}
+.shop-dialog .shop-footer .shop-note{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.shop-dialog .shop-footer button{min-width:210px;padding:15px 24px;font-size:17px}
+.shop-dialog.forge-mode .shop-forge-only{display:grid!important}
+.shop-dialog.forge-mode .shop-browser{background:linear-gradient(180deg,#0b0906a8,#06050498)}
+.shop-dialog.forge-mode .shop-forge-list{height:100%;max-height:none;display:grid;grid-auto-rows:minmax(112px,auto);align-content:start;gap:10px;padding:12px;overflow-y:auto}
+.shop-dialog.forge-mode .shop-forge-item{min-width:0;display:grid;grid-template-columns:76px minmax(0,1fr) 42px;align-items:center;gap:16px;padding:14px 16px;border:1px solid #60451f;background:linear-gradient(100deg,#151006,#090806);text-align:left;transition:border-color .16s,background .16s,transform .16s}
+.shop-dialog.forge-mode .shop-forge-item:hover{border-color:#a47838;background:linear-gradient(100deg,#211609,#0b0906);transform:translateX(2px)}
+.shop-dialog.forge-mode .shop-forge-item.selected{border-color:#d6a34e;background:linear-gradient(100deg,#2a1c0b,#0c0906);box-shadow:inset 0 0 0 1px #e3b65a42,0 0 18px #b77a2521}
+.shop-dialog.forge-mode .shop-forge-icon{width:72px;height:76px;display:grid;place-items:center;border:1px solid #765326;background:radial-gradient(circle,#4a3418,#120d07 70%);color:#e0ad58;font-size:30px;overflow:hidden}
+.shop-dialog.forge-mode .shop-forge-icon.has-art{background-image:linear-gradient(#09070422,#09070422),var(--portrait);background-size:cover;background-position:center;color:transparent}
+.shop-dialog.forge-mode .shop-forge-item>div{min-width:0}
+.shop-dialog.forge-mode .shop-forge-item h4{margin:0 0 10px;color:#edce91;font-size:20px;font-weight:500;letter-spacing:.04em}
+.shop-dialog.forge-mode .shop-forge-item p{display:-webkit-box;margin:0;overflow:hidden;color:#c9ad7b;font-size:13px;line-height:1.55;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.shop-dialog.forge-mode .shop-forge-item>em{align-self:start;margin:3px 0 0;color:#d9ac5a;font-size:14px;font-style:normal;text-align:right}
+.shop-dialog.forge-mode .shop-detail-panel{display:grid!important;grid-template-rows:minmax(0,1fr) auto;gap:28px;padding:34px 40px!important;overflow:hidden!important;justify-content:stretch}
+.shop-dialog.forge-mode .shop-detail-hero{min-height:0;grid-template-columns:minmax(220px,44%) minmax(0,1fr)!important;gap:38px!important;align-items:center}
+.shop-dialog.forge-mode .shop-detail-icon{width:100%;height:100%!important;max-height:390px;aspect-ratio:.78!important;border-color:#9b7137;font-size:76px!important;overflow:hidden}
+.shop-dialog.forge-mode .shop-detail-icon.has-art{background-image:linear-gradient(180deg,#09070408,#09070430),var(--portrait);background-size:cover;background-position:center;color:transparent;box-shadow:inset 0 0 38px #0008,0 0 30px #b37a2419}
+.shop-dialog.forge-mode .shop-detail-hero h3{margin:0 0 24px!important;padding:0 0 20px;border-bottom:1px solid #6b4d24;color:#e8bc70;font-size:36px!important;font-weight:500}
+.shop-dialog.forge-mode .shop-detail-hero p{margin:0!important;color:#d5bb89;font-size:18px!important;line-height:1.75!important}
+.shop-dialog.forge-mode .shop-affix-slots{position:relative;grid-template-columns:1fr;gap:12px;padding-top:28px;border-top:1px solid #725126}
+.shop-dialog.forge-mode .shop-affix-slots:before{content:"";position:absolute;top:-4px;left:50%;width:7px;height:7px;border:1px solid #b58236;background:#0a0805;transform:translateX(-50%) rotate(45deg)}
+.shop-dialog.forge-mode .persona-forge-slot{min-height:64px;display:grid;grid-template-columns:110px minmax(0,1fr) 150px;align-items:center;gap:18px;padding:10px 14px 10px 20px;border:1px solid #5c421f;background:linear-gradient(90deg,#171107,#0a0805);color:#cbb68d}
+.shop-dialog.forge-mode .persona-forge-slot>b{color:#e8c47d;font-size:16px;font-weight:500}
+.shop-dialog.forge-mode .persona-forge-slot>span{color:#a99776;font-size:14px}
+.shop-dialog.forge-mode .persona-forge-slot.unlocked>span{color:#dec38d}
+.shop-dialog.forge-mode .persona-forge-slot>button{height:42px;border:1px solid #b77f31;background:linear-gradient(145deg,#70491a,#261708);color:#f4d596;font:14px inherit;cursor:pointer}
+.shop-dialog.forge-mode .persona-forge-slot>button:hover:not(:disabled){filter:brightness(1.16)}
+.shop-dialog.forge-mode .persona-forge-slot>button:disabled{border-color:#554527;background:#151109;color:#746a57;cursor:not-allowed}
+.shop-dialog.forge-mode .persona-forge-slot>em{color:#9b8968;font-size:13px;font-style:normal;text-align:center}
+.shop-dialog.forge-mode .shop-persona-static-result{margin:0;padding:18px;border:1px solid #5c421f;color:#a99776;text-align:center}
+
+@media(max-width:1100px){
+  .shop-dialog .shop-layout{grid-template-columns:170px 340px minmax(0,1fr)!important;gap:16px!important}
+  .shop-dialog .shop-detail-panel{padding:28px!important}
+  .shop-dialog .shop-detail-hero{gap:24px!important}
+  .shop-dialog.forge-mode .shop-forge-item{grid-template-columns:62px minmax(0,1fr) 34px;gap:11px;padding:11px}
+  .shop-dialog.forge-mode .shop-forge-icon{width:58px;height:66px}
+  .shop-dialog.forge-mode .shop-detail-panel{padding:24px!important}
+  .shop-dialog.forge-mode .persona-forge-slot{grid-template-columns:88px minmax(0,1fr) 126px;gap:10px;padding-left:14px}
+}
+
+@media(max-width:900px){
+  .shop-dialog[open]{height:auto!important;max-height:94dvh!important;overflow-y:auto!important}
+  .shop-dialog .shop-layout{grid-template-columns:1fr!important}
+  .shop-dialog .shop-resource-panel{grid-template-columns:repeat(3,1fr)}
+  .shop-dialog .shop-item-list{max-height:420px!important}
+  .shop-dialog .shop-detail-hero{grid-template-columns:130px 1fr!important}
+  .shop-dialog .shop-detail-hero h3{font-size:28px!important}
+  .shop-dialog.forge-mode .shop-detail-panel{overflow:visible!important}
+  .shop-dialog.forge-mode .shop-detail-hero{grid-template-columns:150px minmax(0,1fr)!important}
+  .shop-dialog.forge-mode .shop-detail-icon{height:210px!important}
+  .shop-dialog.forge-mode .persona-forge-slot{grid-template-columns:90px minmax(0,1fr)}
+  .shop-dialog.forge-mode .persona-forge-slot>button,.shop-dialog.forge-mode .persona-forge-slot>em{grid-column:2}
+}
