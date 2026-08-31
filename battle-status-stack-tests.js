@@ -1,0 +1,10 @@
+const assert=require('assert'),fs=require('fs');
+const html=fs.readFileSync('index.html','utf8'),css=fs.readFileSync('battle-status-stack.css','utf8');
+assert(html.includes('battle-status-stack.css?v=20260831-unified-status-v1'),'战斗页必须加载统一状态总板样式');
+const start=html.indexOf('<div class="battle-status-stack"'),end=html.indexOf('</div>\n      </div>',start),fragment=html.slice(start,end);
+assert(start>0&&fragment.includes('class="run-score"')&&fragment.includes('class="turns"'),'得分与两项行动次数必须归入同一状态总板');
+assert(html.indexOf('battle-rule-panel')<start,'关卡规则须保留在状态总板上方，不得破坏原信息顺序');
+assert(css.includes('flex-direction:column')&&css.includes('gap:0'),'状态总板内部必须连续拼接，不保留悬浮卡片间距');
+assert(css.includes('border-bottom:1px solid')&&css.includes('.turn-resource+.turn-resource'),'内部层级必须使用分隔线衔接');
+assert(css.includes('box-shadow:none')&&css.includes('background:transparent'),'子模块必须移除各自外框效果并服从统一底板');
+console.log('battle status stack tests passed');

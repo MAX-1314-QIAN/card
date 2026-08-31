@@ -22,7 +22,7 @@ assert.match(battle, /id="deck-count"/);
 assert.match(battle, /id="used-count"/);
 assert.match(css, /\.battle-runtime-values\[hidden\][\s\S]*?display:none!important/);
 assert.ok(battle.includes('class="battle-utility-bar"'));
-assert.ok(battle.includes('assets/art/battle-tools/hand-rules-icon-v1.png'));
-assert.ok(battle.includes('assets/art/battle-tools/deck-icon-v1.png'));
+assert.ok(battle.includes('assets/art/battle-tools/hand-rules-icon-v3.png'));
+assert.ok(battle.includes('assets/art/battle-tools/deck-icon-v3.png'));
 
 console.log("battle chrome cleanup tests passed");

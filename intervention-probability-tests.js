@@ -7,17 +7,9 @@ function element(){return{innerHTML:'',textContent:'',disabled:false,open:false,
 const elements=new Map(),documentStub={documentElement:element(),querySelector(selector){if(!elements.has(selector))elements.set(selector,element());return elements.get(selector)},querySelectorAll(){return[]},createElement(){return element()},addEventListener(){}};
 const context={console,setTimeout(){},clearTimeout,document:documentStub,window:{},localStorage:{getItem(){return null},setItem(){}},Math,Date,Set,Map,JSON,Number,Array,Object,String};context.window=context;vm.createContext(context);loadBalance(context,{includeSystemTestRun:true});vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 
-function seededRandom(seed){let state=seed>>>0;return()=>{state=(state*1664525+1013904223)>>>0;return state/4294967296}}
-function enterLegacyBattle(difficulty){context.runController.clear();context.runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');for(let index=0;index<difficulty;index++){context.runController.completeNode({type:'BATTLE_WIN'});context.runController.completeNode({type:'ROUTE_COMPLETED'})}vm.runInContext(`battleIndex=${difficulty}`,context)}
-const expected=[.5,.4,.3],sampleSize=100000;
-for(let battle=0;battle<expected.length;battle++){
-  enterLegacyBattle(battle);
-  const random=seededRandom(20260815+battle),rule=context.BALANCE_V21.bossRules[battle][0];let rewards=0;
-  for(let i=0;i<sampleSize;i++){const event=context.selectInterventionEvent(rule,battle,random);if(event.kind==='reward')rewards++;assert.notStrictEqual(event.effectType,rule.effectType)}
-  const actual=rewards/sampleSize;assert.ok(Math.abs(actual-expected[battle])<.01,`第 ${battle+1} 战奖励概率 ${actual} 未接近 ${expected[battle]}`);
-}
-enterLegacyBattle(0);
-let calls=0;const orderedRandom=()=>[.1,.99][calls++%2];
-assert.strictEqual(context.selectInterventionEvent(context.BALANCE_V21.bossRules[0][0],0,orderedRandom).kind,'reward');
-assert.strictEqual(calls,2,'应先抽类别，再抽类别池中的具体事件');
-console.log('intervention-probability-tests: all assertions passed');
+assert.strictEqual(typeof context.selectInterventionEvent,'undefined','removed intervention events must not expose an executable selector');
+assert.strictEqual(typeof context.analyzeBossObservation,'undefined','removed boss observation must not remain executable');
+context.runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');
+const encounter=context.createEncounter();
+assert.ok(!('rule' in encounter)&&!('event' in encounter),'new encounters must not sample legacy boss or intervention configuration');
+console.log('intervention-probability-tests: removed intervention system remains non-executable');

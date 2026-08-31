@@ -19,7 +19,18 @@ assert.ok(/<p class="shop-note" id="shop-note" aria-live="polite"><\/p>/.test(ht
 
 assert.ok(html.indexOf('shop-prototype.css')<html.indexOf('shop-scroll.css'),'scroll overrides must load after the base shop theme');
 assert.ok(html.indexOf('background-art.css')<html.indexOf('shop-simplified.css'),'simplified shop layout must load after legacy and background styles');
-assert.ok(html.includes('shop-simplified.css?v=20260829-shop-background-v5'),'shop background style cache version missing');
+assert.ok(html.includes('shop-simplified.css?v=20260830-shop-buttons-v7'),'shop button style cache version missing');
+for(const asset of ['coin-v1.png','deck-v1.png','persona-v1.png']){
+  assert.ok(fs.existsSync(`assets/art/shop-resources/${asset}`),`missing shop resource asset ${asset}`);
+  assert.ok(html.includes(`assets/art/shop-resources/${asset}`),`shop resource asset is not wired ${asset}`);
+}
+assert.ok(simpleCss.includes('.shop-dialog .shop-resource-icon'),'shop resource icon styling missing');
+for(const asset of ['purchase-v1.png','leave-v1.png']){
+  assert.ok(fs.existsSync(`assets/art/shop-buttons/${asset}`),`missing shop button asset ${asset}`);
+  assert.ok(simpleCss.includes(`assets/art/shop-buttons/${asset}`),`shop button asset is not wired ${asset}`);
+}
+assert.ok(simpleCss.includes('.shop-footer #shop-buy')&&simpleCss.includes('.shop-footer #shop-leave'),'shop purchase and leave buttons must keep separate supplied skins');
+assert.ok(simpleCss.includes('button:disabled')&&simpleCss.includes('cursor:not-allowed'),'shop button disabled feedback missing');
 assert.match(scrollCss,/\.shop-dialog:not\(\[open\]\)\{display:none\}/,'closed shop dialog must stay out of document flow');
 assert.ok(simpleCss.includes('grid-template-columns:220px 440px minmax(0,1fr)'),'simplified shop must keep resource, list and preview columns');
 assert.ok(simpleCss.includes('.shop-forge-only{display:none!important}')&&simpleCss.includes('.forge-mode .shop-forge-only{display:grid!important}'),'forge details must stay hidden on goods and appear only in forge mode');
@@ -51,6 +62,6 @@ assert.match(game,/ShopRuntime\.applyCardUpgrade/);
 assert.match(game,/personaRuntime\.createInstance\(item\.effect\.personaTemplateId/);
 assert.match(game,/ShopRuntime\.createCardFromItem/);
 assert.ok(html.includes('shop/shop-runtime.js?v=20260829-concise-copy-v1'),'concise shop copy runtime cache version missing');
-assert.ok(html.includes('game.js?v=20260829-shop-card-art-v9'),'shop card art script cache version missing');
+assert.ok(html.includes('game.js?v=20260831-neutral-rule-copy-v11'),'shop card art and integrated UI script cache version missing');
 
 console.log('shop-ui-tests: concise goods and focused persona forge hierarchy passed');

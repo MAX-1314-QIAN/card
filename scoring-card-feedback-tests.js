@@ -7,5 +7,5 @@ assert(game.indexOf("events.push({phase:'计分牌'")<game.indexOf('for(const lo
 assert(game.includes("badge.textContent=chips?`+${Number(chips.toFixed(2))} 筹码`:'0 筹码'"),'牌下必须显示本张牌增加的筹码');
 for(const selector of ['.played-card.scoring-card-active','.played-card.scoring-card-spent','.card-chip-float'])assert(css.includes(selector),`缺少 ${selector} 样式`);
 assert(css.includes('.played-row .played-card{overflow:visible'),'计分牌必须允许牌下筹码浮签越过牌面边界显示');
-assert(/game\.js\?v=20260829-[^"]+/.test(html),'页面必须加载包含人格卡层级、计分牌反馈和结算速度修复的最新脚本');
+assert(/game\.js\?v=20260831-[^"]+/.test(html),'页面必须加载包含人格卡层级、计分牌反馈、规则文案和结算速度修复的最新脚本');
 console.log('scoring-card-feedback-tests: card event identity, ordered animation, active/spent states and chip labels passed');

@@ -7,6 +7,8 @@
   const SHOP_ITEM_TYPES=new Set(['CARD','PERSONA','SERVICE']);
   const SHOP_EFFECT_TYPES=new Set(['ADD_CARD','ADD_PERSONA','UPGRADE_CARD','REMOVE_CARD']);
   const SHOP_CARD_STATS=new Set(['BONUS_CHIPS','BONUS_COINS','BONUS_MULT','BONUS_XMULT_RATE']);
+  const STAGE_LIMIT_CATEGORIES=new Set(['ACTION','HAND','SCORE','RESOURCE','PERSONA']);
+  const STAGE_LIMIT_EFFECT_TYPES=new Set(['TARGET_SCORE_DELTA','STARTING_HAND_DELTA','STARTING_DISCARD_DELTA','STARTING_HAND_SIZE_DELTA','HAND_BASE_CHIP_DELTA_ON_QUALITY','HAND_BASE_CHIP_DELTA_ON_REPEATED_HAND_TYPE','HAND_BASE_CHIP_DELTA_ON_RANDOM_HAND_TYPE','FACE_CHIP_DELTA_FOR_RANKS','FACE_CHIP_DELTA_FOR_SUITS','HAND_BASE_MULT_DELTA','VICTORY_COIN_DELTA','PERSONA_BONUS_FACTOR']);
 
   function containsFunction(value,seen=new Set()){
     if(typeof value==='function')return true;
@@ -31,7 +33,8 @@
       ['personaEntries',manifest?.basePersonas?.entries||[]],['personaMainAttributes',manifest?.basePersonas?.mainAttributes||[]],['personaSubAttributes',manifest?.basePersonas?.subAffixPool||[]],
       ['personaTemplates',manifest?.personaTemplates?.templates||[]],['personaGrowthProfiles',manifest?.personaTemplates?.growthProfiles||[]],
       ['shopItems',manifest?.shop?.items||[]],['shopRefreshProfiles',manifest?.shop?.refreshProfiles||[]],
-      ['shopRefreshRules',(manifest?.shop?.refreshProfiles||[]).flatMap(profile=>profile.typeRules||[])],['shopPoolEntries',manifest?.shop?.poolEntries||[]]
+      ['shopRefreshRules',(manifest?.shop?.refreshProfiles||[]).flatMap(profile=>profile.typeRules||[])],['shopPoolEntries',manifest?.shop?.poolEntries||[]],
+      ['stageLimitRules',manifest?.stageLimits?.rules||[]],['stageLimitProfiles',manifest?.stageLimits?.profiles||[]]
     ];
     const allIds=new Map();
     for(const [registry,items] of registries){
@@ -67,6 +70,7 @@
         const battleNodes=(template.nodeIds||[]).map(id=>nodesById.get(id)).filter(node=>node?.type==='BATTLE');
         require(battleNodes.every(node=>Number.isFinite(node.victoryCoins)&&node.victoryCoins>=0),`${template.id} 的每个战斗节点必须声明非负固定金币奖励`);
         require(battleNodes.slice(0,9).reduce((sum,node)=>sum+node.victoryCoins,0)===30,`${template.id} 的前九场固定金币总量必须为 30`);
+        require(template.stageLimitConfigId===manifest?.stageLimits?.id,`${template.id} 必须引用正式关卡限制配置`);
       }
       const compatibilityNodes=new Set(template.compatibilityNodeIds||[]);
       for(const nodeId of compatibilityNodes){require((template.nodeIds||[]).includes(nodeId),`${template.id} 的兼容节点 ${nodeId} 必须包含在 nodeIds 中`);require(nodesById.get(nodeId)?.compatibilityOnly===true,`${template.id} 的兼容节点 ${nodeId} 必须标记 compatibilityOnly`)}
@@ -224,6 +228,28 @@
     for(const entry of shopPoolEntries){const item=shopItemsById.get(entry.itemId);require(!!item,`商品池 ${entry.id} 引用了不存在的商品 ${entry.itemId}`);require(Number.isFinite(entry.weight)&&entry.weight>0,`商品池 ${entry.id} 的权重必须大于 0`);require(item?.itemType===entry.poolType,`商品池 ${entry.id} 的类型与商品不一致`);require(!pooledItemIds.has(entry.itemId),`商品 ${entry.itemId} 被重复加入商品池`);pooledItemIds.add(entry.itemId)}
     require(pooledItemIds.size===shopItems.length,'每件商店商品必须且只能配置一条商品池权重');
     for(const node of nodesById.values())if(node.shopProfileId)require(shopProfilesById.has(node.shopProfileId),`节点 ${node.id} 引用了不存在的商店档位 ${node.shopProfileId}`);
+
+    const stageLimits=manifest?.stageLimits,stageLimitRules=stageLimits?.rules||[],stageLimitProfiles=stageLimits?.profiles||[],stageLimitRuleIds=new Set(stageLimitRules.map(rule=>rule.id));
+    require(stageLimits?.id==='TARGET_STAGE_LIMITS_V1','正式长局必须加载 TARGET_STAGE_LIMITS_V1');
+    require(stageLimitRules.length===14,'正式关卡限制池必须包含 14 条规则');
+    require(stageLimits?.firstRestrictedBattleNumber===4,'前 3 场战斗必须保持无关卡限制');
+    require(stageLimits?.recentRuleCooldown===2,'关卡限制必须避开最近 2 条已用规则');
+    for(const rule of stageLimitRules){
+      require(STAGE_LIMIT_CATEGORIES.has(rule.category),`关卡限制 ${rule.id} 的分类不合法`);
+      require(STAGE_LIMIT_EFFECT_TYPES.has(rule.effect?.type),`关卡限制 ${rule.id} 的效果类型不合法`);
+      require(typeof rule.name==='string'&&rule.name.length>0&&typeof rule.description==='string'&&rule.description.length>0,`关卡限制 ${rule.id} 缺少展示文案`);
+      require(rule.decisionStatus==='CONFIRMED',`关卡限制 ${rule.id} 必须完成策划确认`);
+      if('factor' in (rule.effect||{}))require(rule.effect.factor>0&&rule.effect.factor<1,`关卡限制 ${rule.id} 的 factor 必须位于 0 与 1 之间`);
+      if(rule.effect?.type==='HAND_BASE_CHIP_DELTA_ON_RANDOM_HAND_TYPE')require(Array.isArray(rule.effect.options)&&rule.effect.options.length>=3&&rule.effect.options.every(option=>option.id&&option.name),`关卡限制 ${rule.id} 缺少可选牌型`);
+      require(!rule.description.includes('最终得分')&&!rule.description.includes('只保留'),`关卡限制 ${rule.id} 使用了不直观的结算层文案`);
+    }
+    require(stageLimitProfiles.length===3,'关卡限制必须配置中期、后期与最终战三个档位');
+    const profiledBattles=[...new Set(stageLimitProfiles.flatMap(profile=>profile.battleNumbers||[]))].sort((a,b)=>a-b);
+    require(JSON.stringify(profiledBattles)===JSON.stringify([4,5,6,7,8,9,10]),'关卡限制档位必须完整覆盖第 4 至第 10 场战斗');
+    for(const profile of stageLimitProfiles){
+      if(profile.categoryWeights)require(Math.abs(Object.values(profile.categoryWeights).reduce((sum,value)=>sum+value,0)-100)<1e-9,`关卡限制档位 ${profile.id} 的分类权重之和必须为 100`);
+      for(const ruleId of profile.ruleIds||[]){require(stageLimitRuleIds.has(ruleId),`关卡限制档位 ${profile.id} 引用了不存在的规则 ${ruleId}`);require(stageLimitRules.find(rule=>rule.id===ruleId)?.finalSafe===true,`最终战规则 ${ruleId} 必须标记为安全规则`)}
+    }
 
     return{valid:errors.length===0,errors};
   }

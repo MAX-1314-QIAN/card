@@ -1,11 +1,10 @@
 (() => {
   const KEY='persona-tutorial-complete-v1';
   const steps=[
-    {target:'.run-score',title:'击败镜厅守卫',copy:'在出牌次数耗尽前，让当前得分达到右侧目标分数。每一场首领战都有不同目标。',label:'目标与胜负'},
+    {target:'.run-score',title:'完成本关目标',copy:'在出牌次数耗尽前，让当前得分达到右侧目标分数。每一场战斗都有独立目标。',label:'目标与胜负'},
     {target:'.hand-zone',title:'选择你的手牌',copy:'点击手牌选择或取消，单手最多打出 5 张。可按点数或花色重新排序，不会改变牌库。',label:'选择与排序'},
     {target:'.score-preview',title:'组合决定得分',copy:'上方依次显示牌型、基础筹码、倍率和最终得分。左下角“牌型规则”可随时查看完整表格。',label:'牌型计分'},
-    {target:'.persona-rail',title:'人格会回应选择',copy:'左侧装备的人格牌会在满足条件时为本手增加筹码、倍率或独立倍率。',label:'人格触发'},
-    {target:'.protocol',title:'阅读首领规则',copy:'每场规则会限制出牌、花色或人格效果。开战弹窗会先揭示规则与随机介入事件。',label:'首领协议'}
+    {target:'.persona-rail',title:'人格会回应选择',copy:'左侧装备的人格牌会在满足条件时为本手增加筹码、倍率或独立倍率。',label:'人格触发'}
   ];
   let index=0,active=false,returnToSettings=false;
   const overlay=document.querySelector('#tutorial-overlay'),focus=overlay.querySelector('.tutorial-focus'),card=overlay.querySelector('.tutorial-card');

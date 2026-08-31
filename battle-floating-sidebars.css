@@ -3,11 +3,19 @@
   #battle-screen.game-frame>.persona-rail,
   #battle-screen.game-frame>.boss-rail{
     position:relative;
-    padding:10px;
     border:0;
     background:transparent;
     box-shadow:none;
     backdrop-filter:none;
+  }
+
+  #battle-screen.game-frame>.persona-rail{padding:10px}
+
+  #battle-screen.game-frame>.boss-rail{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:clamp(14px,1.2vw,20px);
   }
 
   #battle-screen.game-frame>.persona-rail::before,
@@ -36,6 +44,9 @@
   }
 
   #battle-screen .boss-rail-content{
+    width:100%;
+    max-width:390px;
+    margin:auto 0;
     padding:0;
     border:0;
     background:transparent;
@@ -61,5 +72,10 @@
 
   #battle-screen .boss-dialogue{
     padding:12px;
+  }
+
+  @media(max-height:800px){
+    #battle-screen.game-frame>.boss-rail{padding-block:10px}
+    #battle-screen .boss-rail-content{gap:8px}
   }
 }

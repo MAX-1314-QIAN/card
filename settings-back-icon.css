@@ -1,0 +1,36 @@
+#settings-screen .settings-header>#settings-back{
+  justify-self:start;
+  width:54px;
+  height:54px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+  cursor:pointer;
+  filter:drop-shadow(0 4px 8px #000b);
+  transition:filter .16s ease;
+}
+
+#settings-screen .settings-header>#settings-back img{
+  display:block;
+  width:52px;
+  height:52px;
+  object-fit:contain;
+  pointer-events:none;
+}
+
+#settings-screen .settings-header>#settings-back:hover{
+  filter:brightness(1.16) drop-shadow(0 4px 9px #000c);
+}
+
+#settings-screen .settings-header>#settings-back:focus-visible{
+  outline:1px solid #efbf65;
+  outline-offset:2px;
+}
+
+@media(max-width:700px){
+  #settings-screen .settings-header>#settings-back{width:46px;height:46px}
+  #settings-screen .settings-header>#settings-back img{width:44px;height:44px}
+}

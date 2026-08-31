@@ -12,6 +12,7 @@ const BALANCE_SCRIPT_FILES=[
   'balance/target/growth-profiles.js',
   'balance/target/shop-config.js',
   'balance/target/stage-nodes.js',
+  'balance/target/stage-limit-rules.js',
   'balance/target/run-template.js',
   'balance/boss-profiles.js',
   'balance/interventions.js',
@@ -51,6 +52,7 @@ function loadBalance(context,{includeSystemTestRun=false,includePersonaSliceRun=
   if(includePersonaSliceRun)injectPersonaSliceRun(context);
   for(const file of ['persona/persona-instance.js','persona/persona-condition-evaluator.js','persona/persona-effect-executor.js','persona/legacy-persona-adapter.js','persona/persona-feedback.js','persona/persona-runtime.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
   vm.runInContext(fs.readFileSync('poker-engine.js','utf8'),context,{filename:'poker-engine.js'});
+  vm.runInContext(fs.readFileSync('stage-limit-runtime.js','utf8'),context,{filename:'stage-limit-runtime.js'});
   vm.runInContext(fs.readFileSync('shop/shop-runtime.js','utf8'),context,{filename:'shop/shop-runtime.js'});
   vm.runInContext(fs.readFileSync('deck-sort-runtime.js','utf8'),context,{filename:'deck-sort-runtime.js'});
   vm.runInContext(fs.readFileSync('run-controller.js','utf8'),context,{filename:'run-controller.js'});

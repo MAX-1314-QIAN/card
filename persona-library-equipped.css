@@ -1,0 +1,72 @@
+/* Equipped cards must read as a state, not merely as a thin border. */
+.persona-dialog .library-card.equipped{
+  border-color:#e0aa51;
+  background:
+    linear-gradient(180deg,#a96d161c,transparent 42%),
+    linear-gradient(145deg,#25180a,#090603 72%);
+  box-shadow:
+    inset 0 0 0 2px #d79a3d70,
+    inset 0 0 28px #c8872429,
+    0 0 18px #cf8d2d40,
+    0 9px 24px #000b;
+}
+
+.persona-dialog .library-card.equipped:before{
+  content:"";
+  position:absolute;
+  z-index:4;
+  top:9px;
+  bottom:9px;
+  left:5px;
+  width:3px;
+  background:linear-gradient(transparent,#ffd47a 18%,#d78b27 82%,transparent);
+  box-shadow:0 0 10px #f0a43e;
+  pointer-events:none;
+}
+
+.persona-dialog .library-card.equipped .library-portrait{
+  filter:brightness(1.08) contrast(1.04) sepia(.08);
+  box-shadow:inset 0 0 0 1px #e2ad597a,0 0 15px #b976273d;
+}
+
+.persona-dialog .library-equipped-badge{
+  position:absolute;
+  z-index:6;
+  top:16px;
+  right:14px;
+  min-height:27px;
+  padding:4px 9px 4px 6px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid #f1bf68;
+  background:linear-gradient(135deg,#916020,#3c240a);
+  color:#ffe2a2;
+  font-size:11px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:.03em;
+  box-shadow:0 4px 12px #000b,inset 0 0 10px #ffd3702b;
+  pointer-events:none;
+}
+
+.persona-dialog .library-equipped-badge i{
+  width:17px;
+  height:17px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#f0bc64;
+  color:#2a1807;
+  font:700 11px Arial,sans-serif;
+}
+
+.persona-dialog .library-card.equipped h3{
+  color:#ffe0a0;
+  text-shadow:0 0 10px #cf862d52;
+}
+
+.persona-dialog .library-card.equipped.selected{
+  outline:2px solid #ffe0a0;
+  outline-offset:-5px;
+}

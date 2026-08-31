@@ -1,0 +1,85 @@
+#settings-screen .controls-secondary{
+  min-height:42px;
+  margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:42px;
+}
+
+#settings-screen .controls-secondary .tutorial-replay{
+  min-width:210px;
+  margin:0;
+}
+
+#settings-screen .developer-mode-setting{
+  width:220px;
+  min-height:40px;
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:1fr 46px!important;
+  border-left:1px solid #684f2d;
+  color:#dfc083;
+}
+
+#battle-screen .developer-tool-trigger{
+  display:grid;
+  place-items:center;
+  border:1px solid #a9752f;
+  background:radial-gradient(circle at 50% 35%,#553412,#171006 72%);
+  box-shadow:inset 0 0 0 2px #080603,0 4px 10px #000b;
+}
+
+#battle-screen .developer-tool-trigger>span{
+  color:#f4ce82;
+  font:700 11px Georgia,serif;
+  letter-spacing:.08em;
+  text-shadow:0 0 9px #f3a52c99;
+}
+
+.developer-tools-dialog{
+  width:min(470px,90vw);
+  padding:0;
+  color:#e8cd98;
+  background:radial-gradient(circle at 50% 0,#34230f,#090704 66%);
+  border:1px solid #a97430;
+  box-shadow:0 28px 90px #000,inset 0 0 0 3px #050403,inset 0 0 0 4px #61411d;
+}
+
+.developer-tools-dialog::backdrop{background:#020201d9;backdrop-filter:blur(5px)}
+
+.developer-tools-dialog>header{
+  min-height:82px;
+  padding:16px 20px;
+  display:grid;
+  grid-template-columns:44px 1fr 38px;
+  align-items:center;
+  gap:14px;
+  border-bottom:1px solid #684b27;
+}
+
+.developer-tools-dialog>header>span{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid #9f7133;
+  color:#e1ad55;
+  font-size:23px;
+}
+
+.developer-tools-dialog h2{margin:2px 0 0;font-size:22px;font-weight:500;letter-spacing:.08em}
+.developer-tools-dialog header small{color:#8f7045;font:9px Georgia,serif;letter-spacing:.18em}
+.developer-tools-dialog>header>button{width:34px;height:34px;border:0;background:transparent;color:#b89a69;font-size:25px;cursor:pointer}
+.developer-tools-dialog>header>button:hover{color:#ffe0a0}
+
+.developer-tools-actions{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.developer-tools-actions>button{height:92px;border:1px solid #6c512f;background:#0d0a06;color:#dfbd7d;cursor:pointer;transition:.16s ease}
+.developer-tools-actions>button:hover{border-color:#d09a43;background:#251707;transform:translateY(-2px);box-shadow:0 8px 22px #0009,inset 0 0 16px #c9872724}
+.developer-tools-actions small{display:block;margin-bottom:7px;color:#8f744e;font-size:11px}
+.developer-tools-actions strong{font-size:20px;font-weight:500;letter-spacing:.08em}
+
+@media(max-width:900px){
+  #settings-screen .controls-secondary{align-items:stretch;flex-direction:column;gap:8px}
+  #settings-screen .developer-mode-setting{width:100%;border-left:0}
+}

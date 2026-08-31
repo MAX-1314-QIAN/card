@@ -9,7 +9,7 @@ const documentStub={documentElement:element(),querySelector(selector){if(!elemen
 const context={console,setTimeout(fn){fn()},clearTimeout,document:documentStub,window:{showRouteMap(){context.routeShown=true},showBattleFromRoute(){context.battleShown=true}},localStorage:{getItem(){return null},setItem(){}},Math,Date,Set,Map,JSON,Number,Array,Object,String};context.window.gameSfx=()=>{};
 vm.createContext(context);loadBalance(context,{includeSystemTestRun:true});vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 
-vm.runInContext("window.openBossReveal=()=>{};reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_WIN'})",context);
+vm.runInContext("window.openStageIntro=()=>{};reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_WIN'})",context);
 assert.strictEqual(context.routeShown,true);
 assert.ok(elements.get('#route-summary').textContent.includes('节点 1'));
 assert.strictEqual(vm.runInContext('currentRouteNodes.length',context),3);

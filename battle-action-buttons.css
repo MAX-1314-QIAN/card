@@ -1,7 +1,7 @@
 /* Isolated play/discard controls using supplied battle UI art. */
 :root{
-  --battle-play-button:url("assets/art/battle-actions/play-button-v2.png");
-  --battle-discard-button:url("assets/art/battle-actions/discard-button-v2.png");
+  --battle-play-button:url("assets/art/battle-actions/play-button-v1.png");
+  --battle-discard-button:url("assets/art/battle-actions/discard-button-v1.png");
 }
 
 #battle-screen .battle-actions{
@@ -21,7 +21,7 @@
   width:min(260px,42%);
   height:92px;
   margin:0;
-  padding:7px 25px;
+  padding:0 34px;
   overflow:visible;
   border:0;
   outline:0;
@@ -40,12 +40,19 @@
   animation:none;
 }
 
-#battle-screen .battle-action-button .battle-action-label{
+#battle-screen .battle-action-button span{
   display:block;
-  width:82%;
-  height:76%;
+  font-size:22px;
+  line-height:1;
+  letter-spacing:.12em;
+}
+
+#battle-screen .battle-action-button img{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
   object-fit:contain;
-  filter:drop-shadow(0 3px 4px #000c);
+  filter:drop-shadow(0 2px 3px #000b) drop-shadow(0 0 5px #e9ad4f55);
   pointer-events:none;
   user-select:none;
   -webkit-user-drag:none;
@@ -77,5 +84,6 @@
 @media(max-width:880px){
   #battle-screen .battle-actions{gap:10px}
   #battle-screen .battle-action-button{width:min(230px,47%);height:82px}
-  #battle-screen .battle-action-button .battle-action-label{width:84%;height:78%}
+  #battle-screen .battle-action-button img{width:34px;height:34px;flex-basis:34px}
+  #battle-screen .battle-action-button span{font-size:19px}
 }

@@ -5,13 +5,11 @@ const {loadBalance}=require('./test-load-balance');
 function element(){return{innerHTML:'',textContent:'',disabled:false,open:false,value:'all',style:{},dataset:{},classList:{add(){},remove(){},toggle(){},contains(){return false}},setAttribute(){},append(){},prepend(){},querySelector(){return element()},querySelectorAll(){return[]},addEventListener(){},getBoundingClientRect(){return{left:0,top:0,width:1,height:1}},showModal(){this.open=true},close(){this.open=false}}}
 const elements=new Map(),documentStub={documentElement:element(),querySelector(selector){if(!elements.has(selector))elements.set(selector,element());return elements.get(selector)},querySelectorAll(){return[]},createElement(){return element()},addEventListener(){}};
 const context={console,setTimeout(){},clearTimeout,document:documentStub,window:{},localStorage:{getItem(){return null},setItem(){}},Math,Date,Set,Map,JSON,Number,Array,Object,String};context.window=context;vm.createContext(context);loadBalance(context,{includeSystemTestRun:true});vm.runInContext(fs.readFileSync('game.js','utf8'),context);
-const card=(r,s='♠')=>({r,ri:r==='A'?14:['J','Q','K'].includes(r)?{J:11,Q:12,K:13}[r]:Number(r),s,si:{'♠':0,'♥':1,'♦':2,'♣':3}[s],uid:`${r}${s}`,bonus:0});
-function enterLegacyBattle(difficulty){context.runController.clear();context.runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');for(let index=0;index<difficulty;index++){context.runController.completeNode({type:'BATTLE_WIN'});context.runController.completeNode({type:'ROUTE_COMPLETED'})}vm.runInContext(`battleIndex=${difficulty}`,context)}
-for(let difficulty=0;difficulty<3;difficulty++){enterLegacyBattle(difficulty);for(let i=0;i<80;i++){const encounter=context.createEncounter();assert.ok(vm.runInContext(`bossRulePools[${difficulty}].some(rule=>rule.id==='${encounter.rule.id}')`,context));assert.notStrictEqual(encounter.rule.effectType,encounter.event.effectType)}}
-enterLegacyBattle(1);for(let i=0;i<20;i++)assert.strictEqual(context.createEncounter('narrow_table').rule.id,'narrow_table');
-vm.runInContext("currentEncounter={rule:{id:'repeat_judgment',name:'重复审判',effectType:'REPEAT_FINAL_MULT',value:.6},event:{id:'extra_chance',name:'额外机会',effectType:'DISCARD_DELTA',value:1,targetFactor:1,maxSelection:5},startingHands:4};hands=4;lastHandType='对子';equippedPersonaIds=[];runController.setPersonaRuntimeState({...runController.getPersonaRuntimeState(),equippedPersonaInstanceIds:[null,null,null,null]});bossOpeningBonus=0",context);
-const repeated=context.resolveScore([card('8'),card('8','♥')],false);assert.strictEqual(repeated.xmult,.6);
-vm.runInContext("currentEncounter={rule:{id:'suit_silence',name:'花色沉默',effectType:'SUIT_SILENCE'},event:{id:'extra_chance',name:'额外机会',effectType:'DISCARD_DELTA',value:1,silencedSuit:'♥',targetFactor:1,maxSelection:5},startingHands:4};hands=4;lastHandType=null",context);
-const silenced=context.resolveScore([card('A','♥'),card('9','♥'),card('4','♥'),card('3','♥'),card('2','♥')],false);assert.strictEqual(silenced.chips,35);
-enterLegacyBattle(2);vm.runInContext("currentEncounter={rule:{id:'last_chance',name:'最后机会',effectType:'HANDS_AND_TARGET',value:-1,targetMultiplier:.85},event:{id:'extra_chance',name:'额外机会',effectType:'DISCARD_DELTA',value:1,targetFactor:.85,maxSelection:5}}",context);assert.strictEqual(context.battleTarget(),527);
-console.log('boss-tests: pools and core effects passed');
+context.runController.startRun(context.BALANCE_V21.meta.activeRunTemplateId);
+const encounter=context.createEncounter();
+assert.deepStrictEqual(Object.keys(encounter).sort(),['maxSelection','startingDiscards','startingHandSize','startingHands']);
+assert.ok(!('rule' in encounter)&&!('event' in encounter),'battle setup must not contain boss rules or intervention events');
+assert.strictEqual(context.battleTarget(),950,'stage target must use the configured score directly');
+vm.runInContext("currentEncounter={rule:{effectType:'HANDS_AND_TARGET',targetMultiplier:.1},event:{effectType:'SUIT_SILENCE',silencedSuit:'♥',targetFactor:.1,maxSelection:1},maxSelection:5}",context);
+assert.strictEqual(context.battleTarget(),950,'legacy saved boss fields must not modify the stage target');
+console.log('boss-tests: removed boss-rule runtime cannot affect formal battles');

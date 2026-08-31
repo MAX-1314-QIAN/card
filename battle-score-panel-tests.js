@@ -1,0 +1,14 @@
+const assert=require('assert'),fs=require('fs');
+const html=fs.readFileSync('index.html','utf8'),game=fs.readFileSync('game.js','utf8'),css=fs.readFileSync('battle-score-panel.css','utf8');
+assert(html.includes('battle-score-panel.css?v=20260831-progress-alignment-v2'),'战斗页必须加载进度条对齐后的得分面板样式');
+assert(fs.existsSync('assets/art/battle-hud/score-progress-panel-v2.png'),'得分模块必须使用已落地的生图底板');
+for(const id of ['score','target','score-progress','progress','earned-coins','current-coins'])assert(html.includes(`id="${id}"`),`得分模块缺少实时字段：${id}`);
+assert(html.includes('当前得分')&&html.includes('目标分数')&&html.includes('本战金币')&&html.includes('持有金币'),'得分模块文案必须简洁且游戏化');
+assert(css.includes("url('assets/art/battle-hud/score-progress-panel-v2.png')")&&css.includes('background-size:104% 142%'),'得分模块必须正确裁切使用生图底板');
+assert(css.includes('font:700 37px')&&css.includes('font-size:25px'),'当前得分与目标分数必须形成明确字号层级');
+assert(css.includes('.score-coins')&&css.includes('.progress i::after'),'金币与进度必须使用独立、简洁的视觉层级');
+assert(css.includes('top:60%')&&css.includes('right:6%')&&css.includes('left:6%')&&css.includes('margin:0'),'实时进度条必须固定对齐美术底板中的进度槽');
+assert(css.includes('bottom:15px')&&css.includes('left:20px'),'金币信息必须固定在进度槽下方，不能挤动进度条');
+assert(game.includes("scoreProgress?.setAttribute('aria-valuenow'")&&game.includes("scoreProgress?.setAttribute('aria-valuemax'"),'得分进度必须同步实时可访问数值');
+assert(css.includes('@media(prefers-reduced-motion:reduce)')&&css.includes('html.reduce-motion'),'得分进度动画必须遵守减少动效设置');
+console.log('battle score panel tests passed');

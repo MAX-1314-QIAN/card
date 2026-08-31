@@ -68,7 +68,6 @@
   document.querySelector('#discard-btn')?.addEventListener('click',()=>window.gameSfx('discard'));
   document.querySelectorAll('[data-buy]').forEach(button=>button.addEventListener('click',()=>window.gameSfx('buy')));
   document.addEventListener('keydown',event=>{const battleVisible=!document.querySelector('#battle-screen')?.classList.contains('hidden');if(!battleVisible)return;if(event.code==='Space')window.gameSfx('play');if(event.key.toLowerCase()==='d')window.gameSfx('discard')});
-  const score=document.querySelector('#score');if(score)new MutationObserver(()=>{score.classList.remove('score-pop');void score.offsetWidth;score.classList.add('score-pop')}).observe(score,{childList:true,characterData:true,subtree:true});
   const watchDialog=(selector,sound)=>{const dialog=document.querySelector(selector);if(dialog)new MutationObserver(()=>{if(dialog.open)window.gameSfx(sound)}).observe(dialog,{attributes:true,attributeFilter:['open']})};
   watchDialog('#shop-dialog','win');watchDialog('#forge-dialog','forge');
   document.querySelector('#master-volume')?.addEventListener('input',()=>window.applyAudioSettings?.({volume:getVolume()*100,music:musicEnabled(),sfx:sfxEnabled()}));

@@ -4,7 +4,8 @@ assert(html.includes('battle-lower-left-tools.css?v=20260828-battle-tools-v4'),'
 const utility=html.slice(html.indexOf('<nav class="battle-utility-bar"'),html.indexOf('</nav>',html.indexOf('<nav class="battle-utility-bar"')));
 assert(utility.includes('id="open-hand-rules"')&&utility.includes('id="table-pile"')&&utility.includes('id="battle-settings"'),'牌型规则、牌库与设置必须位于左上工具组');
 assert(utility.indexOf('id="open-hand-rules"')<utility.indexOf('id="table-pile"')&&utility.indexOf('id="table-pile"')<utility.indexOf('id="battle-settings"'),'三个工具必须按牌型规则、牌库、设置横向排列');
-for(const file of ['hand-rules-icon-v1.png','deck-icon-v1.png','settings-icon-v1.png'])assert(html.includes(`assets/art/battle-tools/${file}`)&&fs.existsSync(`assets/art/battle-tools/${file}`),`${file} 必须接入生成图标`);
+for(const file of ['hand-rules-icon-v3.png','deck-icon-v3.png','settings-icon-v3.png'])assert(html.includes(`assets/art/battle-tools/${file}`)&&fs.existsSync(`assets/art/battle-tools/${file}`),`${file} 必须接入统一视觉尺寸的新版图标`);
+for(const version of ['v1','v2'])for(const file of [`hand-rules-icon-${version}.png`,`deck-icon-${version}.png`,`settings-icon-${version}.png`])assert(!html.includes(file)&&!fs.existsSync(`assets/art/battle-tools/${file}`),`${file} 旧图标必须删除`);
 assert.strictEqual((html.match(/class="hand-sort battle-action-sort"/g)||[]).length,1,'手牌排序控件不得保留重复节点');
 const actions=html.slice(html.indexOf('<footer class="battle-actions">'),html.indexOf('</footer>',html.indexOf('<footer class="battle-actions">')));
 assert(actions.indexOf('id="discard-btn"')<actions.indexOf('battle-action-sort')&&actions.indexOf('battle-action-sort')<actions.indexOf('id="play-btn"'),'手牌排序必须位于弃牌和出牌之间');

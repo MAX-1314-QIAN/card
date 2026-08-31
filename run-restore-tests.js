@@ -10,11 +10,11 @@ function createContext(){
 function saveAndRestore(context,phase){const state=vm.runInContext('buildRunSaveState()',context);return vm.runInContext('restoreRunSaveState(globalThis.__save)',Object.assign(context,{__save:{version:2,phase,state}}))}
 
 let setup=createContext(),context=setup.context,elements=setup.elements;
-vm.runInContext("reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST')",context);const encounterBefore=vm.runInContext('JSON.stringify(currentEncounter)',context);assert.strictEqual(saveAndRestore(context,'boss_reveal'),true);assert.strictEqual(vm.runInContext('JSON.stringify(currentEncounter)',context),encounterBefore);assert.strictEqual(elements.get('#boss-reveal-dialog').open,true);
+vm.runInContext("reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST')",context);const encounterBefore=vm.runInContext('JSON.stringify(currentEncounter)',context);assert.strictEqual(saveAndRestore(context,'stage_intro'),true);assert.strictEqual(vm.runInContext('JSON.stringify(currentEncounter)',context),encounterBefore);assert.strictEqual(elements.get('#stage-intro-dialog').open,true);assert.strictEqual(saveAndRestore(context,'boss_reveal'),true,'legacy reveal phase must restore into the new stage intro');assert.strictEqual(elements.get('#stage-intro-dialog').open,true);
 
 setup=createContext();context=setup.context;vm.runInContext("reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_WIN'})",context);const routeBefore=vm.runInContext('JSON.stringify({currentRouteNodes,currentRandomEvent})',context);assert.strictEqual(saveAndRestore(context,'route'),true);assert.ok(context.routeShown>=2);assert.strictEqual(vm.runInContext('JSON.stringify({currentRouteNodes,currentRandomEvent})',context),routeBefore);
 
 setup=createContext();context=setup.context;elements=setup.elements;vm.runInContext("reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_LOSS'})",context);assert.strictEqual(saveAndRestore(context,'report'),true);assert.strictEqual(elements.get('#report-dialog').open,true);
 
 setup=createContext();context=setup.context;elements=setup.elements;vm.runInContext("reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_LOSS'});runController.completeNode({type:'REPORT_COMPLETED'})",context);assert.strictEqual(saveAndRestore(context,'forge'),true);assert.strictEqual(elements.get('#forge-dialog').open,true);
-console.log('run-restore-tests: battle random state, route random state, report and forge restore passed');
+console.log('run-restore-tests: stage intro, legacy reveal, route, report and forge restore passed');

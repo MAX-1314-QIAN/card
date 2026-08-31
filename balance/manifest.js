@@ -23,7 +23,8 @@
     basePersonas:modules.basePersonas,
     personaTemplates,
     shop:modules.targetShop,
-    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate}
+    stageLimits:modules.targetStageLimits,
+    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits}
   };
   root.PERSONA_CONFIG_VALIDATOR.assertValid(manifest);
 
@@ -68,6 +69,7 @@
     ,personaTemplates:manifest.personaTemplates
     ,pokerHandProfiles:manifest.pokerHandProfiles
     ,shop:manifest.shop
+    ,stageLimits:manifest.stageLimits
     ,target:manifest.target
   };
   root.PERSONA_BALANCE_MANIFEST=manifest;

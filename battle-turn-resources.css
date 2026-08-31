@@ -1,0 +1,156 @@
+/* Battle action resources: make the two finite actions readable at a glance. */
+#battle-screen .turns{
+  padding:7px 8px;
+  overflow:hidden;
+  background:linear-gradient(155deg,#15110de8,#080604ef);
+}
+
+#battle-screen .turn-resource{
+  --resource-accent:#d3a14f;
+  --resource-glow:#d9942f2e;
+  --turn-fill:100%;
+  position:relative;
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) auto;
+  align-items:center;
+  column-gap:10px;
+  min-height:84px;
+  padding:13px 15px 16px;
+  isolation:isolate;
+  background-image:url('assets/art/battle-hud/action-resource-plate-v1.png');
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:100% auto;
+  transition:filter .2s,background .2s,border-color .2s;
+}
+
+#battle-screen .turn-resource+.turn-resource{
+  margin-top:2px;
+}
+
+#battle-screen .turn-resource::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  opacity:.8;
+  background:radial-gradient(circle at 10% 50%,var(--resource-glow),transparent 38%);
+}
+
+#battle-screen .turn-resource::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:var(--turn-fill);
+  height:3px;
+  background:linear-gradient(90deg,var(--resource-accent),#f2d89d);
+  box-shadow:0 0 10px var(--resource-accent);
+  transition:width .34s ease,opacity .2s;
+}
+
+#battle-screen .turn-resource.discard-resource{
+  --resource-accent:#a883c8;
+  --resource-glow:#794aa737;
+}
+
+#battle-screen .turn-resource .turn-icon{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  color:var(--resource-accent);
+  background:transparent;
+  text-shadow:0 0 6px #000,0 0 12px var(--resource-accent);
+  font-size:25px;
+}
+
+#battle-screen .turn-copy{
+  display:flex;
+  min-width:0;
+  flex-direction:column;
+  justify-content:center;
+}
+
+#battle-screen .turn-copy b{
+  color:#f0dab0;
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:.08em;
+  line-height:1.15;
+  text-shadow:0 0 10px var(--resource-glow);
+}
+
+#battle-screen .turn-resource strong{
+  display:flex;
+  align-items:baseline;
+  gap:4px;
+  min-width:72px;
+  justify-content:flex-end;
+  color:#786a55;
+  font-family:Georgia,"Noto Serif SC",serif;
+  font-weight:400;
+}
+
+#battle-screen .turn-resource strong i{
+  color:#8e7d60;
+  font-size:14px;
+  font-style:normal;
+}
+
+#battle-screen .turn-resource strong i:first-child{
+  color:#f5db9f;
+  font-size:38px;
+  font-weight:700;
+  line-height:1;
+  text-shadow:0 0 14px var(--resource-accent);
+}
+
+#battle-screen .turn-resource.is-low{
+  --resource-accent:#e29043;
+  --resource-glow:#b8492945;
+  background-image:linear-gradient(90deg,#6f281b30,transparent 76%),url('assets/art/battle-hud/action-resource-plate-v1.png');
+}
+
+#battle-screen .turn-resource.is-low .turn-copy b,
+#battle-screen .turn-resource.is-low strong i:first-child{
+  color:#ffd099;
+}
+
+#battle-screen .turn-resource.is-empty{
+  filter:saturate(.35);
+  opacity:.72;
+}
+
+#battle-screen .turn-resource.is-empty::after{
+  opacity:0;
+}
+
+#battle-screen .turn-resource.is-empty .turn-copy b,
+#battle-screen .turn-resource.is-empty strong i:first-child{
+  color:#8c8375;
+  text-shadow:none;
+}
+
+@media(max-width:1250px){
+  #battle-screen .turn-resource{grid-template-columns:34px minmax(0,1fr) auto;column-gap:8px;min-height:74px;padding:11px 10px 14px}
+  #battle-screen .turn-resource .turn-icon{width:31px;height:31px;font-size:18px}
+  #battle-screen .turn-copy b{font-size:14px;letter-spacing:.04em}
+  #battle-screen .turn-resource strong{min-width:58px}
+  #battle-screen .turn-resource strong i:first-child{font-size:31px}
+}
+
+@media(max-width:880px){
+  #battle-screen .turns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  #battle-screen .turn-resource+.turn-resource{margin-top:0}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #battle-screen .turn-resource,#battle-screen .turn-resource::after{transition:none}
+}
+
+html.reduce-motion #battle-screen .turn-resource,
+html.reduce-motion #battle-screen .turn-resource::after{
+  transition:none;
+  animation:none;
+}

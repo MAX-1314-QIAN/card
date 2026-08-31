@@ -1,0 +1,143 @@
+/* Score progress: authored art plate with live, readable game data layered above it. */
+#battle-screen .run-score{
+  position:relative;
+  min-height:144px;
+  padding:19px 20px 15px;
+  overflow:hidden;
+  isolation:isolate;
+  border:0;
+  background-image:url('assets/art/battle-hud/score-progress-panel-v2.png');
+  background-repeat:no-repeat;
+  background-position:center 49%;
+  background-size:104% 142%;
+  box-shadow:0 10px 24px #0008;
+}
+
+#battle-screen .run-score::before{
+  content:"";
+  position:absolute;
+  inset:10px 12px;
+  z-index:-1;
+  pointer-events:none;
+  background:radial-gradient(circle at 20% 22%,#b27b2922,transparent 42%);
+}
+
+#battle-screen .score-pair{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(78px,.75fr);
+  align-items:end;
+  gap:16px;
+  padding:0 4px;
+}
+
+#battle-screen .score-pair>div:last-child{
+  text-align:right;
+}
+
+#battle-screen .run-score small{
+  display:block;
+  margin-bottom:2px;
+  color:#9b8766;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.1em;
+}
+
+#battle-screen .run-score .score-pair strong{
+  display:block;
+  color:#f0ca79;
+  font:700 37px/1 Georgia,"Noto Serif SC",serif;
+  letter-spacing:.02em;
+  text-shadow:0 0 12px #d5943545,0 2px 2px #000;
+}
+
+#battle-screen .score-pair>div:last-child strong{
+  color:#d8bc83;
+  font-size:25px;
+  font-weight:600;
+  text-shadow:0 1px 2px #000;
+}
+
+#battle-screen .run-score .progress{
+  position:absolute;
+  z-index:2;
+  top:60%;
+  right:6%;
+  left:6%;
+  height:9px;
+  margin:0;
+  overflow:hidden;
+  border:1px solid #8e642fbd;
+  border-radius:999px;
+  background:#080603dc;
+  box-shadow:inset 0 2px 4px #000,0 0 0 1px #1d140b;
+}
+
+#battle-screen .run-score .progress i{
+  display:block;
+  position:relative;
+  height:100%;
+  width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,#8d511c,#d3983f 62%,#ffe19a);
+  box-shadow:0 0 10px #d79537;
+  transition:width .4s ease;
+}
+
+#battle-screen .run-score .progress i::after{
+  content:"";
+  position:absolute;
+  right:-2px;
+  top:50%;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#fff0bc;
+  box-shadow:0 0 7px #ffd37b;
+  transform:translateY(-50%);
+}
+
+#battle-screen .score-coins{
+  position:absolute;
+  right:20px;
+  bottom:15px;
+  left:20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:0 5px;
+  color:#8f7a5a;
+  font-size:10px;
+  letter-spacing:.04em;
+}
+
+#battle-screen .score-coins span{
+  white-space:nowrap;
+}
+
+#battle-screen .score-coins b{
+  margin-left:5px;
+  color:#d8b46d;
+  font:600 13px Georgia,"Noto Serif SC",serif;
+}
+
+@media(max-width:1250px){
+  #battle-screen .run-score{min-height:132px;padding:17px 14px 13px}
+  #battle-screen .run-score .score-pair strong{font-size:31px}
+  #battle-screen .score-pair>div:last-child strong{font-size:22px}
+  #battle-screen .score-coins{font-size:9px}
+  #battle-screen .score-coins{right:14px;bottom:13px;left:14px}
+}
+
+@media(max-width:880px){
+  #battle-screen .run-score{min-height:128px;background-size:104% 146%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  #battle-screen .run-score .progress i{transition:none}
+}
+
+html.reduce-motion #battle-screen .run-score .progress i{
+  transition:none;
+}

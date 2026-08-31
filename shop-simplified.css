@@ -13,7 +13,8 @@
 .shop-dialog .shop-resource-panel{padding:18px 28px}
 .shop-dialog .shop-resource-panel section{min-height:0}
 .shop-dialog .shop-resource-panel small{font-size:15px;letter-spacing:.08em}
-.shop-dialog .shop-resource-panel strong{font-size:34px}
+.shop-dialog .shop-resource-panel strong{display:flex;align-items:center;gap:14px;font-size:34px}
+.shop-dialog .shop-resource-icon{width:50px;height:50px;object-fit:contain;flex:0 0 50px;filter:drop-shadow(0 2px 7px #dca84a45)}
 .shop-dialog .shop-browser{display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;padding:0}
 .shop-dialog .shop-tabs{padding:12px;gap:10px;border-bottom:1px solid #5d4321}
 .shop-dialog .shop-tabs button{min-height:46px;font-size:16px}
@@ -37,7 +38,13 @@
 .shop-dialog .shop-detail-hero p{margin:0!important;color:#d1b27a;font-size:18px!important;line-height:1.75!important}
 .shop-dialog .shop-footer{justify-content:flex-end;margin-top:22px!important;padding-top:0!important;border-top:0;background:transparent}
 .shop-dialog .shop-footer .shop-note{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.shop-dialog .shop-footer button{min-width:210px;padding:15px 24px;font-size:17px}
+.shop-dialog .shop-footer>div{display:flex;gap:16px}
+.shop-dialog .shop-footer button{width:300px;min-width:0;height:92px;margin:0!important;padding:0 38px 3px!important;border:0!important;background-color:transparent!important;background-position:center!important;background-repeat:no-repeat!important;background-size:100% 100%!important;color:#f3d99f!important;font-size:18px;text-shadow:0 2px 3px #000,0 0 8px #d9a44955;transition:filter .16s ease,transform .12s ease}
+.shop-dialog .shop-footer #shop-buy{background-image:url('assets/art/shop-buttons/purchase-v1.png')!important}
+.shop-dialog .shop-footer #shop-leave{background-image:url('assets/art/shop-buttons/leave-v1.png')!important;color:#d8c49c!important}
+.shop-dialog .shop-footer button:hover:not(:disabled){filter:brightness(1.13);transform:translateY(-2px)}
+.shop-dialog .shop-footer button:active:not(:disabled){filter:brightness(.92);transform:translateY(1px)}
+.shop-dialog .shop-footer button:disabled{filter:grayscale(.38) brightness(.55);opacity:.68;cursor:not-allowed}
 .shop-dialog.forge-mode .shop-forge-only{display:grid!important}
 .shop-dialog.forge-mode .shop-browser{background:linear-gradient(180deg,#0b0906a8,#06050498)}
 .shop-dialog.forge-mode .shop-forge-list{height:100%;max-height:none;display:grid;grid-auto-rows:minmax(112px,auto);align-content:start;gap:10px;padding:12px;overflow-y:auto}
@@ -82,6 +89,9 @@
   .shop-dialog[open]{height:auto!important;max-height:94dvh!important;overflow-y:auto!important}
   .shop-dialog .shop-layout{grid-template-columns:1fr!important}
   .shop-dialog .shop-resource-panel{grid-template-columns:repeat(3,1fr)}
+  .shop-dialog .shop-resource-icon{width:42px;height:42px;flex-basis:42px}
+  .shop-dialog .shop-footer>div{width:100%}
+  .shop-dialog .shop-footer button{width:50%;height:82px;padding-inline:22px!important;font-size:16px}
   .shop-dialog .shop-item-list{max-height:420px!important}
   .shop-dialog .shop-detail-hero{grid-template-columns:130px 1fr!important}
   .shop-dialog .shop-detail-hero h3{font-size:28px!important}

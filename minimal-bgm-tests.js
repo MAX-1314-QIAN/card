@@ -1,6 +1,7 @@
 const assert=require('assert'),fs=require('fs');
 const audio=fs.readFileSync('audio-effects.js','utf8'),game=fs.readFileSync('game.js','utf8'),html=fs.readFileSync('index.html','utf8');
-assert(html.includes('audio-effects.js?v=20260829-audio-controls-v2'),'页面必须刷新声音控制脚本缓存');
+assert(html.includes('audio-effects.js?v=20260831-static-score-v3'),'页面必须刷新声音控制脚本缓存');
+assert(!audio.includes("classList.add('score-pop')"),'当前得分更新不应触发放大动效');
 assert(!html.includes('本地合成音乐与音效')&&!html.includes('主菜单氛围、战斗循环、结算短句'),'设置页不得保留本地音乐说明块');
 assert(html.includes('id="music-enabled"')&&html.includes('id="sfx-enabled"'),'设置页必须提供独立的音乐与音效开关');
 for(const api of ['playMenuMusicStep','playBattleMusicStep','desiredMusicMode','startMusic','musicStinger'])assert(audio.includes(`function ${api}`),`缺少最小音乐模块：${api}`);

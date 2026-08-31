@@ -1,0 +1,13 @@
+const assert=require('assert'),fs=require('fs');
+const html=fs.readFileSync('index.html','utf8'),game=fs.readFileSync('game.js','utf8'),css=fs.readFileSync('battle-rule-panel.css','utf8');
+assert(html.includes('battle-rule-panel.css?v=20260831-key-info-readable-v3'),'战斗页必须加载规则说明区域样式');
+for(const id of ['active-battle-rule','active-battle-rule-desc','stage-intro-rule','stage-intro-rule-name','stage-intro-rule-desc'])assert(html.includes(`id="${id}"`),`规则说明区缺少字段：${id}`);
+assert(html.indexOf('class="protocol battle-rule-panel')>html.indexOf('class="boss-dialogue"')&&html.indexOf('class="protocol battle-rule-panel')<html.indexOf('class="run-score'),'规则说明区必须位于对手头像区域下方、得分区域上方');
+assert(game.includes('activeStageLimitView()')&&game.includes("$('#active-battle-rule').textContent=ruleName")&&game.includes("$('#stage-intro-rule-desc').textContent=ruleDescription"),'规则说明必须同步展示在战前提示与战斗界面');
+assert(game.includes("ruleDescription=limit?.description||'无'"),'前三关无随机规则时必须直接显示“无”');
+assert(html.includes('id="active-battle-rule-desc">无</p>')&&html.includes('id="stage-intro-rule-desc">无</p>'),'规则区域初始文案必须与前三关无规则状态一致');
+assert(game.includes('ensureStageLimit()')&&game.includes('setNodeRuntime({stageLimit:instance})'),'随机限制必须在节点首次进入时抽取并写入节点运行时');
+assert(!game.includes('bossProfileById')&&!game.includes('bossRuleById')&&!game.includes('interventionProfileById'),'恢复说明区域不得重新启用已取消的首领规则运行系统');
+assert(css.includes('min-height:102px')&&css.includes('font-size:21px')&&css.includes('font-size:15.5px'),'规则说明区必须提供清晰可读的面板高度、标题与正文尺寸');
+assert(css.includes('min-height:90px')&&css.includes('font-size:14px'),'窄屏下规则说明仍需保持可读，不得退回过小字号');
+console.log('battle rule panel tests passed');

@@ -1,7 +1,7 @@
 /* Battle-only persona hierarchy. No selectors outside the left persona rail. */
 @media(min-width:881px){
   #battle-screen.game-frame{
-    grid-template-columns:clamp(300px,22vw,360px) minmax(650px,1fr) 24%;
+    grid-template-columns:clamp(330px,24vw,390px) minmax(600px,1fr) clamp(310px,24vw,390px);
   }
 
   #battle-screen .persona-rail .persona-list{
@@ -16,10 +16,10 @@
 
   #battle-screen .persona-rail .persona{
     width:100%;
-    height:132px;
-    grid-template-columns:76px minmax(0,1fr);
-    gap:10px;
-    padding:8px;
+    height:148px;
+    grid-template-columns:82px minmax(0,1fr);
+    gap:12px;
+    padding:10px;
     border-color:#9a703c8c;
     background:linear-gradient(100deg,#100d09b8 0,#0b09079c 68%,#0807055c 100%);
     box-shadow:inset 0 0 0 1px #d0a45d1c,0 8px 20px #0005;
@@ -38,7 +38,7 @@
     margin:0;
     overflow:hidden;
     color:#f0d9aa;
-    font-size:16px;
+    font-size:18px;
     line-height:1.25;
     text-overflow:ellipsis;
     white-space:nowrap;
@@ -48,31 +48,33 @@
     display:flex;
     align-items:baseline;
     gap:7px;
-    margin:3px 0 6px;
+    margin:5px 0 7px;
     color:#e2c68d;
     line-height:1.25;
   }
 
   #battle-screen .persona-rail .persona-battle-trigger{
-    margin:3px 0 0;
+    display:-webkit-box;
+    margin:5px 0 0;
     overflow:hidden;
     color:#c8b68c;
-    font-size:10px;
-    line-height:1.2;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    font-size:13px;
+    font-weight:500;
+    line-height:1.42;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
   }
 
   #battle-screen .persona-rail .persona-battle-summary b{
     color:#a89571;
-    font-size:9px;
+    font-size:11px;
     font-weight:500;
     white-space:nowrap;
   }
 
   #battle-screen .persona-rail .persona-battle-summary strong{
     color:#f1bd58;
-    font-size:13px;
+    font-size:15px;
     font-weight:600;
   }
 
@@ -84,9 +86,12 @@
   }
 
   #battle-screen .persona-rail .persona-battle-affixes li{
-    display:block;
+    display:grid;
+    grid-template-columns:max-content minmax(0,1fr);
+    align-items:center;
+    gap:8px;
     min-width:0;
-    min-height:27px;
+    min-height:23px;
     padding:3px 6px;
     border:1px solid #9a703c66;
     background:#17110973;
@@ -102,20 +107,22 @@
   }
 
   #battle-screen .persona-rail .persona-battle-affixes b{color:#bca77e;font-size:8px;font-weight:500}
-  #battle-screen .persona-rail .persona-battle-affixes span{margin-top:2px;color:#dfc487;font-size:9.5px}
+  #battle-screen .persona-rail .persona-battle-affixes span{margin-top:0;color:#dfc487;font-size:9.5px}
   #battle-screen .persona-rail .persona-battle-affixes li.locked{border-color:#67543b59;background:#0d0b0870;opacity:.7}
   #battle-screen .persona-rail .persona-battle-affixes li.locked span{color:#8d826e}
 
   @media(max-width:1250px){
     #battle-screen.game-frame{
-      grid-template-columns:215px minmax(530px,1fr) 240px;
+      grid-template-columns:clamp(205px,23vw,260px) minmax(380px,1fr) clamp(210px,23vw,270px);
     }
 
     #battle-screen .persona-rail .persona-list{right:6px;left:6px}
-    #battle-screen .persona-rail .persona{height:124px;grid-template-columns:66px minmax(0,1fr);gap:7px;padding:7px}
-    #battle-screen .persona-rail .persona-card-heading h3{font-size:14px}
+    #battle-screen .persona-rail .persona{height:138px;grid-template-columns:70px minmax(0,1fr);gap:8px;padding:8px}
+    #battle-screen .persona-rail .persona-card-heading h3{font-size:16px}
     #battle-screen .persona-rail .persona-battle-summary{gap:4px}
-    #battle-screen .persona-rail .persona-battle-trigger{font-size:9px}
-    #battle-screen .persona-rail .persona-battle-summary strong{font-size:11px}
+    #battle-screen .persona-rail .persona-battle-trigger{font-size:12px;line-height:1.38}
+    #battle-screen .persona-rail .persona-battle-summary b{font-size:10px}
+    #battle-screen .persona-rail .persona-battle-summary strong{font-size:14px}
+    #battle-screen .persona-rail .persona-battle-affixes li{gap:5px}
   }
 }

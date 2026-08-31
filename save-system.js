@@ -3,7 +3,7 @@
   const balance=globalThis.BALANCE_V21,manifest=globalThis.PERSONA_BALANCE_MANIFEST;
   if(!balance||!manifest)throw new Error('Run save requires balance manifest');
   const SAVE_KEY='persona-run-save-v2',TEMP_KEY='persona-run-save-temp-v2',LEGACY_KEY='persona-run-save-v1',LEGACY_TEMP_KEY='persona-run-save-temp-v1',VERSION=2;
-  const phases=['boss_reveal','battle','settlement','route','event','shop','report','forge','choice','acquire','persona_growth','slice_end','target_loadout','target_report','target_carry'];
+  const phases=['stage_intro','boss_reveal','battle','settlement','route','event','shop','report','forge','choice','acquire','persona_growth','slice_end','target_loadout','target_report','target_carry'];
   let invalidatedLegacySave=false;
   const parse=raw=>{try{return JSON.parse(raw)}catch{return null}};
   const validCard=card=>card&&typeof card==='object'&&typeof card.r==='string'&&typeof card.s==='string'&&Number.isFinite(card.ri)&&(!card.shopModifiers||(['bonusCoins','bonusMult','bonusXmultRate'].every(key=>Number.isFinite(Number(card.shopModifiers[key]||0)))));
@@ -36,7 +36,7 @@
   function write(phase,reason='auto'){if(typeof window.buildRunSaveState!=='function')return false;const save={version:VERSION,savedAt:Date.now(),phase,reason,state:window.buildRunSaveState()};if(!validate(save)||!persist(save))return false;window.dispatchEvent?.(new CustomEvent('run-save-changed'));return true}
   function clear(){try{for(const key of [SAVE_KEY,TEMP_KEY,LEGACY_KEY,LEGACY_TEMP_KEY])localStorage.removeItem(key);invalidatedLegacySave=false;window.dispatchEvent?.(new CustomEvent('run-save-changed'))}catch{}}
   function restore(){const save=read();return save&&typeof window.restoreRunSaveState==='function'?window.restoreRunSaveState(save):false}
-  function summary(){const save=read();if(!save)return null;const labels={boss_reveal:'首领规则揭示',battle:'战斗中',settlement:'战斗结算',route:'路线选择',event:'随机事件',shop:'幕间商店',report:'人格报告',forge:'人格铸造',choice:'人格三选一',acquire:'人格获得',persona_growth:'人格成长测试',slice_end:'垂直切片结束',target_loadout:'目标长局人格选择',target_report:'目标长局报告',target_carry:'目标长局人格带出'};return{...save,label:labels[save.phase]||save.phase,node:save.state.runState.battleIndexCompat+1,currentNodeId:save.state.runState.currentNodeId}}
+  function summary(){const save=read();if(!save)return null;const labels={stage_intro:'关卡揭示',boss_reveal:'关卡揭示',battle:'战斗中',settlement:'战斗结算',route:'路线选择',event:'随机事件',shop:'幕间商店',report:'人格报告',forge:'人格铸造',choice:'人格三选一',acquire:'人格获得',persona_growth:'人格成长测试',slice_end:'垂直切片结束',target_loadout:'目标长局人格选择',target_report:'目标长局报告',target_carry:'目标长局人格带出'};return{...save,label:labels[save.phase]||save.phase,node:save.state.runState.battleIndexCompat+1,currentNodeId:save.state.runState.currentNodeId}}
   function hadInvalidatedLegacySave(){read();return invalidatedLegacySave}
   window.runSave={read,write,clear,restore,summary,validate,hadInvalidatedLegacySave,key:SAVE_KEY};window.commitRunSave=(phase,reason)=>write(phase,reason);window.clearRunSave=clear;
 })();

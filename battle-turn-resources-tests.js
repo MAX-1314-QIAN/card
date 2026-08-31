@@ -1,0 +1,18 @@
+const assert=require('assert'),fs=require('fs');
+const html=fs.readFileSync('index.html','utf8'),game=fs.readFileSync('game.js','utf8'),css=fs.readFileSync('battle-turn-resources.css','utf8');
+assert(html.includes('battle-turn-resources.css?v=20260831-static-status-v2'),'战斗页必须加载静态行动次数样式');
+assert(html.includes('<b>出牌次数</b>')&&html.includes('<b>弃牌次数</b>'),'行动资源必须使用完整、醒目的名称');
+assert(!html.includes('class="turns-heading"')&&!html.includes('剩余 / 总次数'),'行动资源不应保留后台式总标题和辅助说明');
+assert(!html.includes('<small>空格键</small>')&&!html.includes('<small>D 键</small>'),'行动资源卡不应重复显示快捷键标签');
+assert(html.includes('id="hands-resource"')&&html.includes('id="discards-resource"'),'出牌和弃牌必须拥有独立资源卡');
+assert(html.indexOf('id="hands-resource"')<html.indexOf('id="discards-resource"'),'决定战败的出牌次数必须优先展示');
+assert(game.includes("renderTurnResource('#hands-resource'")&&game.includes("renderTurnResource('#discards-resource'"),'资源卡必须同步真实剩余次数');
+assert(game.includes("classList.toggle('is-low'")&&game.includes("classList.toggle('is-empty'"),'行动资源必须提供低次数和耗尽状态');
+assert(!game.includes("replayClass(resource,'spent'"),'行动次数变化不应触发弹起或位移动效');
+assert(!css.includes('turn-resource-spent'),'行动次数样式不应保留消耗弹动关键帧');
+assert(!css.includes('.turn-resource.spent'),'行动次数样式不应保留消耗弹动状态');
+assert(css.includes('.turn-copy b')&&css.includes('font-size:17px')&&css.includes('font-size:38px'),'行动名称与剩余数字必须建立清晰字号层级');
+assert(css.includes("url('assets/art/battle-hud/action-resource-plate-v1.png')")&&fs.existsSync('assets/art/battle-hud/action-resource-plate-v1.png'),'行动资源必须使用已落地的正式美术底板');
+assert(css.includes('--turn-fill')&&css.includes('.turn-resource.is-low')&&css.includes('.turn-resource.is-empty'),'资源卡必须同时表现余量、警示和耗尽状态');
+assert(css.includes('@media(prefers-reduced-motion:reduce)')&&css.includes('html.reduce-motion'),'行动反馈必须遵守系统与游戏内的减少动效设置');
+console.log('battle turn resources tests passed');

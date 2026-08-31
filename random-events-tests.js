@@ -10,7 +10,7 @@ const context={console,setTimeout(fn){fn()},clearTimeout,document:documentStub,w
 context.window.gameSfx=()=>{};context.window.commitRunSave=()=>true;
 vm.createContext(context);loadBalance(context,{includeSystemTestRun:true});vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 
-vm.runInContext("window.openBossReveal=()=>{};reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_WIN'});currentRandomEvent={...routeEventPool.find(event=>event.id==='broken_clock'),options:routeEventPool.find(event=>event.id==='broken_clock').options.map(option=>({...option}))};extraHand=0;nextTargetModifier=1;resolveRandomEvent('wind')",context);
+vm.runInContext("window.openStageIntro=()=>{};reset();runController.startRun('RUN_TEMPLATE_SYSTEM_TEST');runController.completeNode({type:'BATTLE_WIN'});currentRandomEvent={...routeEventPool.find(event=>event.id==='broken_clock'),options:routeEventPool.find(event=>event.id==='broken_clock').options.map(option=>({...option}))};extraHand=0;nextTargetModifier=1;resolveRandomEvent('wind')",context);
 assert.strictEqual(vm.runInContext('battleIndex',context),1);
 assert.strictEqual(vm.runInContext('hands',context),5);
 assert.strictEqual(vm.runInContext('nextTargetModifier',context),1.1);
