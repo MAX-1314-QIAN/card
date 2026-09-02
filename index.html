@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="persona-library-layout.css?v=20260830-full-portrait-v1">
   <link rel="stylesheet" href="persona-growth-acquire.css?v=20260830-growth-trigger-clarity-v2">
   <link rel="stylesheet" href="background-art.css?v=20260829-shop-background-v3">
-  <link rel="stylesheet" href="shop-simplified.css?v=20260830-shop-buttons-v7">
+  <link rel="stylesheet" href="shop-simplified.css?v=20260902-growth-refresh-v8">
   <link rel="stylesheet" href="main-menu-buttons.css?v=20260827-isolated-component-v1">
   <link rel="stylesheet" href="battle-background.css?v=20260827-battle-scene-v1">
   <link rel="stylesheet" href="battle-action-buttons.css?v=20260831-battle-actions-original-v1">
@@ -263,7 +263,13 @@
   <dialog id="shop-dialog" class="shop-dialog">
     <header class="shop-header"><h2>商店</h2></header>
     <div class="shop-layout"><aside class="shop-resource-panel"><section><small>当前金币</small><strong><img class="shop-resource-icon" src="assets/art/shop-resources/coin-v1.png" alt="" aria-hidden="true"><b id="shop-coins">0</b></strong></section><section><small>牌库数量</small><strong><img class="shop-resource-icon" src="assets/art/shop-resources/deck-v1.png" alt="" aria-hidden="true"><b id="shop-deck-count">0</b></strong></section><section><small>已有人格</small><strong><img class="shop-resource-icon" src="assets/art/shop-resources/persona-v1.png" alt="" aria-hidden="true"><b id="shop-persona-count">0</b></strong></section></aside><section class="shop-browser"><nav class="shop-tabs"><button type="button" class="active" data-shop-tab="goods" aria-selected="true">商品</button><button type="button" data-shop-tab="forge" aria-selected="false">人格铸造</button></nav><div id="shop-goods-panel"><div class="shop-item-list" id="shop-item-list" tabindex="0" aria-label="商品列表，可上下滚动"></div></div><div id="shop-forge-panel" class="hidden" hidden><div class="shop-forge-list" id="shop-forge-list" tabindex="0" aria-label="已拥有人格列表，可上下滚动"></div></div></section><section class="shop-detail-panel"><div class="shop-detail-hero"><div class="shop-detail-icon" id="shop-detail-icon">◇</div><div><h3 id="shop-detail-name">选择商品</h3><p id="shop-detail-effect">从左侧选择一项商品查看效果。</p></div></div><div id="shop-result" class="shop-forge-only shop-affix-slots" aria-live="polite"></div></section></div>
-    <footer class="shop-footer"><p class="shop-note" id="shop-note" aria-live="polite"></p><div><button id="shop-buy" type="button">购买商品</button><button id="shop-leave" type="button">离开商店</button></div></footer>
+    <footer class="shop-footer"><p class="shop-note" id="shop-note" aria-live="polite"></p><div><button id="shop-refresh" type="button">免费刷新</button><button id="shop-buy" type="button">购买商品</button><button id="shop-leave" type="button">离开商店</button></div></footer>
+  </dialog>
+
+  <dialog id="shop-upgrade-dialog" class="shop-upgrade-dialog">
+    <header><small>强化商品</small><h2 id="shop-upgrade-title">选择强化目标</h2><p id="shop-upgrade-copy"></p></header>
+    <div id="shop-upgrade-options" class="shop-upgrade-options" role="listbox" aria-label="强化目标"></div>
+    <footer><span id="shop-upgrade-price">请选择目标</span><button id="shop-upgrade-cancel" type="button">返回商店</button><button id="shop-upgrade-confirm" type="button" disabled>确认购买</button></footer>
   </dialog>
 
   <dialog id="persona-dialog" class="persona-dialog">
@@ -389,16 +395,16 @@
   <script src="persona/persona-effect-executor.js?v=20260826-flat-affixes-v5"></script>
   <script src="persona/legacy-persona-adapter.js?v=20260826-affix-lineage-v3"></script>
 <script src="persona/persona-feedback.js?v=20260826-flat-affixes-v5"></script>
-<script src="persona/persona-runtime.js?v=20260826-flat-affixes-v5"></script>
+<script src="persona/persona-runtime.js?v=20260902-shop-growth-v6"></script>
 <script src="persona/persona-collection.js?v=20260826-permanent-collection-v1"></script>
 <script src="run-controller.js"></script>
 <script src="save-system.js"></script>
 <script src="poker-engine.js"></script>
 <script src="stage-limit-runtime.js?v=20260831-player-readable-v2"></script>
-<script src="shop/shop-runtime.js?v=20260829-concise-copy-v1"></script>
+<script src="shop/shop-runtime.js?v=20260902-growth-refresh-v2"></script>
 <script src="deck-sort-runtime.js"></script>
 <script src="card-art-manifest.js?v=20260827-full-deck-v2"></script>
-  <script src="game.js?v=20260831-neutral-rule-copy-v11&art=20260827-card-v1"></script>
+  <script src="game.js?v=20260902-growth-refresh-round4-v12&art=20260827-card-v1"></script>
   <script src="shell.js?v=20260826-main-menu-cleanup-v2"></script>
   <script src="audio-effects.js?v=20260831-static-score-v3"></script>
   <script src="tutorial.js"></script>

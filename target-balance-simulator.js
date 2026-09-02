@@ -174,7 +174,7 @@ function summarizePolicy(policy,runs){
   return{policy,runCount:runs.length,fullClearRate:runs.filter(run=>run.cleared).length/runs.length,averageBattlesReached:average(runs.map(run=>run.battles.length)),mostCommonFailNode:Object.entries(failCounts).sort((a,b)=>b[1]-a[1])[0]?.[0]||'无',medianRunTotalScore:percentile(runs.map(run=>run.runTotalScore),.5),medianMaxSingleHandScore:percentile(runs.map(run=>run.maxSingleHandScore),.5),maxSingleHandScoreObserved:Math.max(...runs.map(run=>run.maxSingleHandScore)),nodeStats};
 }
 
-const growthSegments={N04:{before:['N01','N02','N03'],after:['N05','N06','N07']},N08:{before:['N05','N06','N07'],after:['N09','N10','N11']},N12:{before:['N09','N10','N11'],after:['N13']}};
+const growthSegments={N04:{before:['N01','N02','N03'],after:['N05','N06','N07']},N08:{before:['N05','N06','N07'],after:['N09','N10','N11']},N12:{before:['N09','N10','N11'],after:['N13','N14','N15']}};
 function summarizeGrowth(runs){
   const result={};
   for(const [nodeId,segment] of Object.entries(growthSegments)){

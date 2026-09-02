@@ -7,7 +7,7 @@ const context={globalThis:null};context.globalThis=context;vm.createContext(cont
 const config=context.BALANCE_V21;
 
 assert.strictEqual(config.meta.version,'2.1');
-assert.deepStrictEqual(Array.from(config.battle.targets),[950,1100,1250,1350,1500,1650,1750,1950,2150,2600]);
+assert.deepStrictEqual(Array.from(config.battle.targets),[950,1100,1250,1350,1500,1650,1750,1950,2150,2300,2500,2750,3200]);
 assert.strictEqual(config.battle.baseHands,4);
 assert.strictEqual(config.battle.baseDiscards,3);
 assert.strictEqual(config.battle.startingHandSize,8);
@@ -34,7 +34,7 @@ const html=fs.readFileSync('index.html','utf8'),gameSource=fs.readFileSync('game
 assert.ok(/id="deck-target-mode"[^>]*debug-deck-target hidden/.test(html));
 assert.ok(/function confirmDeckTarget\(\)[\s\S]*if\(!balance\.featureFlags\.manualDeckTargetBoostEnabled\)return;/.test(gameSource),'普通牌库强化仍受关闭的开发开关保护，商店目标选择走独立正式入口');
 assert.strictEqual(config.shop.id,'TARGET_SHOP_V1');
-assert.strictEqual(config.shop.items.length,65);
+assert.strictEqual(config.shop.items.length,68);
 assert.ok(!/id="deck-detail-desc"[^>]*>[^<]*\+3/.test(html));
 
 function assertNoFunctions(value,path='BALANCE_V21'){

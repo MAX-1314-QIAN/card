@@ -21,7 +21,7 @@
       effect:{type:'ADD_CARD',quantity:1,cardConfigId,card:{suitId:suit.id,suitName:suit.name,suitSymbol:suit.symbol,rank}},
       sourceEffect:{type:'增加卡牌',parameter1:1,parameter2:null},
       decisionStatus:'CONFIRMED',
-      fieldDecisionStatus:{purchaseLimitScope:'PROTOTYPE_ASSUMPTION'}
+      fieldDecisionStatus:{purchaseLimitScope:'CONFIRMED'}
     };
   }));
   const personaSpecs=[
@@ -44,7 +44,7 @@
     effect:{type:'ADD_PERSONA',quantity:1,personaTemplateId},
     sourceEffect:{type:'增加人格牌',parameter1:1,parameter2:null},
     decisionStatus:'CONFIRMED',
-    fieldDecisionStatus:{purchaseLimitScope:'PROTOTYPE_ASSUMPTION'}
+    fieldDecisionStatus:{purchaseLimitScope:'CONFIRMED'}
   }));
   const serviceItems=[
     {
@@ -71,8 +71,26 @@
       id:'SHOP_SERVICE_005',name:'卡牌移除',itemType:'SERVICE',price:5,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
       effect:{type:'REMOVE_CARD',quantity:1,requiresTarget:true},
       sourceEffect:{type:'移除卡牌',parameter1:1,parameter2:null}
+    },
+    {
+      id:'SHOP_SERVICE_006',name:'人格主词条强化',itemType:'SERVICE',price:8,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      priceGrowth:{type:'PER_TARGET_LEVEL',increment:3},
+      effect:{type:'UPGRADE_PERSONA_MAIN',requiresTarget:true,targetKind:'PERSONA',amountByAttributeType:{BASE_CHIPS:10,BASE_MULT:.3,XMULT_RATE:.1}},
+      sourceEffect:{type:'强化人格主词条',parameter1:'按主词条类别',parameter2:'筹码+10 / 倍率+0.3 / 独立倍率+10%'}
+    },
+    {
+      id:'SHOP_SERVICE_007',name:'花色强化',itemType:'SERVICE',price:8,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      priceGrowth:{type:'PER_TARGET_LEVEL',increment:3},
+      effect:{type:'UPGRADE_SUIT',requiresTarget:true,targetKind:'SUIT',chipsPerScoringCard:5},
+      sourceEffect:{type:'强化花色',parameter1:'全套',parameter2:'每张计分牌+5筹码'}
+    },
+    {
+      id:'SHOP_SERVICE_008',name:'牌型强化',itemType:'SERVICE',price:8,purchaseLimit:1,purchaseLimitScope:'SHOP_VISIT',
+      priceGrowth:{type:'PER_TARGET_LEVEL',increment:3},
+      effect:{type:'UPGRADE_HAND_TYPE',requiresTarget:true,targetKind:'HAND_TYPE',baseChipRate:.1,baseMultRate:.1},
+      sourceEffect:{type:'强化牌型',parameter1:'全套',parameter2:'原始基础筹码与倍率各+10%'}
     }
-  ].map(item=>({...item,decisionStatus:'CONFIRMED',fieldDecisionStatus:{purchaseLimitScope:'PROTOTYPE_ASSUMPTION'}}));
+  ].map(item=>({...item,decisionStatus:'CONFIRMED',fieldDecisionStatus:{purchaseLimitScope:'CONFIRMED'}}));
   const refreshProfiles=[
     {
       id:'AI1',stageNodeId:'N04',offerSlotCount:4,decisionStatus:'CONFIRMED',fieldDecisionStatus:{offerSlotCount:'CONFIRMED'},
@@ -106,14 +124,15 @@
   ];
   modules.targetShop={
     id:'TARGET_SHOP_V1',
-    version:1,
+    version:2,
     itemTypes:['CARD','PERSONA','SERVICE'],
     items:[...cardItems,...personaItems,...serviceItems],
     refreshProfiles,
     poolEntries,
     assumptions:{
-      offerSlotCount:{value:4,decisionStatus:'CONFIRMED',reason:'策划已确认商品界面固定为四个商品槽位。'},
-      purchaseLimitScope:{value:'SHOP_VISIT',decisionStatus:'PROTOTYPE_ASSUMPTION',reason:'配表仅声明限购 1 次，未声明是单商店或整局。'}
+      offerSlotCount:{value:4,decisionStatus:'CONFIRMED',reason:'策划已确认本阶段不调整商品卡槽位。'},
+      purchaseLimitScope:{value:'SHOP_VISIT',decisionStatus:'CONFIRMED',reason:'刷新后仍按整个商店节点限购，避免借刷新重复购买同一商品。'},
+      refreshPrice:{firstRefreshFree:true,basePaidPrice:1,increment:1,resetScope:'SHOP_VISIT',decisionStatus:'CONFIRMED'}
     },
     decisionStatus:'CONFIRMED'
   };

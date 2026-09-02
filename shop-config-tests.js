@@ -18,18 +18,19 @@ function sequenceRandom(values){let index=0;return()=>{assert.ok(index<values.le
 
 assert.strictEqual(containsFunction(rawConfig),false,'final shop config must not contain executable functions');
 assert.strictEqual(config.id,'TARGET_SHOP_V1');
-assert.strictEqual(config.version,1);
-assert.strictEqual(config.items.length,65);
+assert.strictEqual(config.version,2);
+assert.strictEqual(config.items.length,68);
 assert.strictEqual(config.items.filter(item=>item.itemType==='CARD').length,52);
 assert.strictEqual(config.items.filter(item=>item.itemType==='PERSONA').length,8);
-assert.strictEqual(config.items.filter(item=>item.itemType==='SERVICE').length,5);
-assert.strictEqual(new Set(config.items.map(item=>item.id)).size,65);
+assert.strictEqual(config.items.filter(item=>item.itemType==='SERVICE').length,8);
+assert.strictEqual(new Set(config.items.map(item=>item.id)).size,68);
 assert.ok(config.items.every(item=>item.purchaseLimit===1&&item.purchaseLimitScope==='SHOP_VISIT'));
-assert.ok(config.items.every(item=>item.fieldDecisionStatus.purchaseLimitScope==='PROTOTYPE_ASSUMPTION'));
+assert.ok(config.items.every(item=>item.fieldDecisionStatus.purchaseLimitScope==='CONFIRMED'));
 assert.strictEqual(config.assumptions.offerSlotCount.value,4);
 assert.strictEqual(config.assumptions.offerSlotCount.decisionStatus,'CONFIRMED');
 assert.strictEqual(config.assumptions.purchaseLimitScope.value,'SHOP_VISIT');
-assert.strictEqual(config.assumptions.purchaseLimitScope.decisionStatus,'PROTOTYPE_ASSUMPTION');
+assert.strictEqual(config.assumptions.purchaseLimitScope.decisionStatus,'CONFIRMED');
+assert.deepStrictEqual(config.assumptions.refreshPrice,{firstRefreshFree:true,basePaidPrice:1,increment:1,resetScope:'SHOP_VISIT',decisionStatus:'CONFIRMED'});
 
 const suitGroups=[['黑桃','♠'],['红桃','♥'],['梅花','♣'],['方块','♦']],ranks=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
 const expectedCards=suitGroups.flatMap(([suitName,suitSymbol])=>ranks.map(rank=>({name:`${suitName}${rank}`,suitSymbol,rank})));
@@ -69,13 +70,21 @@ const expectedServices=[
   ['SHOP_SERVICE_005','卡牌移除',5,null,1]
 ];
 const services=config.items.filter(item=>item.itemType==='SERVICE');
-services.forEach((item,index)=>{
+services.slice(0,5).forEach((item,index)=>{
   const [id,name,price,targetStat,amount]=expectedServices[index];
   assert.strictEqual(item.id,id);assert.strictEqual(item.name,name);assert.strictEqual(item.price,price);
   if(targetStat){assert.strictEqual(item.effect.type,'UPGRADE_CARD');assert.strictEqual(item.effect.targetStat,targetStat);assert.strictEqual(item.effect.amount,amount);assert.strictEqual(item.effect.requiresTarget,true)}
   else{assert.strictEqual(item.effect.type,'REMOVE_CARD');assert.strictEqual(item.effect.quantity,amount);assert.strictEqual(item.effect.requiresTarget,true)}
 });
 assert.strictEqual(services[3].sourceEffect.parameter2Display,'3%');
+assert.deepStrictEqual(services.slice(5).map(item=>[item.id,item.name,item.price,item.effect.type,item.priceGrowth.increment]),[
+  ['SHOP_SERVICE_006','人格主词条强化',8,'UPGRADE_PERSONA_MAIN',3],
+  ['SHOP_SERVICE_007','花色强化',8,'UPGRADE_SUIT',3],
+  ['SHOP_SERVICE_008','牌型强化',8,'UPGRADE_HAND_TYPE',3]
+]);
+assert.deepStrictEqual(services[5].effect.amountByAttributeType,{BASE_CHIPS:10,BASE_MULT:.3,XMULT_RATE:.1});
+assert.strictEqual(services[6].effect.chipsPerScoringCard,5);
+assert.deepStrictEqual([services[7].effect.baseChipRate,services[7].effect.baseMultRate],[.1,.1]);
 
 const expectedRefresh={
   AI1:{node:'N04',ids:['REFRESH_001','REFRESH_002','REFRESH_003'],weights:[45,20,35]},
@@ -94,12 +103,12 @@ for(const profile of config.refreshProfiles){
   assert.strictEqual(profile.typeRules.reduce((sum,rule)=>sum+rule.weight,0),100);
 }
 
-assert.strictEqual(config.poolEntries.length,65);
-assert.strictEqual(new Set(config.poolEntries.map(entry=>entry.id)).size,65);
-assert.strictEqual(new Set(config.poolEntries.map(entry=>entry.itemId)).size,65);
+assert.strictEqual(config.poolEntries.length,68);
+assert.strictEqual(new Set(config.poolEntries.map(entry=>entry.id)).size,68);
+assert.strictEqual(new Set(config.poolEntries.map(entry=>entry.itemId)).size,68);
 assert.deepStrictEqual(config.poolEntries.slice(0,52).map(entry=>entry.weight),new Array(52).fill(1));
 assert.deepStrictEqual(config.poolEntries.slice(52,60).map(entry=>entry.weight),new Array(8).fill(10));
-assert.deepStrictEqual(config.poolEntries.slice(60).map(entry=>entry.weight),new Array(5).fill(20));
+assert.deepStrictEqual(config.poolEntries.slice(60).map(entry=>entry.weight),new Array(8).fill(20));
 config.poolEntries.forEach((entry,index)=>{
   if(index<52)assert.strictEqual(entry.id,`POLL_CARD_${String(index+1).padStart(3,'0')}`);
   else if(index<60)assert.strictEqual(entry.id,`POOL_PERSONA_${String(index-51).padStart(3,'0')}`);
@@ -133,6 +142,9 @@ assert.strictEqual(ShopRuntime.describeEffect(services[1]),'选择1张牌，金�
 assert.strictEqual(ShopRuntime.describeEffect(services[2]),'选择1张牌，基础倍率+0.5。');
 assert.strictEqual(ShopRuntime.describeEffect(services[3]),'选择1张牌，独立倍率+3%。');
 assert.strictEqual(ShopRuntime.describeEffect(services[4]),'移除1张牌。');
+assert.ok(ShopRuntime.describeEffect(services[5]).includes('筹码+10'));
+assert.ok(ShopRuntime.describeEffect(services[6]).includes('每张筹码+5'));
+assert.ok(ShopRuntime.describeEffect(services[7]).includes('各提升10%'));
 assert.strictEqual(ShopRuntime.describeEffect(cards.find(item=>item.name==='红桃5')),'一张红桃5扑克牌。');
 assert.strictEqual(ShopRuntime.describeEffect(cards.find(item=>item.name==='方块10')),'一张方片10扑克牌。');
 assert.strictEqual(ShopRuntime.describeEffect(personas[6]),'获得人格牌07。');
@@ -141,5 +153,9 @@ const removal=ShopRuntime.removeCardByUid([spadeAce,clubAce],spadeAce.uid);asser
 assert.deepStrictEqual(ShopRuntime.purchaseAvailability({item:cards[0],coins:1,purchaseCount:0}),{allowed:false,reason:'INSUFFICIENT_COINS'});
 assert.deepStrictEqual(ShopRuntime.purchaseAvailability({item:cards[0],coins:2,purchaseCount:1}),{allowed:false,reason:'PURCHASE_LIMIT_REACHED'});
 assert.deepStrictEqual(ShopRuntime.purchaseAvailability({item:cards[0],coins:2,purchaseCount:0}),{allowed:true,reason:'AVAILABLE'});
+assert.deepStrictEqual([ShopRuntime.refreshCost(0),ShopRuntime.refreshCost(1),ShopRuntime.refreshCost(2)],[0,1,2]);
+let growth=ShopRuntime.applySuitUpgrade({},'♥',services[6]);assert.strictEqual(growth.suitChipBonusBySuit['♥'],5);assert.strictEqual(growth.suitLevelsBySuit['♥'],1);
+growth=ShopRuntime.applyHandTypeUpgrade(growth,'flush',services[7]);assert.strictEqual(growth.handTypeLevelsById.flush,1);
+assert.strictEqual(ShopRuntime.targetUpgradePrice(services[7],0),8);assert.strictEqual(ShopRuntime.targetUpgradePrice(services[7],2),14);
 
-console.log('shop-config-tests: 65 items, exact mappings, AI weights, pools, assumptions, deterministic no-duplicate refresh and card service attributes passed');
+console.log('shop-config-tests: 68 items, three run-growth services, refresh pricing, pools and card service attributes passed');

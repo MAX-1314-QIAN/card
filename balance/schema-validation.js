@@ -5,7 +5,7 @@
   const PERSONA_CONDITION_TYPES=new Set(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','HAND_QUALITY_IS','HAND_TYPE_IS','HAND_TYPE_IN','SAME_HAND_TYPE_STREAK_AT_LEAST','DIFFERENT_FROM_PREVIOUS_HAND','DISCARDED_CARD_COUNT_AT_LEAST','PERSONA_RUNTIME_FLAG','UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN','HAND_HAS_STRAIGHT','MIN_UNIQUE_SUITS','HAS_MATCHED_RANK_STRUCTURE','HAND_HAS_FLUSH']);
   const PERSONA_RUNTIME_EFFECT_TYPES=new Set(['ADD_CHIPS','ADD_MULT','MULTIPLY_FINAL','ADD_XMULT_RATE','ADD_COINS','ADD_HAND_LIMIT','ADD_DISCARD_LIMIT','SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG','ADD_RUNTIME_COUNTER','ADD_GROWTH_STACK']);
   const SHOP_ITEM_TYPES=new Set(['CARD','PERSONA','SERVICE']);
-  const SHOP_EFFECT_TYPES=new Set(['ADD_CARD','ADD_PERSONA','UPGRADE_CARD','REMOVE_CARD']);
+  const SHOP_EFFECT_TYPES=new Set(['ADD_CARD','ADD_PERSONA','UPGRADE_CARD','REMOVE_CARD','UPGRADE_PERSONA_MAIN','UPGRADE_SUIT','UPGRADE_HAND_TYPE']);
   const SHOP_CARD_STATS=new Set(['BONUS_CHIPS','BONUS_COINS','BONUS_MULT','BONUS_XMULT_RATE']);
   const STAGE_LIMIT_CATEGORIES=new Set(['ACTION','HAND','SCORE','RESOURCE','PERSONA']);
   const STAGE_LIMIT_EFFECT_TYPES=new Set(['TARGET_SCORE_DELTA','STARTING_HAND_DELTA','STARTING_DISCARD_DELTA','STARTING_HAND_SIZE_DELTA','HAND_BASE_CHIP_DELTA_ON_QUALITY','HAND_BASE_CHIP_DELTA_ON_REPEATED_HAND_TYPE','HAND_BASE_CHIP_DELTA_ON_RANDOM_HAND_TYPE','FACE_CHIP_DELTA_FOR_RANKS','FACE_CHIP_DELTA_FOR_SUITS','HAND_BASE_MULT_DELTA','VICTORY_COIN_DELTA','PERSONA_BONUS_FACTOR']);
@@ -185,10 +185,10 @@
     const shop=manifest?.shop,shopItems=shop?.items||[],shopProfiles=shop?.refreshProfiles||[],shopPoolEntries=shop?.poolEntries||[],shopItemsById=new Map(shopItems.map(item=>[item.id,item])),shopProfilesById=new Map(shopProfiles.map(profile=>[profile.id,profile]));
     require(shop?.id==='TARGET_SHOP_V1','正式商店必须加载 TARGET_SHOP_V1');
     require(Number.isInteger(shop?.version)&&shop.version>0,'商店配置 version 必须为正整数');
-    require(shopItems.length===65,'商店必须包含 65 件商品');
+    require(shopItems.length===68,'商店必须包含 68 件商品');
     require(shopItems.filter(item=>item.itemType==='CARD').length===52,'商店必须包含 52 件卡牌商品');
     require(shopItems.filter(item=>item.itemType==='PERSONA').length===8,'商店必须包含 8 件人格商品');
-    require(shopItems.filter(item=>item.itemType==='SERVICE').length===5,'商店必须包含 5 件服务商品');
+    require(shopItems.filter(item=>item.itemType==='SERVICE').length===8,'商店必须包含 8 件服务商品');
     const cardDefinitions=new Set();
     for(const item of shopItems){
       require(SHOP_ITEM_TYPES.has(item.itemType),`商店商品 ${item.id} 的 itemType 不合法：${item.itemType}`);
@@ -208,7 +208,11 @@
       if(item.itemType==='SERVICE'){
         require(item.effect?.requiresTarget===true,`服务商品 ${item.id} 必须要求选择目标卡牌`);
         if(item.effect?.type==='UPGRADE_CARD'){require(SHOP_CARD_STATS.has(item.effect.targetStat),`服务商品 ${item.id} 的强化字段不合法`);require(Number.isFinite(item.effect.amount)&&item.effect.amount>0,`服务商品 ${item.id} 的强化值必须大于 0`)}
-        else require(item.effect?.type==='REMOVE_CARD'&&item.effect.quantity===1,`移除服务 ${item.id} 必须配置 REMOVE_CARD ×1`);
+        else if(item.effect?.type==='REMOVE_CARD')require(item.effect.quantity===1,`移除服务 ${item.id} 必须配置 REMOVE_CARD ×1`);
+        else if(item.effect?.type==='UPGRADE_PERSONA_MAIN'){const amounts=item.effect.amountByAttributeType||{};require(item.effect.targetKind==='PERSONA'&&amounts.BASE_CHIPS>0&&amounts.BASE_MULT>0&&amounts.XMULT_RATE>0,`人格主词条强化 ${item.id} 配置不完整`)}
+        else if(item.effect?.type==='UPGRADE_SUIT')require(item.effect.targetKind==='SUIT'&&Number.isFinite(item.effect.chipsPerScoringCard)&&item.effect.chipsPerScoringCard>0,`花色强化 ${item.id} 配置不完整`);
+        else if(item.effect?.type==='UPGRADE_HAND_TYPE')require(item.effect.targetKind==='HAND_TYPE'&&item.effect.baseChipRate>0&&item.effect.baseMultRate>0,`牌型强化 ${item.id} 配置不完整`);
+        if(item.priceGrowth)require(item.priceGrowth.type==='PER_TARGET_LEVEL'&&Number.isFinite(item.priceGrowth.increment)&&item.priceGrowth.increment>0,`成长商品 ${item.id} 的价格成长配置不合法`);
       }
     }
     require(cardDefinitions.size===52,'商店卡牌必须完整覆盖 4 花色 × 13 点数');
@@ -223,7 +227,7 @@
       require((profile.typeRules||[]).every(rule=>Number.isInteger(rule.appearanceCount)&&rule.appearanceCount>0&&Number.isFinite(rule.weight)&&rule.weight>0),`商店刷新档位 ${profile.id} 的出现数量或权重不合法`);
       require(Math.abs((profile.typeRules||[]).reduce((sum,rule)=>sum+rule.weight,0)-100)<1e-9,`商店刷新档位 ${profile.id} 的类型权重之和必须为 100`);
     }
-    require(shopPoolEntries.length===65,'商店商品池必须包含 65 条权重记录');
+    require(shopPoolEntries.length===68,'商店商品池必须包含 68 条权重记录');
     const pooledItemIds=new Set();
     for(const entry of shopPoolEntries){const item=shopItemsById.get(entry.itemId);require(!!item,`商品池 ${entry.id} 引用了不存在的商品 ${entry.itemId}`);require(Number.isFinite(entry.weight)&&entry.weight>0,`商品池 ${entry.id} 的权重必须大于 0`);require(item?.itemType===entry.poolType,`商品池 ${entry.id} 的类型与商品不一致`);require(!pooledItemIds.has(entry.itemId),`商品 ${entry.itemId} 被重复加入商品池`);pooledItemIds.add(entry.itemId)}
     require(pooledItemIds.size===shopItems.length,'每件商店商品必须且只能配置一条商品池权重');
@@ -243,9 +247,9 @@
       if(rule.effect?.type==='HAND_BASE_CHIP_DELTA_ON_RANDOM_HAND_TYPE')require(Array.isArray(rule.effect.options)&&rule.effect.options.length>=3&&rule.effect.options.every(option=>option.id&&option.name),`关卡限制 ${rule.id} 缺少可选牌型`);
       require(!rule.description.includes('最终得分')&&!rule.description.includes('只保留'),`关卡限制 ${rule.id} 使用了不直观的结算层文案`);
     }
-    require(stageLimitProfiles.length===3,'关卡限制必须配置中期、后期与最终战三个档位');
+    require(stageLimitProfiles.length===4,'关卡限制必须配置中期、后期、终盘与最终战四个档位');
     const profiledBattles=[...new Set(stageLimitProfiles.flatMap(profile=>profile.battleNumbers||[]))].sort((a,b)=>a-b);
-    require(JSON.stringify(profiledBattles)===JSON.stringify([4,5,6,7,8,9,10]),'关卡限制档位必须完整覆盖第 4 至第 10 场战斗');
+    require(JSON.stringify(profiledBattles)===JSON.stringify([4,5,6,7,8,9,10,11,12,13]),'关卡限制档位必须完整覆盖第 4 至第 13 场战斗');
     for(const profile of stageLimitProfiles){
       if(profile.categoryWeights)require(Math.abs(Object.values(profile.categoryWeights).reduce((sum,value)=>sum+value,0)-100)<1e-9,`关卡限制档位 ${profile.id} 的分类权重之和必须为 100`);
       for(const ruleId of profile.ruleIds||[]){require(stageLimitRuleIds.has(ruleId),`关卡限制档位 ${profile.id} 引用了不存在的规则 ${ruleId}`);require(stageLimitRules.find(rule=>rule.id===ruleId)?.finalSafe===true,`最终战规则 ${ruleId} 必须标记为安全规则`)}

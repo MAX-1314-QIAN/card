@@ -15,7 +15,7 @@ assert.strictEqual(royalResult.scoringCards.length,4,'皇家同花顺按最新�
 assert(simulator.rules.PersonaRuntime?.create,'模拟器必须加载正式 Persona Runtime');
 assert.strictEqual(simulator.targetHandProfile.id,'POKER_HAND_PROFILE_TARGET_V1','模拟器必须读取正式 Target Scoring Profile');
 assert.strictEqual(simulator.targetHandProfile.hands.length,11,'正式 Target 计分表必须包含十一种牌型');
-assert.strictEqual(simulator.battleNodes.length,10,'完整 Target Run 必须批量运行十场战斗');
+assert.strictEqual(simulator.battleNodes.length,13,'完整 Target Run 必须批量运行十三场战斗');
 assert.strictEqual(simulator.battleNodes.find(node=>node.id==='N11').targetScore,2150,'正式 N11 目标分必须为2150');
 const archive=simulator.manifest.personaTemplates.templates.find(item=>item.id==='TARGET_PROTO_GROWTH_ARCHIVE');
 assert.deepStrictEqual(Array.from(archive.effects.map(effect=>[effect.type,effect.value??null,effect.valuePerStack??null])),[['ADD_MULT',.4,null],['ADD_MULT',null,.25]],'牌型档案生长体必须同时提供立即倍率和每层倍率');

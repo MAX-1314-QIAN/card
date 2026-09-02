@@ -26,7 +26,8 @@
     profiles:[
       {id:'TARGET_STAGE_LIMIT_MID',battleNumbers:[4,5,6],categoryWeights:{ACTION:25,HAND:30,SCORE:25,RESOURCE:10,PERSONA:10}},
       {id:'TARGET_STAGE_LIMIT_LATE',battleNumbers:[7,8,9],categoryWeights:{ACTION:25,HAND:30,SCORE:30,RESOURCE:5,PERSONA:10}},
-      {id:'TARGET_STAGE_LIMIT_FINAL',battleNumbers:[10],ruleIds:rules.filter(rule=>rule.finalSafe).map(rule=>rule.id)}
+      {id:'TARGET_STAGE_LIMIT_ENDGAME',battleNumbers:[10,11,12],categoryWeights:{ACTION:20,HAND:30,SCORE:35,RESOURCE:5,PERSONA:10}},
+      {id:'TARGET_STAGE_LIMIT_FINAL',battleNumbers:[13],ruleIds:rules.filter(rule=>rule.finalSafe).map(rule=>rule.id)}
     ],
     decisionStatus:'CONFIRMED'
   };

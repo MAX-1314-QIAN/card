@@ -4,17 +4,17 @@
   const currentScoringProfile={id:'POKER_HAND_PROFILE_CURRENT_DEMO',hands:modules.pokerHands,decisionStatus:'CONFIRMED'};
   const personaTemplates={...modules.personaTemplates,qualities:[...modules.personaTemplates.qualities,'PROTOTYPE'],templates:[...modules.personaTemplates.templates,...(modules.targetPrototypePersonas||[])],growthProfiles:[...modules.personaTemplates.growthProfiles,...(modules.targetGrowthProfiles||[])]};
   const manifest={
-    configVersion:'phase-c.1',
+    configVersion:'phase-c.3-shop-growth-round-4',
     activeRunTemplateId:'RUN_TEMPLATE_TARGET',
     reservedRunTemplateIds:[],
-    saveCompatibilityVersion:2,
+    saveCompatibilityVersion:3,
     rulesetId:'TARGET_RUN_V1',
     featureFlags:modules.featureFlags,
     coreRules:modules.coreRules,
     pokerHands:modules.pokerHands,
     pokerHandProfiles:[currentScoringProfile,modules.targetScoringProfile],
     // Phase C.2: the former three-battle topology remains only as frozen source/test data.
-    // Production must register the formal 13-node run alone.
+    // Production registers the formal four-round run alone; the former 13-node topology is intentionally invalidated.
     runTemplates:[modules.targetRunTemplate],
     stageNodes:[...modules.targetStageNodes],
     encounters:[...modules.targetEncounters],

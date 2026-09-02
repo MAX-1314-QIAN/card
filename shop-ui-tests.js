@@ -7,7 +7,7 @@ const simpleCss=fs.readFileSync('shop-simplified.css','utf8');
 const game=fs.readFileSync('game.js','utf8');
 const shopHtml=html.slice(html.indexOf('<dialog id="shop-dialog"'),html.indexOf('</dialog>',html.indexOf('<dialog id="shop-dialog"')));
 
-for(const id of ['shop-coins','shop-deck-count','shop-persona-count','shop-item-list','shop-detail-icon','shop-detail-name','shop-detail-effect','shop-buy','shop-leave','shop-note'])assert.ok(html.includes(`id="${id}"`),`missing shop UI ${id}`);
+for(const id of ['shop-coins','shop-deck-count','shop-persona-count','shop-item-list','shop-detail-icon','shop-detail-name','shop-detail-effect','shop-refresh','shop-buy','shop-leave','shop-note','shop-upgrade-dialog','shop-upgrade-options','shop-upgrade-confirm'])assert.ok(html.includes(`id="${id}"`),`missing shop UI ${id}`);
 assert.ok(html.includes('aria-label="商品列表，可上下滚动"'));
 assert.ok(html.includes('<header class="shop-header"><h2>商店</h2></header>'),'shop header must contain only the title');
 assert.ok(html.includes('data-shop-tab="goods"')&&html.includes('data-shop-tab="forge"'),'goods and persona forge tabs must be restored');
@@ -19,7 +19,7 @@ assert.ok(/<p class="shop-note" id="shop-note" aria-live="polite"><\/p>/.test(ht
 
 assert.ok(html.indexOf('shop-prototype.css')<html.indexOf('shop-scroll.css'),'scroll overrides must load after the base shop theme');
 assert.ok(html.indexOf('background-art.css')<html.indexOf('shop-simplified.css'),'simplified shop layout must load after legacy and background styles');
-assert.ok(html.includes('shop-simplified.css?v=20260830-shop-buttons-v7'),'shop button style cache version missing');
+assert.ok(html.includes('shop-simplified.css?v=20260902-growth-refresh-v8'),'shop button style cache version missing');
 for(const asset of ['coin-v1.png','deck-v1.png','persona-v1.png']){
   assert.ok(fs.existsSync(`assets/art/shop-resources/${asset}`),`missing shop resource asset ${asset}`);
   assert.ok(html.includes(`assets/art/shop-resources/${asset}`),`shop resource asset is not wired ${asset}`);
@@ -39,10 +39,10 @@ assert.ok(simpleCss.includes('background:#07070678')&&simpleCss.includes('backdr
 assert.ok(simpleCss.includes('.shop-footer .shop-note')&&simpleCss.includes('clip:rect(0 0 0 0)'),'purchase feedback must not occupy visible footer space');
 
 const itemBody=game.slice(game.indexOf('function renderShopItems('),game.indexOf('function renderShopForgeDetail('));
-assert.ok(itemBody.includes('class="shop-item-summary"')&&itemBody.includes('<small>◉ ${item.price}</small>'),'shop rows must keep only icon, name and price');
+assert.ok(itemBody.includes('class="shop-item-summary"')&&itemBody.includes('<small>◉ ${priceText}</small>'),'shop rows must keep only icon, name and price');
 for(const removed of ['view.tag','view.effect','<em>','<p>'])assert.ok(!itemBody.includes(removed),`shop row still renders redundant content: ${removed}`);
 const detailBody=game.slice(game.indexOf('function renderShopDetail('),game.indexOf('function selectShopItem('));
-assert.ok(detailBody.includes("$('#shop-detail-effect').textContent=view.effect"),'detail must keep one necessary effect sentence');
+assert.ok(detailBody.includes("$('#shop-detail-effect').textContent=item.priceGrowth?")&&detailBody.includes(':view.effect'),'detail must keep one necessary effect sentence and expose growth pricing');
 assert.ok(detailBody.includes("icon.classList.remove('has-art')")&&detailBody.includes("icon.style.removeProperty('--portrait')"),'returning to goods must clear the persona portrait from the shared detail area');
 assert.ok(game.includes('function shopPlayingCard(')&&game.includes("cardArtImage(card,'shop-card-thumbnail')"),'playing-card shop rows must reuse the full-deck art manifest');
 assert.ok(detailBody.includes("cardArtImage(card,'shop-card-preview')")&&detailBody.includes("classList.toggle('has-playing-card'"),'playing-card shop detail must show the selected full card face');
@@ -56,12 +56,14 @@ for(const removed of ['presentation.entryLabel','次级属性 ','成长人格 ·
 assert.ok(game.includes('function personaForgeSlotMarkup(')&&game.includes('解锁·${slot.unlockCost}金币')&&game.includes("'<em>已解锁</em>'"),'forge slots must show their current state and real unlock action');
 
 assert.match(game,/ShopRuntime\.generateOffers\(\{config:shopConfig,profileId/);
+assert.ok(game.includes('function refreshShop()')&&game.includes('ShopRuntime.refreshCost(session.refreshIndex)'),'shop must expose escalating per-visit refresh');
+assert.ok(game.includes('function openShopUpgradeTarget(item)')&&game.includes('UPGRADE_PERSONA_MAIN')&&game.includes('UPGRADE_SUIT')&&game.includes('UPGRADE_HAND_TYPE'),'three growth products must use a target selector');
 assert.match(game,/SHOP_PURCHASE:\$\{currentStageNode\(\)\?\.id\}/);
 assert.match(game,/\$\('#shop-buy'\)\.onclick=\(\)=>buyShopItem\(selectedShopItemId\)/);
 assert.match(game,/ShopRuntime\.applyCardUpgrade/);
 assert.match(game,/personaRuntime\.createInstance\(item\.effect\.personaTemplateId/);
 assert.match(game,/ShopRuntime\.createCardFromItem/);
-assert.ok(html.includes('shop/shop-runtime.js?v=20260829-concise-copy-v1'),'concise shop copy runtime cache version missing');
-assert.ok(html.includes('game.js?v=20260831-neutral-rule-copy-v11'),'shop card art and integrated UI script cache version missing');
+assert.ok(html.includes('shop/shop-runtime.js?v=20260902-growth-refresh-v2'),'shop runtime cache version missing');
+assert.ok(html.includes('game.js?v=20260902-growth-refresh-round4-v12'),'shop card art and integrated UI script cache version missing');
 
 console.log('shop-ui-tests: concise goods and focused persona forge hierarchy passed');

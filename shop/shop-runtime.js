@@ -69,8 +69,10 @@
       }
       if(!added)break;
     }
-    return{version:1,profileId:profile.id,refreshIndex,offers};
+    return{version:2,profileId:profile.id,refreshIndex,offers,purchasedItemIds:[]};
   }
+
+  function refreshCost(refreshIndex){const count=Number(refreshIndex);return Number.isInteger(count)&&count>0?count:0}
 
   function createCardFromItem(item,options={}){
     const effect=item?.effect;
@@ -129,6 +131,9 @@
     if(effect?.type==='ADD_PERSONA'){const name=item?.name;if(!name)return'获得一张新人格。';return/^人格牌\d+$/.test(name)?`获得${name}。`:`获得一张“${name}”人格牌。`}
     if(effect?.type==='UPGRADE_CARD')return`选择1张牌，${UPGRADE_LABEL_BY_STAT[effect.targetStat]||effect.targetStat}+${formatAmount(effect.targetStat,Number(effect.amount))}。`;
     if(effect?.type==='REMOVE_CARD')return`移除${effect.quantity||1}张牌。`;
+    if(effect?.type==='UPGRADE_PERSONA_MAIN')return'选择1张人格牌，按主词条类型强化：筹码+10、倍率+0.3或独立倍率+10%。';
+    if(effect?.type==='UPGRADE_SUIT')return`选择1种花色，该花色所有计分牌每张筹码+${effect.chipsPerScoringCard}；后续获得的同花色牌同样生效。`;
+    if(effect?.type==='UPGRADE_HAND_TYPE')return`选择1种牌型，其原始基础筹码和基础倍率各提升${Number((effect.baseChipRate*100).toFixed(4))}%。`;
     if(['REFRESH_SHOP','ADD_SHOP_REFRESH'].includes(effect?.type))return'获得一次刷新机会。';
     return'获得对应商品效果。';
   }
@@ -140,6 +145,23 @@
     return{removed:clone(cards[index]),cards:cards.filter((_,cardIndex)=>cardIndex!==index).map(clone)};
   }
 
+  function normalizeGrowthState(value={}){return{
+    suitChipBonusBySuit:{...(value.suitChipBonusBySuit||{})},
+    suitLevelsBySuit:{...(value.suitLevelsBySuit||{})},
+    handTypeLevelsById:{...(value.handTypeLevelsById||{})}
+  }}
+  function applySuitUpgrade(state,suitSymbol,effectOrItem){
+    const effect=normalizeUpgradeEffect(effectOrItem),next=normalizeGrowthState(state),amount=Number(effect?.chipsPerScoringCard);
+    requireCondition(effect?.type==='UPGRADE_SUIT'&&['♠','♥','♦','♣'].includes(suitSymbol)&&Number.isFinite(amount)&&amount>0,'applySuitUpgrade requires a valid suit target');
+    next.suitChipBonusBySuit[suitSymbol]=Number(next.suitChipBonusBySuit[suitSymbol]||0)+amount;next.suitLevelsBySuit[suitSymbol]=Number(next.suitLevelsBySuit[suitSymbol]||0)+1;return next;
+  }
+  function applyHandTypeUpgrade(state,handTypeId,effectOrItem){
+    const effect=normalizeUpgradeEffect(effectOrItem),next=normalizeGrowthState(state);
+    requireCondition(effect?.type==='UPGRADE_HAND_TYPE'&&typeof handTypeId==='string'&&handTypeId&&effect.baseChipRate>0&&effect.baseMultRate>0,'applyHandTypeUpgrade requires a valid hand type target');
+    next.handTypeLevelsById[handTypeId]=Number(next.handTypeLevelsById[handTypeId]||0)+1;return next;
+  }
+  function targetUpgradePrice(item,level=0){const increment=item?.priceGrowth?.type==='PER_TARGET_LEVEL'?Number(item.priceGrowth.increment||0):0;return Number(item?.price||0)+Math.max(0,Number(level)||0)*increment}
+
   function purchaseAvailability({item,coins,purchaseCount=0}={}){
     if(!item)return{allowed:false,reason:'UNKNOWN_ITEM'};
     if(!Number.isFinite(coins)||coins<item.price)return{allowed:false,reason:'INSUFFICIENT_COINS'};
@@ -150,11 +172,16 @@
   return{
     weightedPick,
     generateOffers,
+    refreshCost,
     createCardFromItem,
     applyCardUpgrade,
     cardUpgradeAttributes,
     describeEffect,
     removeCardByUid,
+    normalizeGrowthState,
+    applySuitUpgrade,
+    applyHandTypeUpgrade,
+    targetUpgradePrice,
     purchaseAvailability
   };
 });

@@ -5,7 +5,7 @@ vm.runInContext(fs.readFileSync('stage-limit-runtime.js','utf8'),context);
 const config=context.PERSONA_BALANCE_MODULES.targetStageLimits;
 assert.strictEqual(config.rules.length,14);
 assert.strictEqual(config.version,2);
-assert.deepStrictEqual(Array.from(config.profiles.flatMap(profile=>profile.battleNumbers)),[4,5,6,7,8,9,10]);
+assert.deepStrictEqual(Array.from(config.profiles.flatMap(profile=>profile.battleNumbers)),[4,5,6,7,8,9,10,11,12,13]);
 assert.ok(config.profiles.find(profile=>profile.id==='TARGET_STAGE_LIMIT_FINAL').ruleIds.every(id=>config.rules.find(rule=>rule.id===id).finalSafe));
 assert.strictEqual(config.profiles.find(profile=>profile.id==='TARGET_STAGE_LIMIT_FINAL').ruleIds.length,6);
 assert.ok(config.rules.every(rule=>!rule.description.includes('最终得分')&&!rule.description.includes('只保留')),'正式规则必须直接描述玩家可见数值');
