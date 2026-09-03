@@ -50,6 +50,9 @@ index.html / CSS（页面装配与视觉）
 - `persona/ai/value-budget.js`：用商店人格主词条强化作为价值锚点，按实测触发率过滤初始或成熟强度超标的组合。
 - `persona/ai/candidate-builder.js`：解析行为动态条件，只组装本地白名单允许且适合当前内部方向的候选。
 - `persona/ai/candidate-validator.js`：独立复算候选的组件引用、运行时结构、数值预算、玩家文案和机制指纹。
+- `persona/ai/similarity.js`：统一比较当前装备、本局人格、放弃候选和永久收藏，拦截机制重复并对近似候选降权。
+- `persona/ai/template-factory.js`：把合法候选转换为 Persona Runtime 可注册的动态模板，保留核心触发与主属性，并预留两个锁定词条槽。
+- `persona/ai/generator.js`：编排节点方向、候选构建、查重、候选 ID 选择和本地备用结果，不负责页面、存档或联网。
 
 这些模块应保持纯净：不读取 DOM、不访问本地存储、不发送网络请求、不直接调用 `runController`。
 
@@ -83,8 +86,9 @@ balance/target/ai-persona-whitelist-v1.js 合法规则零件白名单（已建�
 persona/ai/value-budget.js        数值价值锚定（已建立）
 persona/ai/candidate-builder.js   本地候选组合（已建立）
 persona/ai/candidate-validator.js 合法性、可触发性与冲突校验（已建立）
-persona/ai/similarity.js          与现有人格查重
-persona/ai/generator.js           生成流程编排与备用结果
+persona/ai/similarity.js          与现有人格查重（已建立）
+persona/ai/template-factory.js    动态人格模板转换（已建立）
+persona/ai/generator.js           生成流程编排与备用结果（已建立，未接正式奖励）
 ```
 
 候选构建器当前仍未接入正式奖励流程。未来联网模型只允许在这些模块给出的合法候选 ID 中选择；网络层不能直接修改战斗、存档或人格实例。

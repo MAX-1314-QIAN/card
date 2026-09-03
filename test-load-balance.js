@@ -37,6 +37,9 @@ const GAME_SUPPORT_SCRIPT_FILES=[
   'persona/ai/value-budget.js',
   'persona/ai/candidate-validator.js',
   'persona/ai/candidate-builder.js',
+  'persona/ai/similarity.js',
+  'persona/ai/template-factory.js',
+  'persona/ai/generator.js',
   'battle/score-runtime.js'
 ];
 
