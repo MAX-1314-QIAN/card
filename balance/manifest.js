@@ -4,7 +4,7 @@
   const currentScoringProfile={id:'POKER_HAND_PROFILE_CURRENT_DEMO',hands:modules.pokerHands,decisionStatus:'CONFIRMED'};
   const personaTemplates={...modules.personaTemplates,qualities:[...modules.personaTemplates.qualities,'PROTOTYPE'],templates:[...modules.personaTemplates.templates,...(modules.targetPrototypePersonas||[])],growthProfiles:[...modules.personaTemplates.growthProfiles,...(modules.targetGrowthProfiles||[])]};
   const manifest={
-    configVersion:'phase-c.3-boss-rule-config-v1',
+    configVersion:'phase-c.3-ai-persona-whitelist-v1',
     activeRunTemplateId:'RUN_TEMPLATE_TARGET',
     reservedRunTemplateIds:[],
     saveCompatibilityVersion:3,
@@ -25,7 +25,8 @@
     shop:modules.targetShop,
     stageLimits:modules.targetStageLimits,
     bossRuleSystem:modules.targetBossRuleSystem,
-    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits,bossRuleSystem:modules.targetBossRuleSystem}
+    aiPersonaWhitelist:modules.targetAiPersonaWhitelist,
+    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits,bossRuleSystem:modules.targetBossRuleSystem,aiPersonaWhitelist:modules.targetAiPersonaWhitelist}
   };
   root.PERSONA_CONFIG_VALIDATOR.assertValid(manifest);
 
@@ -72,6 +73,7 @@
     ,shop:manifest.shop
     ,stageLimits:manifest.stageLimits
     ,bossRuleSystem:manifest.bossRuleSystem
+    ,aiPersonaWhitelist:manifest.aiPersonaWhitelist
     ,target:manifest.target
   };
   root.PERSONA_BALANCE_MANIFEST=manifest;

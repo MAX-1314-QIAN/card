@@ -40,7 +40,12 @@
       ['shopRefreshRules',(manifest?.shop?.refreshProfiles||[]).flatMap(profile=>profile.typeRules||[])],['shopPoolEntries',manifest?.shop?.poolEntries||[]],
       ['stageLimitRules',manifest?.stageLimits?.rules||[]],['stageLimitProfiles',manifest?.stageLimits?.profiles||[]],
       ['bossRuleSelections',manifest?.bossRuleSystem?.selections||[]],['bossRuleStageBindings',manifest?.bossRuleSystem?.stageBindings||[]],
-      ['bossRulePools',manifest?.bossRuleSystem?.pools||[]],['bossRulePoolEntries',(manifest?.bossRuleSystem?.pools||[]).flatMap(pool=>pool.entries||[])]
+      ['bossRulePools',manifest?.bossRuleSystem?.pools||[]],['bossRulePoolEntries',(manifest?.bossRuleSystem?.pools||[]).flatMap(pool=>pool.entries||[])],
+      ['aiPersonaDirections',manifest?.aiPersonaWhitelist?.directions||[]],['aiPersonaNodePolicies',manifest?.aiPersonaWhitelist?.nodePolicies||[]],
+      ['aiPersonaStrengthTiers',manifest?.aiPersonaWhitelist?.strengthTiers||[]],['aiPersonaFrequencyBands',manifest?.aiPersonaWhitelist?.frequencyBands||[]],
+      ['aiPersonaTriggerParts',manifest?.aiPersonaWhitelist?.triggerParts||[]],['aiPersonaMainEffectParts',manifest?.aiPersonaWhitelist?.mainEffectParts||[]],
+      ['aiPersonaGrowthParts',manifest?.aiPersonaWhitelist?.growthParts||[]],['aiPersonaNumericBudgets',manifest?.aiPersonaWhitelist?.numericBudgets||[]],
+      ['aiPersonaUnresolved',manifest?.aiPersonaWhitelist?.unresolved||[]]
     ];
     const allIds=new Map();
     for(const [registry,items] of registries){
@@ -309,6 +314,13 @@
     }
     const finalStageLimitRuleIds=stageLimitProfiles.find(profile=>profile.id==='TARGET_STAGE_LIMIT_FINAL')?.ruleIds||[];
     require(JSON.stringify([...configuredBossRuleIds].sort())===JSON.stringify([...finalStageLimitRuleIds].sort()),'Boss 规则池必须完整引用最终关安全规则，不得维护第二份数值');
+
+    const aiWhitelistValidator=root.PERSONA_BALANCE_MODULES?.aiPersonaWhitelistValidator;
+    require(!!aiWhitelistValidator,'缺少 AI 人格白名单独立校验器');
+    if(aiWhitelistValidator){
+      const result=aiWhitelistValidator.validate(manifest?.aiPersonaWhitelist,{conditionTypes:PERSONA_CONDITION_TYPES,runtimeEffectTypes:PERSONA_RUNTIME_EFFECT_TYPES,shop:manifest?.shop,nodesById});
+      errors.push(...result.errors);
+    }
 
     return{valid:errors.length===0,errors};
   }

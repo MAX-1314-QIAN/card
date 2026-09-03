@@ -27,6 +27,8 @@ index.html / CSS（页面装配与视觉）
 - `balance/`：关卡、牌型、人格、商店、限制规则等唯一策划数据源。
 - 配置只能保存声明式数据，不得包含函数。
 - 相同数值不得在多个配置文件中复制；兼容入口只能转发或适配。
+- `balance/target/ai-persona-whitelist-v1.js`：AI 人格 V1 合法零件、价值锚点和节点预算；当前保持关闭。
+- `balance/validators/ai-persona-whitelist-validator.js`：AI 白名单的独立结构与引用校验，避免继续扩大总配置校验器。
 
 ### 领域运行时
 
@@ -73,7 +75,7 @@ AI 人格不能直接写进 `game.js`。下一阶段应建立独立目录，并�
 
 ```text
 persona/ai/behavior-snapshot.js   玩家行为统一快照
-persona/ai/rule-parts.js          合法规则零件白名单
+balance/target/ai-persona-whitelist-v1.js 合法规则零件白名单（已建立）
 persona/ai/value-budget.js        数值价值锚定
 persona/ai/candidate-builder.js   本地候选组合
 persona/ai/candidate-validator.js 合法性、可触发性与冲突校验
