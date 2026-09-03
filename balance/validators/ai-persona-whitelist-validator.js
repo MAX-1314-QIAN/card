@@ -77,7 +77,10 @@
     require(affix.id==='AI_AFFIX_POLICY_V1','AI 人格次级属性策略 ID 不合法');
     require(affix.schemaVersion===2&&affix.slotCount===2&&affix.defaultUnlockedCount===0,'AI 人格必须预留两个默认锁定的次级属性槽');
     require(JSON.stringify(affix.unlockCosts)==='[5,8]'&&affix.allowDuplicates===false,'AI 人格次级属性槽必须沿用 5/8 金币且不可重复的基础结构');
-    require(affix.candidatePoolStatus==='UNDECIDED'&&affix.runtimeEnabled===false,'AI 人格次级属性池未确认前不得运行');
+    require(affix.candidatePoolStatus==='CONFIRMED'&&affix.runtimeEnabled===true,'AI 人格次级属性池确认后必须接入本地运行时');
+    require(Array.isArray(affix.poolIds)&&affix.poolIds.length===6&&new Set(affix.poolIds).size===6,'AI 人格次级属性策略必须引用 6 条唯一词条');
+    require(Array.isArray(affix.slotPoolIds?.[0])&&affix.slotPoolIds[0].length===3&&Array.isArray(affix.slotPoolIds?.[1])&&affix.slotPoolIds[1].length===3,'AI 人格第二、第三词条必须各自拥有 3 条候选');
+    require(affix.disallowSameAttributeType===true,'AI 人格第二、第三词条必须启用同属性互斥');
 
     const anchor=config?.valueAnchor,anchorUnits=anchor?.units||{};
     const sourceItem=(shop?.items||[]).find(item=>item.id===anchor?.sourceShopItemId),sourceAmounts=sourceItem?.effect?.amountByAttributeType||{};

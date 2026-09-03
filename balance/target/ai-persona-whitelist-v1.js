@@ -5,6 +5,7 @@
   const allDirections=[directions.bridge,directions.break,directions.follow];
   const bridgeBreak=[directions.bridge,directions.break];
   const strengthTierIds=['AI_VALUE_050','AI_VALUE_100','AI_VALUE_150','AI_VALUE_200','AI_VALUE_300','AI_VALUE_400'];
+  const aiSubAffixes=modules.targetAiPersonaSubAffixes;
 
   modules.targetAiPersonaWhitelist={
     id:'TARGET_AI_PERSONA_WHITELIST_V1',
@@ -45,9 +46,12 @@
       slotCount:2,
       defaultUnlockedCount:0,
       unlockCosts:[5,8],
+      poolIds:(aiSubAffixes?.entries||[]).map(item=>item.id),
+      slotPoolIds:Object.fromEntries((aiSubAffixes?.slotPools||[]).map(pool=>[pool.slotIndex,[...pool.entryIds]])),
+      disallowSameAttributeType:aiSubAffixes?.disallowSameAttributeType===true,
       allowDuplicates:false,
-      candidatePoolStatus:'UNDECIDED',
-      runtimeEnabled:false
+      candidatePoolStatus:'CONFIRMED',
+      runtimeEnabled:true
     },
     valueAnchor:{
       sourceShopItemId:'SHOP_SERVICE_006',
@@ -150,7 +154,6 @@
       {id:'AI_BUDGET_N12',runtimeNodeId:'N12',maxInitialExpectedUnitsPerHand:1.1,maxMatureExpectedUnitsPerHand:2.2,tuningStatus:'PROTOTYPE_ASSUMPTION'}
     ],
     unresolved:[
-      {id:'AI_UNDECIDED_AFFIX_POOL',topic:'AI 人格第二、第三词条候选池与匹配规则'},
       {id:'AI_UNDECIDED_QUALITY',topic:'高品质相似人格的强度提升幅度与品质概率'},
       {id:'AI_UNDECIDED_TELEMETRY',topic:'触发频率档位和节点预算需由实测遥测校准'}
     ]

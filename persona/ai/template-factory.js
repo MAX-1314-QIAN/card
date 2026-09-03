@@ -29,7 +29,7 @@
         caps:runtime.caps,
         runtimeDefaults:runtime.runtimeDefaults,
         runtimeScopes:runtime.runtimeScopes,
-        subAffixRules:{id:whitelist.affixPolicy.id,schemaVersion:whitelist.affixPolicy.schemaVersion,slotCount:whitelist.affixPolicy.slotCount,defaultUnlockedCount:whitelist.affixPolicy.defaultUnlockedCount,unlockCosts:clone(whitelist.affixPolicy.unlockCosts),poolIds:[],allowDuplicates:whitelist.affixPolicy.allowDuplicates,candidatePoolStatus:whitelist.affixPolicy.candidatePoolStatus,maxAttributeCount:3,maxSubAttributeCount:2},
+        subAffixRules:{id:whitelist.affixPolicy.id,schemaVersion:whitelist.affixPolicy.schemaVersion,slotCount:whitelist.affixPolicy.slotCount,defaultUnlockedCount:whitelist.affixPolicy.defaultUnlockedCount,unlockCosts:clone(whitelist.affixPolicy.unlockCosts),poolIds:clone(whitelist.affixPolicy.poolIds||[]),slotPoolIds:clone(whitelist.affixPolicy.slotPoolIds||{}),disallowSameAttributeType:whitelist.affixPolicy.disallowSameAttributeType===true,allowDuplicates:whitelist.affixPolicy.allowDuplicates,candidatePoolStatus:whitelist.affixPolicy.candidatePoolStatus,maxAttributeCount:3,maxSubAttributeCount:2},
         tags:['AI人格'],
         decisionStatus:'PROTOTYPE_ASSUMPTION',
         tone:'#725A3A',

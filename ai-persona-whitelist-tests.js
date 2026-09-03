@@ -52,8 +52,12 @@ for(const tier of whitelist.strengthTiers){
 }
 assert.ok(whitelist.frequencyBands.every(item=>item.tuningStatus==='PROTOTYPE_ASSUMPTION'));
 assert.ok(whitelist.numericBudgets.every(item=>item.tuningStatus==='PROTOTYPE_ASSUMPTION'));
-assert.strictEqual(whitelist.affixPolicy.runtimeEnabled,false);
-assert.strictEqual(whitelist.affixPolicy.candidatePoolStatus,'UNDECIDED');
+assert.strictEqual(whitelist.affixPolicy.runtimeEnabled,true);
+assert.strictEqual(whitelist.affixPolicy.candidatePoolStatus,'CONFIRMED');
+assert.strictEqual(whitelist.affixPolicy.poolIds.length,6);
+assert.deepStrictEqual(Array.from(whitelist.affixPolicy.slotPoolIds[0]),['AI_SUB2_CHIPS_050','AI_SUB2_MULT_050','AI_SUB2_XMULT_050']);
+assert.deepStrictEqual(Array.from(whitelist.affixPolicy.slotPoolIds[1]),['AI_SUB3_CHIPS_100','AI_SUB3_MULT_100','AI_SUB3_XMULT_100']);
+assert.strictEqual(whitelist.affixPolicy.disallowSameAttributeType,true);
 assert.strictEqual(context.PERSONA_CONFIG_VALIDATOR.validate(manifest).valid,true);
 
 function invalidAfter(change){

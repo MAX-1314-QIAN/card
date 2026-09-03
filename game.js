@@ -19,7 +19,7 @@ const shopConfig=runManifest.shop;
 const shopItemById=new Map((shopConfig?.items||[]).map(item=>[item.id,item]));
 const battleConfig=balance.battle;
 const stageLimitRuntime=globalThis.StageLimitRuntime?.create(runManifest.stageLimits||balance.stageLimits||{rules:[]});
-const personaRuntime=globalThis.PersonaRuntime.create({templates:runManifest.personaTemplates?.templates||[],subAffixes:runManifest.basePersonas?.subAffixPool||[],slotCount:battleConfig.personaSlots,stateStore:{get:()=>globalThis.runController.getPersonaRuntimeState(),set:value=>globalThis.runController.setPersonaRuntimeState(value)}});
+const personaRuntime=globalThis.PersonaRuntime.create({templates:runManifest.personaTemplates?.templates||[],subAffixes:[...(runManifest.basePersonas?.subAffixPool||[]),...(runManifest.aiPersonaSubAffixes?.entries||[])],slotCount:battleConfig.personaSlots,stateStore:{get:()=>globalThis.runController.getPersonaRuntimeState(),set:value=>globalThis.runController.setPersonaRuntimeState(value)}});
 const battleScoreRuntime=globalThis.BattleScoreRuntime.create({pokerEngine:globalThis.PokerEngine,shopRuntime:globalThis.ShopRuntime,personaRuntime,stageLimitRuntime,personaFeedback:globalThis.PersonaFeedback,minScore:battleConfig.minScore,maxSelection:battleConfig.maxSelection});
 const scoringProfileById=new Map((runManifest.pokerHandProfiles||[]).map(profile=>[profile.id,profile]));
 function normalizedPersonaEffectType(effectType){return personaPresentation.normalizeEffectType(effectType)}

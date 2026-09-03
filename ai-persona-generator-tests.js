@@ -29,19 +29,33 @@ assert.strictEqual(generated.selectedCandidateId,chosenId);
 assert.strictEqual(generated.template.name,'AI人格001');
 assert.strictEqual(generated.template.mainEffect.triggerText,generated.candidate.playerCopy.trigger);
 assert.strictEqual(generated.template.subAffixRules.slotCount,2);
-assert.strictEqual(generated.template.subAffixRules.poolIds.length,0,'第二、第三词条池未确认前只能保留锁定槽位');
+assert.strictEqual(generated.template.subAffixRules.poolIds.length,6);
+assert.strictEqual(generated.template.subAffixRules.disallowSameAttributeType,true);
+assert.deepStrictEqual(Array.from(generated.template.subAffixRules.slotPoolIds[0]),['AI_SUB2_CHIPS_050','AI_SUB2_MULT_050','AI_SUB2_XMULT_050']);
+assert.deepStrictEqual(Array.from(generated.template.subAffixRules.slotPoolIds[1]),['AI_SUB3_CHIPS_100','AI_SUB3_MULT_100','AI_SUB3_XMULT_100']);
 assert.ok(!/顺势|桥接|破局/.test(JSON.stringify(generated.template.mainEffect)));
 assert.strictEqual(generated.template.aiPersonaMeta.internalDirectionId,'AI_DIRECTION_BRIDGE');
 
 let memory=context.PersonaRuntime.emptyState();
-const runtime=context.PersonaRuntime.create({templates:[],stateStore:{get:()=>JSON.parse(JSON.stringify(memory)),set:value=>{memory=JSON.parse(JSON.stringify(value))}},now:()=>100,idFactory:()=> 'AI_INSTANCE_001'});
+const runtime=context.PersonaRuntime.create({templates:[],subAffixes:balance.aiPersonaSubAffixes.entries,stateStore:{get:()=>JSON.parse(JSON.stringify(memory)),set:value=>{memory=JSON.parse(JSON.stringify(value))}},now:()=>100,idFactory:()=> 'AI_INSTANCE_001',random:()=>0});
 runtime.registerTemplate(generated.template);
 const instance=runtime.createInstance(generated.template.id,{source:'AI_GENERATED',generatedAtNodeId:'N04'});
 runtime.equipPersona(instance.instanceId,0);
 assert.strictEqual(instance.runtimeState.growthStacks,0);
 assert.strictEqual(instance.subAffixSlots.length,2);
 assert.ok(instance.subAffixSlots.every(slot=>slot.unlocked===false));
+const second=runtime.unlockSubAffix(instance.instanceId,0,{profileId:'AI1'});
+const third=runtime.unlockSubAffix(instance.instanceId,1,{profileId:'AI1'});
+assert.strictEqual(second.affixId,'AI_SUB2_CHIPS_050');
+assert.strictEqual(third.affixId,'AI_SUB3_MULT_100','第三词条必须避开第二词条已经使用的属性类型');
+assert.notStrictEqual(runtime.getSubAffix(second.affixId).attributeType,runtime.getSubAffix(third.affixId).attributeType);
 assert.strictEqual(runtime.validateState(runtime.getState()),true);
+
+const affixOnlyTemplate={...generated.template,id:'TEST_AI_AFFIX_ONLY',conditions:[],effects:[],growthRules:[],activationLimit:{scope:'HAND',count:1}};
+const affixOnlyRuntime=context.PersonaRuntime.create({templates:[affixOnlyTemplate],subAffixes:balance.aiPersonaSubAffixes.entries,idFactory:()=> 'AI_AFFIX_ONLY_INSTANCE',random:()=>0});
+const affixOnlyInstance=affixOnlyRuntime.createInstance(affixOnlyTemplate.id,{source:'TEST'});affixOnlyRuntime.equipPersona(affixOnlyInstance.instanceId,0);affixOnlyRuntime.unlockSubAffix(affixOnlyInstance.instanceId,0,{profileId:'AI1'});affixOnlyRuntime.unlockSubAffix(affixOnlyInstance.instanceId,1,{profileId:'AI1'});
+const affixScore=affixOnlyRuntime.evaluateHand({submittedCards:[{}],scoringCards:[{}],handType:'高牌',handTypeId:'high_card'},{commit:false,scoreLayers:{chips:10,mult:1,xmult:1}});
+assert.deepStrictEqual([affixScore.chipsDelta,affixScore.multDelta,affixScore.xmultRateDelta],[5,.3,0],'已解锁的 AI 第二、第三词条必须实际进入计分层');
 
 const invalidSelection=generator.generate({snapshot:sourceSnapshot,directionId:first.directionId,handTypes,selectedCandidateId:'NOT_IN_LOCAL_POOL',sequenceNumber:2});
 assert.strictEqual(invalidSelection.selectionSource,'LOCAL_FALLBACK');

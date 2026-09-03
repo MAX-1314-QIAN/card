@@ -14,6 +14,7 @@ const BALANCE_SCRIPT_FILES=[
   'balance/target/stage-nodes.js',
   'balance/target/stage-limit-rules.js',
   'balance/target/boss-rule-config.js',
+  'balance/target/ai-persona-sub-affixes-v1.js',
   'balance/target/ai-persona-whitelist-v1.js',
   'balance/target/run-template.js',
   'balance/boss-profiles.js',

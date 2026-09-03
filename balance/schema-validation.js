@@ -45,7 +45,7 @@
       ['aiPersonaStrengthTiers',manifest?.aiPersonaWhitelist?.strengthTiers||[]],['aiPersonaFrequencyBands',manifest?.aiPersonaWhitelist?.frequencyBands||[]],
       ['aiPersonaTriggerParts',manifest?.aiPersonaWhitelist?.triggerParts||[]],['aiPersonaMainEffectParts',manifest?.aiPersonaWhitelist?.mainEffectParts||[]],
       ['aiPersonaGrowthParts',manifest?.aiPersonaWhitelist?.growthParts||[]],['aiPersonaNumericBudgets',manifest?.aiPersonaWhitelist?.numericBudgets||[]],
-      ['aiPersonaUnresolved',manifest?.aiPersonaWhitelist?.unresolved||[]]
+      ['aiPersonaUnresolved',manifest?.aiPersonaWhitelist?.unresolved||[]],['aiPersonaSubAttributes',manifest?.aiPersonaSubAffixes?.entries||[]]
     ];
     const allIds=new Map();
     for(const [registry,items] of registries){
@@ -157,11 +157,17 @@
       require(usedInterventionEvents.has(event.id)||event.referenceOnly===true,`介入事件 ${event.id} 未被任何 Intervention Profile 使用`);
       require(INTERVENTION_EFFECT_TYPES.has(event.effectType),`介入事件 ${event.id} 使用了不允许的 effectType：${event.effectType}`);
     }
-    const entries=manifest?.basePersonas?.entries||[],mainAttributes=manifest?.basePersonas?.mainAttributes||[],entryIds=new Set(entries.map(item=>item.id)),mainAttributeIds=new Set(mainAttributes.map(item=>item.id)),subAffixPool=manifest?.basePersonas?.subAffixPool||[],subAffixIds=new Set(subAffixPool.map(item=>item.id));
+    const entries=manifest?.basePersonas?.entries||[],mainAttributes=manifest?.basePersonas?.mainAttributes||[],entryIds=new Set(entries.map(item=>item.id)),mainAttributeIds=new Set(mainAttributes.map(item=>item.id)),subAffixPool=manifest?.basePersonas?.subAffixPool||[],subAffixIds=new Set(subAffixPool.map(item=>item.id)),aiSubAffixConfig=manifest?.aiPersonaSubAffixes||{},aiSubAffixPool=aiSubAffixConfig.entries||[],aiSubAffixIds=new Set(aiSubAffixPool.map(item=>item.id));
     require(entries.length===8&&entryIds.size===8,'基础人格必须包含 8 个唯一 ENTRY');
     require(mainAttributes.length===8&&mainAttributeIds.size===8,'基础人格必须包含 8 个唯一 MAIN');
     require(subAffixPool.length===40&&subAffixIds.size===40,'基础人格次级属性池必须包含 40 条唯一配置');
     for(const affix of subAffixPool){require(typeof affix.name==='string'&&typeof affix.effectText==='string',`次级属性 ${affix.id} 缺少显示字段`);require(Number.isFinite(affix.weight)&&affix.weight>0,`次级属性 ${affix.id} 权重必须大于 0`);require(['AI1','AI2','AI3'].includes(affix.unlockProfileId),`次级属性 ${affix.id} 开放节点不合法`);require(Number.isInteger(affix.unlockProfileOrder)&&affix.unlockProfileOrder>=1&&affix.unlockProfileOrder<=3,`次级属性 ${affix.id} 开放顺序不合法`);require(affix.runtimeEnabled===true||affix.decisionStatus==='UNDECIDED',`次级属性 ${affix.id} 必须接入运行时或标记 UNDECIDED`);for(const effect of affix.effects||[])validateEffect(effect,affix.id,{})}
+    require(aiSubAffixConfig.id==='TARGET_AI_PERSONA_SUB_AFFIXES_V1'&&aiSubAffixConfig.schemaVersion===1,'AI 人格副属性配置版本不合法');
+    require(aiSubAffixPool.length===6&&aiSubAffixIds.size===6,'AI 人格副属性池必须包含 6 条唯一配置');
+    require(JSON.stringify(aiSubAffixConfig.unlockCosts)==='[5,8]'&&aiSubAffixConfig.disallowSameAttributeType===true,'AI 人格副属性必须使用 5/8 金币并启用同属性互斥');
+    for(const slotIndex of [0,1]){const pool=aiSubAffixConfig.slotPools?.find(item=>item.slotIndex===slotIndex),expectedIds=aiSubAffixPool.filter(item=>item.slotIndex===slotIndex).map(item=>item.id);require(pool?.weightTotal===100&&expectedIds.length===3&&expectedIds.reduce((sum,id)=>sum+(aiSubAffixPool.find(item=>item.id===id)?.weight||0),0)===100,`AI 人格第 ${slotIndex+2} 词条池必须包含 3 条且总权重为 100`);require(JSON.stringify(pool?.entryIds)===JSON.stringify(expectedIds),`AI 人格第 ${slotIndex+2} 词条池引用不完整`)}
+    for(const affix of aiSubAffixPool){require([0,1].includes(affix.slotIndex)&&JSON.stringify(affix.slotIndexes)===`[${affix.slotIndex}]`,`AI 人格副属性 ${affix.id} 的槽位限定不合法`);require(['BASE_CHIPS','BASE_MULT','XMULT_RATE'].includes(affix.attributeType),`AI 人格副属性 ${affix.id} 使用了首版外属性`);require(affix.runtimeEnabled===true&&affix.decisionStatus==='CONFIRMED',`AI 人格副属性 ${affix.id} 必须确认并启用`);for(const effect of affix.effects||[])validateEffect(effect,affix.id,{})}
+    require(JSON.stringify(manifest?.aiPersonaWhitelist?.affixPolicy?.poolIds)===JSON.stringify(aiSubAffixPool.map(item=>item.id)),'AI 人格白名单未引用完整副属性池');
     for(const personaId of manifest?.basePersonas?.defaultLoadoutIds||[])require(personaIds.has(personaId),`默认人格装备引用不存在的 ID：${personaId}`);
     for(const baseTemplate of manifest?.basePersonas?.templates||[]){const unified=targetPersonaTemplatesById.get(baseTemplate.id),rules=baseTemplate.subAffixRules||{},pool=subAffixPool.filter(item=>item.personaId===baseTemplate.personaId);require(!!unified,`基础人格 ${baseTemplate.id} 未汇入统一 Persona Template 注册表`);require(JSON.stringify(unified)===JSON.stringify(baseTemplate),`基础人格 ${baseTemplate.id} 与统一 Persona Template 数据不一致`);require(entryIds.has(baseTemplate.entryId),`基础人格 ${baseTemplate.id} 引用了不存在的 ENTRY`);require(mainAttributeIds.has(baseTemplate.mainAttributeId),`基础人格 ${baseTemplate.id} 引用了不存在的 MAIN`);require(rules.schemaVersion===2&&rules.slotCount===2&&rules.defaultUnlockedCount===0,`基础人格 ${baseTemplate.id} 必须使用两槽次级属性结构`);require(JSON.stringify(rules.unlockCosts)==='[5,8]',`基础人格 ${baseTemplate.id} 解锁成本必须为 5/8`);require(rules.allowDuplicates===false,`基础人格 ${baseTemplate.id} 次级属性不得重复`);require(pool.length===5&&pool.reduce((sum,item)=>sum+item.weight,0)===100,`基础人格 ${baseTemplate.id} 必须配置 5 项、总权重 100 的独立属性池`);require(new Set(rules.poolIds||[]).size===5&&(rules.poolIds||[]).every(id=>pool.some(item=>item.id===id)),`基础人格 ${baseTemplate.id} 的属性池引用不完整`)}
 
