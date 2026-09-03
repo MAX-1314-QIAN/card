@@ -41,6 +41,7 @@ const GAME_SUPPORT_SCRIPT_FILES=[
   'persona/ai/similarity.js',
   'persona/ai/template-factory.js',
   'persona/ai/generator.js',
+  'persona/ai/generation-service.js',
   'battle/score-runtime.js'
 ];
 

@@ -64,6 +64,6 @@ assert.match(game,/ShopRuntime\.applyCardUpgrade/);
 assert.match(game,/personaRuntime\.createInstance\(item\.effect\.personaTemplateId/);
 assert.match(game,/ShopRuntime\.createCardFromItem/);
 assert.ok(html.includes('shop/shop-runtime.js?v=20260902-growth-refresh-v2'),'shop runtime cache version missing');
-assert.ok(html.includes('game.js?v=20260903-modular-v14'),'shop card art and integrated UI script cache version missing');
+assert.ok(html.includes('game.js?v=20260904-modular-v15'),'shop card art and integrated UI script cache version missing');
 
 console.log('shop-ui-tests: concise goods and focused persona forge hierarchy passed');

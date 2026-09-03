@@ -13,8 +13,9 @@ const validator=context.PERSONA_BALANCE_MODULES.aiPersonaWhitelistValidator;
 
 assert.strictEqual(whitelist.id,'TARGET_AI_PERSONA_WHITELIST_V1');
 assert.strictEqual(whitelist.schemaVersion,1);
-assert.strictEqual(whitelist.runtimeEnabled,false,'白名单完成不等于接入正式 AI 运行时');
-assert.strictEqual(whitelist.decisionStatus,'UNDECIDED','触发率与预算没有遥测前不得伪装成正式确认值');
+assert.strictEqual(whitelist.runtimeEnabled,true,'新正式局必须启用本地安全生成');
+assert.strictEqual(whitelist.activationMode,'LOCAL_V1');
+assert.strictEqual(whitelist.decisionStatus,'PROTOTYPE_ASSUMPTION','触发率与预算没有遥测前必须保留原型假设标记');
 assert.strictEqual(manifest.target.aiPersonaWhitelist,whitelist);
 assert.strictEqual(context.PERSONA_BALANCE_RUNTIME_CONFIG.aiPersonaWhitelist,whitelist);
 
@@ -71,7 +72,7 @@ function invalidAfter(change){
   });
 }
 
-assert.strictEqual(invalidAfter(config=>{config.runtimeEnabled=true}).valid,false);
+assert.strictEqual(invalidAfter(config=>{config.runtimeEnabled=false}).valid,false);
 assert.strictEqual(invalidAfter(config=>{config.directions[0].playerFacing=true}).valid,false);
 assert.strictEqual(invalidAfter(config=>{config.triggerParts[0].variants[0].conditions[0].type='FREE_TEXT_RULE'}).valid,false);
 assert.strictEqual(invalidAfter(config=>{config.strengthTiers[0].values.ADD_CHIPS=999}).valid,false);
@@ -79,4 +80,4 @@ assert.strictEqual(invalidAfter(config=>{config.growthParts=[]}).valid,false);
 assert.strictEqual(invalidAfter(config=>{config.assemblyRules.aiMayReturnOnlyIds=false}).valid,false);
 assert.strictEqual(invalidAfter(config=>{config.nodePolicies[0].directionIds=['AI_DIRECTION_FOLLOW']}).valid,false);
 
-console.log('ai-persona-whitelist-tests: legal parts, value anchor, hidden directions, dormant state and mutation guards passed');
+console.log('ai-persona-whitelist-tests: legal parts, value anchor, hidden directions, local activation and mutation guards passed');

@@ -9,7 +9,7 @@ assert(!game.includes('function addLog(')&&!game.includes('addLog(')&&!game.incl
 assert(html.includes('class="boss-rail-content ornate-panel"'),'右侧保留内容必须收进独立上部面板');
 assert(css.includes('#battle-screen.game-frame>.boss-rail{padding:0;display:block;background:transparent;backdrop-filter:none}'),'右侧外层必须以更高优先级清除底板和模糊效果以露出战斗背景');
 assert.ok(html.includes('persona-battle-affixes.css?v=20260826-battle-affix-v1'),'页面必须加载局内人格属性样式');
-assert.ok(html.includes('game.js?v=20260903-modular-v14'),'人格卡层级、战斗工具、商店与规则文案版本必须更新缓存');
+assert.ok(html.includes('game.js?v=20260904-modular-v15'),'人格卡层级、战斗工具、商店与规则文案版本必须更新缓存');
 assert.ok(game.includes('function personaBattleAffixMarkup(')&&game.includes('personaAffixSlots(template,instance).slice(0,2)')&&game.includes('personaRuntime.getSubAffix(slot.affixId)'),'战斗人格卡必须从运行时实例读取两个副属性槽位');
 assert.ok(game.includes('aria-label="人格副属性"')&&game.includes('副属性${attribute.position}'),'战斗人格卡必须以紧凑横向格式明确标识两个副属性');
 assert.ok(affixCss.includes('.persona-battle-affixes')&&affixCss.includes('font-size:11.5px'),'已解锁属性必须使用清晰可读的独立样式');

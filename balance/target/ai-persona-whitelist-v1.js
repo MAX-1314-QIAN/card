@@ -10,9 +10,10 @@
   modules.targetAiPersonaWhitelist={
     id:'TARGET_AI_PERSONA_WHITELIST_V1',
     schemaVersion:1,
-    runtimeEnabled:false,
-    decisionStatus:'UNDECIDED',
-    purpose:'AI 只能选择并组合本地已批准零件；当前仅建立白名单，不接入正式生成流程。',
+    runtimeEnabled:true,
+    activationMode:'LOCAL_V1',
+    decisionStatus:'PROTOTYPE_ASSUMPTION',
+    purpose:'新正式局由本地白名单生成安全人格；未来 AI 只能从本地已批准候选中返回一个 ID。',
     temporaryNaming:{prefix:'AI人格',sequenceStart:1,minDigits:3,displayOnly:true},
     directions:[
       {id:directions.bridge,playerFacing:false,description:'保留部分现有打法，同时连接另一条可用路线。'},

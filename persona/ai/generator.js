@@ -17,13 +17,17 @@
       const ranked=(fallbackTemplates||[]).filter(item=>item?.id).map(template=>({template,maxSimilarity:(references||[]).reduce((max,reference)=>Math.max(max,root.AiPersonaSimilarity.compare(template,reference).rawScore),0)})).sort((a,b)=>a.maxSimilarity-b.maxSimilarity||a.template.id.localeCompare(b.template.id)),selected=ranked.find(item=>item.maxSimilarity<.95);
       return selected?{ok:true,kind:'LIBRARY_PERSONA',reason:'NO_DISTINCT_LOCAL_CANDIDATE',runtimeNodeId,templateId:selected.template.id,template:clone(selected.template),maxSimilarity:selected.maxSimilarity}:{ok:false,kind:'NO_RESULT',reason:'NO_DISTINCT_LOCAL_OR_LIBRARY_CANDIDATE',runtimeNodeId};
     }
-    function generate({snapshot,directionId,handTypes=[],references=[],selectedCandidateId=null,sequenceNumber,portrait=null,fallbackTemplates=[],maxCandidates=12}={}){
+    function prepare({snapshot,directionId,handTypes=[],references=[],maxCandidates=12}={}){
       const rawPool=builder.build({snapshot,directionId,handTypes,maxCandidates:24}),filtered=root.AiPersonaSimilarity.filterPool(rawPool,{references,maxCandidates});
+      return{runtimeNodeId:snapshot?.runtimeNodeId,snapshotId:snapshot?.id||null,directionId,rawPool,filtered};
+    }
+    function generate({snapshot,directionId,handTypes=[],references=[],selectedCandidateId=null,sequenceNumber,portrait=null,fallbackTemplates=[],maxCandidates=12,prepared=null}={}){
+      const preparedPool=prepared||prepare({snapshot,directionId,handTypes,references,maxCandidates}),{rawPool,filtered}=preparedPool;
       if(!filtered.candidates.length)return libraryFallback(fallbackTemplates,snapshot?.runtimeNodeId,references);
       const selected=filtered.candidates.find(candidate=>candidate.id===selectedCandidateId)||filtered.candidates[0],selectionSource=selectedCandidateId&&selected.id===selectedCandidateId?'AI_SELECTED':'LOCAL_FALLBACK',template=factory.fromCandidate(selected,{sequenceNumber,portrait});
       return{ok:true,kind:'GENERATED_PERSONA',reason:selectionSource==='LOCAL_FALLBACK'?(selectedCandidateId?'INVALID_AI_SELECTION':'NO_AI_SELECTION'):null,runtimeNodeId:snapshot.runtimeNodeId,directionId,selectionSource,selectedCandidateId:selected.id,template,candidate:clone(selected),trace:{snapshotId:snapshot.id,rawCandidateCount:rawPool.candidateCount,distinctCandidateCount:filtered.acceptedCount,rejectedSimilarityCount:filtered.rejectedCount}};
     }
-    return Object.freeze({assignDirection,generate});
+    return Object.freeze({assignDirection,prepare,generate});
   }
   root.AiPersonaGenerator=Object.freeze({create});
 })(globalThis);

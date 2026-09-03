@@ -4,7 +4,7 @@
   const currentScoringProfile={id:'POKER_HAND_PROFILE_CURRENT_DEMO',hands:modules.pokerHands,decisionStatus:'CONFIRMED'};
   const personaTemplates={...modules.personaTemplates,qualities:[...modules.personaTemplates.qualities,'PROTOTYPE'],templates:[...modules.personaTemplates.templates,...(modules.targetPrototypePersonas||[])],growthProfiles:[...modules.personaTemplates.growthProfiles,...(modules.targetGrowthProfiles||[])]};
   const manifest={
-    configVersion:'phase-c.3-ai-persona-sub-affixes-v1',
+    configVersion:'phase-c.3-ai-persona-local-v1',
     activeRunTemplateId:'RUN_TEMPLATE_TARGET',
     reservedRunTemplateIds:[],
     saveCompatibilityVersion:3,

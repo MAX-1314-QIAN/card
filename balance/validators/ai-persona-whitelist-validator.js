@@ -39,8 +39,8 @@
 
     require(config?.id==='TARGET_AI_PERSONA_WHITELIST_V1','AI 人格白名单必须使用 TARGET_AI_PERSONA_WHITELIST_V1');
     require(config?.schemaVersion===1,'AI 人格白名单 schemaVersion 必须为 1');
-    require(config?.runtimeEnabled===false,'AI 人格 V1 白名单当前不得接入正式运行时');
-    require(config?.decisionStatus==='UNDECIDED','AI 人格 V1 数值未实测前必须保持 UNDECIDED');
+    require(config?.runtimeEnabled===true&&config?.activationMode==='LOCAL_V1','AI 人格 V1 正式入口必须使用本地安全生成模式');
+    require(config?.decisionStatus==='PROTOTYPE_ASSUMPTION','AI 人格 V1 数值未实测前必须标记为原型假设');
     require(config?.temporaryNaming?.prefix==='AI人格'&&config.temporaryNaming.sequenceStart===1&&config.temporaryNaming.minDigits===3,'AI 人格临时编号规则必须从 AI人格001 开始');
 
     const directionIds=unique(config?.directions,'AI 人格方向');
