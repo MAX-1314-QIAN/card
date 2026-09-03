@@ -12,7 +12,7 @@ const analytics=context.GameBehaviorAnalytics,snapshotRuntime=context.AiPersonaB
 function card(rank,suit,rankIndex){return{r:rank,s:suit,ri:rankIndex}}
 function result({type,typeId,score,cards,persona=[]}){
   return{
-    type,typeId,total:score,scoringCards:cards,chips:100,mult:2,xmult:1,
+    type,typeId,total:score,scoringCards:cards,chips:100,mult:2,xmult:1,straight:typeId==='straight',flush:typeId==='flush',pair:typeId==='pair',
     events:persona.map(item=>({phase:'人格牌',source:item.instanceId,detail:'+10 筹码'})),
     personaLogs:persona.map(item=>({triggered:true,disabled:false,instanceId:item.instanceId,templateId:item.templateId,chipsDelta:item.chipsDelta||0,multDelta:item.multDelta||0,xmultRateDelta:item.xmultRateDelta||0,finalMultiplierDelta:item.finalMultiplierDelta||0,coinsDelta:0})),
     breakdown:{base:{chips:90,mult:2,xmult:1},final:{chips:100,mult:2,xmult:1}}
@@ -22,7 +22,7 @@ function startBattle(index){analytics.recordBattleStart(aggregate,{index,nodeId:
 function endBattle(){analytics.recordBattleEnd(aggregate,{score:1000,remainingHands:2,remainingDiscards:2,win:true})}
 
 startBattle(0);
-analytics.recordPlay(aggregate,{cards:[card('10','♥',10),card('10','♦',10)],result:result({type:'对子',typeId:'pair',score:160,cards:[card('10','♥',10),card('10','♦',10)],persona:[{instanceId:'P1',templateId:'PER_001',chipsDelta:10}]}),battleIndex:0,nodeId:'N01'});
+analytics.recordPlay(aggregate,{cards:[card('10','♥',10),card('10','♦',10)],result:result({type:'对子',typeId:'pair',score:160,cards:[card('10','♥',10),card('10','♦',10)],persona:[{instanceId:'P1',templateId:'PER_001',chipsDelta:10}]}),battleIndex:0,nodeId:'N01',currentHandCardCount:8});
 analytics.recordDiscard(aggregate,{count:2,battleIndex:0,nodeId:'N01'});
 analytics.recordPlay(aggregate,{cards:[card('K','♣',13),card('K','♠',13)],result:result({type:'对子',typeId:'pair',score:210,cards:[card('K','♣',13),card('K','♠',13)],persona:[{instanceId:'P1',templateId:'PER_001',chipsDelta:10}]}),battleIndex:0,nodeId:'N01'});
 endBattle();
@@ -71,6 +71,11 @@ assert.strictEqual(snapshot.windows.cumulative.actions.discardFollowUpCount,1);
 assert.strictEqual(snapshot.windows.cumulative.actions.discardFollowUpAverageScore,210);
 assert.strictEqual(snapshot.windows.cumulative.maxSameHandTypeStreak,2);
 assert.strictEqual(snapshot.windows.cumulative.dominantRankBandId,'low');
+assert.strictEqual(snapshot.windows.cumulative.conditionSignals.matchedRankStructureRate,.75);
+assert.strictEqual(snapshot.windows.cumulative.conditionSignals.straightRate,.25);
+assert.strictEqual(snapshot.windows.cumulative.conditionSignals.submittedCounts.find(item=>item.value===2).share,.75);
+assert.strictEqual(snapshot.windows.cumulative.conditionSignals.currentHandCounts[0].value,8);
+assert.strictEqual(snapshot.windows.cumulative.conditionSignals.discardedCounts[0].value,2);
 assert.strictEqual(snapshot.windows.cumulative.dataQuality.hasPerPlayCardGroups,true);
 assert.strictEqual(snapshot.windows.cumulative.dataQuality.hasCompleteActionOrder,true);
 

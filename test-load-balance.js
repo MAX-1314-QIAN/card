@@ -34,6 +34,9 @@ const GAME_SUPPORT_SCRIPT_FILES=[
   'game/card-presentation.js',
   'game/behavior-analytics.js',
   'persona/ai/behavior-snapshot.js',
+  'persona/ai/value-budget.js',
+  'persona/ai/candidate-validator.js',
+  'persona/ai/candidate-builder.js',
   'battle/score-runtime.js'
 ];
 

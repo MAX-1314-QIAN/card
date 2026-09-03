@@ -74,6 +74,7 @@
     require(Array.isArray(assembly.mechanismFingerprintFields)&&assembly.mechanismFingerprintFields.length>=7,'AI 人格机制指纹字段不完整');
 
     const affix=config?.affixPolicy||{};
+    require(affix.id==='AI_AFFIX_POLICY_V1','AI 人格次级属性策略 ID 不合法');
     require(affix.schemaVersion===2&&affix.slotCount===2&&affix.defaultUnlockedCount===0,'AI 人格必须预留两个默认锁定的次级属性槽');
     require(JSON.stringify(affix.unlockCosts)==='[5,8]'&&affix.allowDuplicates===false,'AI 人格次级属性槽必须沿用 5/8 金币且不可重复的基础结构');
     require(affix.candidatePoolStatus==='UNDECIDED'&&affix.runtimeEnabled===false,'AI 人格次级属性池未确认前不得运行');
@@ -139,6 +140,7 @@
     for(const growth of config?.growthParts||[]){
       require(VALID_EVENTS.has(growth.event),`AI 人格成长零件 ${growth.id} 的事件不合法`);
       require(typeof growth.copyTemplate==='string'&&growth.copyTemplate.length>0,`AI 人格成长零件 ${growth.id} 缺少玩家文案模板`);
+      require(growth.frequencyBandSource==='CORE_TRIGGER'||frequencyIds.has(growth.frequencyBandId),`AI 人格成长零件 ${growth.id} 缺少合法触发频率来源`);
       require(growth.conditionSource==='CORE_TRIGGER'||Array.isArray(growth.conditions),`AI 人格成长零件 ${growth.id} 缺少条件来源`);
       for(const condition of growth.conditions||[])validateCondition(condition,growth.id,{});
       validateRuntimeEffect(growth.runtimeEffect,growth.id,{growthStacks:0});

@@ -34,12 +34,13 @@
       mainAttributeTypeByEffect:{ADD_CHIPS:'BASE_CHIPS',ADD_MULT:'BASE_MULT',ADD_XMULT_RATE:'XMULT_RATE',MULTIPLY_FINAL:'XMULT_RATE'},
       effectPhaseByType:{ADD_CHIPS:'PERSONA_ADDITIVE',ADD_MULT:'PERSONA_ADDITIVE',ADD_XMULT_RATE:'PERSONA_ADDITIVE',MULTIPLY_FINAL:'PERSONA_FINAL'},
       growthEffectTypeByMainEffect:{ADD_CHIPS:'ADD_CHIPS',ADD_MULT:'ADD_MULT',ADD_XMULT_RATE:'ADD_XMULT_RATE',MULTIPLY_FINAL:'ADD_XMULT_RATE'},
-      mechanismFingerprintFields:['triggerPartId','triggerVariantId','mainEffectPartId','baseStrengthTierId','growthPartId','growthStrengthTierId','growthCap','behaviorTags'],
+      mechanismFingerprintFields:['triggerPartId','triggerVariantId','resolvedConditions','mainEffectPartId','baseStrengthTierId','growthPartId','growthConditions','growthStrengthTierId','growthCap','behaviorTags'],
       directionAssignmentStateKey:'aiPersonaDirectionByNode',
       localFallbackRequired:true,
       aiMayReturnOnlyIds:true
     },
     affixPolicy:{
+      id:'AI_AFFIX_POLICY_V1',
       schemaVersion:2,
       slotCount:2,
       defaultUnlockedCount:0,
@@ -136,12 +137,12 @@
       {id:'AI_EFFECT_FINAL_MULTIPLIER',runtimeType:'MULTIPLY_FINAL',mainAttributeType:'XMULT_RATE',copyTemplate:'最终倍率 ×{value}',allowedTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_150','AI_VALUE_200','AI_VALUE_300'],directions:allDirections}
     ],
     growthParts:[
-      {id:'AI_GROWTH_CORE_TRIGGER',event:'HAND_COMMITTED',conditionSource:'CORE_TRIGGER',copyTemplate:'每次触发时，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100'],incompatibleTriggerTags:['STATE_CONSUMING']},
-      {id:'AI_GROWTH_FIRST_UNIQUE_HAND',event:'HAND_COMMITTED',conditions:[{type:'UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN'}],copyTemplate:'每首次打出一种牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']},
-      {id:'AI_GROWTH_DIFFERENT_HAND',event:'HAND_COMMITTED',conditions:[{type:'DIFFERENT_FROM_PREVIOUS_HAND'}],copyTemplate:'每打出与上一手不同的牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']},
-      {id:'AI_GROWTH_SUIT_DIVERSITY',event:'HAND_COMMITTED',conditions:[{type:'MIN_UNIQUE_SUITS',value:3}],copyTemplate:'每打出至少 3 种花色，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050']},
-      {id:'AI_GROWTH_MATCHED_RANKS',event:'HAND_COMMITTED',conditions:[{type:'HAS_MATCHED_RANK_STRUCTURE'}],copyTemplate:'每打出同点数结构，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050']},
-      {id:'AI_GROWTH_DISCARD_TWO',event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2}],copyTemplate:'每次弃掉至少 2 张牌，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']}
+      {id:'AI_GROWTH_CORE_TRIGGER',event:'HAND_COMMITTED',conditionSource:'CORE_TRIGGER',frequencyBandSource:'CORE_TRIGGER',copyTemplate:'每次触发时，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100'],incompatibleTriggerTags:['STATE_CONSUMING']},
+      {id:'AI_GROWTH_FIRST_UNIQUE_HAND',event:'HAND_COMMITTED',conditions:[{type:'UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN'}],frequencyBandId:'AI_FREQ_LOW',copyTemplate:'每首次打出一种牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']},
+      {id:'AI_GROWTH_DIFFERENT_HAND',event:'HAND_COMMITTED',conditions:[{type:'DIFFERENT_FROM_PREVIOUS_HAND'}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每打出与上一手不同的牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']},
+      {id:'AI_GROWTH_SUIT_DIVERSITY',event:'HAND_COMMITTED',conditions:[{type:'MIN_UNIQUE_SUITS',value:3}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每打出至少 3 种花色，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050']},
+      {id:'AI_GROWTH_MATCHED_RANKS',event:'HAND_COMMITTED',conditions:[{type:'HAS_MATCHED_RANK_STRUCTURE'}],frequencyBandId:'AI_FREQ_HIGH',copyTemplate:'每打出同点数结构，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050']},
+      {id:'AI_GROWTH_DISCARD_TWO',event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每次弃掉至少 2 张牌，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']}
     ],
     numericBudgets:[
       {id:'AI_BUDGET_N04',runtimeNodeId:'N04',maxInitialExpectedUnitsPerHand:.9,maxMatureExpectedUnitsPerHand:1.8,tuningStatus:'PROTOTYPE_ASSUMPTION'},

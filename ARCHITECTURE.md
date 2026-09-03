@@ -47,6 +47,9 @@ index.html / CSS（页面装配与视觉）
 - `game/build-inspection.js`：牌型强化、花色强化的查看数据与 HTML。
 - `game/behavior-analytics.js`：玩家行为聚合与报告计算。后续 AI 玩家画像从这里继续扩展。
 - `persona/ai/behavior-snapshot.js`：把行为聚合、商店选择和人格贡献转换成可发送给 AI 的版本化事实快照；不输出完整存档、原始牌面或自由文本。
+- `persona/ai/value-budget.js`：用商店人格主词条强化作为价值锚点，按实测触发率过滤初始或成熟强度超标的组合。
+- `persona/ai/candidate-builder.js`：解析行为动态条件，只组装本地白名单允许且适合当前内部方向的候选。
+- `persona/ai/candidate-validator.js`：独立复算候选的组件引用、运行时结构、数值预算、玩家文案和机制指纹。
 
 这些模块应保持纯净：不读取 DOM、不访问本地存储、不发送网络请求、不直接调用 `runController`。
 
@@ -77,14 +80,14 @@ AI 人格不能直接写进 `game.js`。下一阶段应建立独立目录，并�
 ```text
 persona/ai/behavior-snapshot.js   玩家行为统一快照（已建立）
 balance/target/ai-persona-whitelist-v1.js 合法规则零件白名单（已建立）
-persona/ai/value-budget.js        数值价值锚定
-persona/ai/candidate-builder.js   本地候选组合
-persona/ai/candidate-validator.js 合法性、可触发性与冲突校验
+persona/ai/value-budget.js        数值价值锚定（已建立）
+persona/ai/candidate-builder.js   本地候选组合（已建立）
+persona/ai/candidate-validator.js 合法性、可触发性与冲突校验（已建立）
 persona/ai/similarity.js          与现有人格查重
 persona/ai/generator.js           生成流程编排与备用结果
 ```
 
-未来联网模型只允许在这些模块给出的合法 ID 中选择。网络层不能直接修改战斗、存档或人格实例。
+候选构建器当前仍未接入正式奖励流程。未来联网模型只允许在这些模块给出的合法候选 ID 中选择；网络层不能直接修改战斗、存档或人格实例。
 
 ## 重构纪律
 

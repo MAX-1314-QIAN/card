@@ -23,14 +23,14 @@
     return aggregate;
   }
 
-  function recordPlay(aggregate,{cards,result,battleIndex,nodeId=null,encounterId=null}){
+  function recordPlay(aggregate,{cards,result,battleIndex,nodeId=null,encounterId=null,currentHandCardCount=null}){
     aggregate.handTypes[result.type]=(aggregate.handTypes[result.type]||0)+1;
     aggregate.scores.push(result.total);
     result.scoringCards.forEach(card=>{aggregate.suitCounts[card.s]++;aggregate.rankBands[rankBand(card)]++});
     result.events.filter(event=>event.phase==='人格牌'&&!event.detail.includes('禁用')).forEach(event=>aggregate.personaTriggers[event.source]=(aggregate.personaTriggers[event.source]||0)+1);
     const scoringCards=(result.scoringCards||[]).map(card=>({rank:String(card.r),rankIndex:Number(card.ri),suit:card.s,rankBand:rankBand(card)}));
     const personaContributions=(result.personaLogs||[]).filter(log=>log.triggered&&!log.disabled).map(log=>({instanceId:log.instanceId,templateId:log.templateId,chipsDelta:Number(log.chipsDelta||0),multDelta:Number(log.multDelta||0),xmultRateDelta:Number(log.xmultRateDelta||0),finalMultiplierDelta:Number(log.finalMultiplierDelta||0),coinsDelta:Number(log.coinsDelta||0)}));
-    aggregate.plays.push({actionSequence:nextActionSequence(aggregate),battleIndex,nodeId,encounterId,type:result.type,typeId:result.typeId||null,selectedCount:cards.length,scoringCount:result.scoringCards.length,score:result.total,selectedSuits:cards.map(card=>card.s),scoringCards,scoreLayers:{base:{...(result.breakdown?.base||{})},final:{chips:Number(result.chips||0),mult:Number(result.mult||0),xmult:Number(result.xmult||1)}},personaContributions,suits:cards.map(card=>card.s),personaEffects:result.events.filter(event=>event.phase==='人格牌').map(event=>event.source)});
+    aggregate.plays.push({actionSequence:nextActionSequence(aggregate),battleIndex,nodeId,encounterId,type:result.type,typeId:result.typeId||null,selectedCount:cards.length,scoringCount:result.scoringCards.length,currentHandCardCount:Number.isFinite(currentHandCardCount)?currentHandCardCount:null,score:result.total,selectedSuits:cards.map(card=>card.s),scoringCards,features:{straight:!!result.straight,flush:!!result.flush,matchedRankStructure:!!result.pair,uniqueSuitCount:new Set(cards.map(card=>card.s)).size},scoreLayers:{base:{...(result.breakdown?.base||{})},final:{chips:Number(result.chips||0),mult:Number(result.mult||0),xmult:Number(result.xmult||1)}},personaContributions,suits:cards.map(card=>card.s),personaEffects:result.events.filter(event=>event.phase==='人格牌').map(event=>event.source)});
     return aggregate;
   }
 

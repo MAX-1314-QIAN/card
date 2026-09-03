@@ -12,12 +12,17 @@
   function sortByCountThenId(rows){return rows.sort((a,b)=>b.count-a.count||String(a.id).localeCompare(String(b.id)))}
 
   function summarizeWindow({plays=[],discards=[],battles=[],handTypes=[]}={}){
-    const handTypeById=new Map(handTypes.map(item=>[item.id,item])),handStats=new Map(),suitCounts=new Map(SUITS.map(suit=>[suit,0])),rankBandCounts=new Map(RANK_BANDS.map(id=>[id,0])),personaStats=new Map();
+    const handTypeById=new Map(handTypes.map(item=>[item.id,item])),handStats=new Map(),suitCounts=new Map(SUITS.map(suit=>[suit,0])),rankBandCounts=new Map(RANK_BANDS.map(id=>[id,0])),personaStats=new Map(),submittedCounts=new Map(),scoringCounts=new Map(),currentHandCounts=new Map(),discardedCounts=new Map();
+    let straightCount=0,flushCount=0,matchedRankCount=0,normalQualityCount=0,rareQualityCount=0,uniqueSuitAtLeast2=0,uniqueSuitAtLeast3=0,uniqueSuitAtLeast4=0,priorityAtLeast2=0,priorityAtLeast4=0,priorityAtLeast6=0,priorityAtLeast9=0;
     let totalScore=0,maxScore=0,totalSelected=0,totalScoring=0,detailedPlayCount=0,baseChips=0,baseMult=0,baseXmult=0,finalChips=0,finalMult=0,finalXmult=0;
     for(const play of plays){
       const id=play.typeId||play.type||'UNKNOWN',config=handTypeById.get(id),entry=handStats.get(id)||{id,name:config?.name||play.type||id,count:0,scoreTotal:0,maxScore:0};
       entry.count++;entry.scoreTotal+=finite(play.score);entry.maxScore=Math.max(entry.maxScore,finite(play.score));handStats.set(id,entry);
       totalScore+=finite(play.score);maxScore=Math.max(maxScore,finite(play.score));totalSelected+=finite(play.selectedCount);totalScoring+=finite(play.scoringCount);
+      increment(submittedCounts,finite(play.selectedCount));increment(scoringCounts,finite(play.scoringCount));if(Number.isFinite(play.currentHandCardCount))increment(currentHandCounts,finite(play.currentHandCardCount));
+      const priority=finite(config?.priority),quality=config?.qualityId||'NORMAL',features=play.features||{},uniqueSuitCount=finite(features.uniqueSuitCount||new Set(play.selectedSuits||play.suits||[]).size);
+      if(features.straight)straightCount++;if(features.flush)flushCount++;if(features.matchedRankStructure)matchedRankCount++;if(quality==='RARE')rareQualityCount++;else normalQualityCount++;
+      if(uniqueSuitCount>=2)uniqueSuitAtLeast2++;if(uniqueSuitCount>=3)uniqueSuitAtLeast3++;if(uniqueSuitCount>=4)uniqueSuitAtLeast4++;if(priority>=2)priorityAtLeast2++;if(priority>=4)priorityAtLeast4++;if(priority>=6)priorityAtLeast6++;if(priority>=9)priorityAtLeast9++;
       const scoringCards=Array.isArray(play.scoringCards)?play.scoringCards:[];
       if(scoringCards.length)detailedPlayCount++;
       for(const card of scoringCards){if(suitCounts.has(card.suit))increment(suitCounts,card.suit);if(rankBandCounts.has(card.rankBand))increment(rankBandCounts,card.rankBand)}
@@ -55,6 +60,7 @@
       }
     }
 
+    for(const discard of discards)increment(discardedCounts,finite(discard.count));
     const totalDiscarded=discards.reduce((sum,item)=>sum+finite(item.count),0),completedBattles=battles.filter(item=>item.endScore!==null&&item.endScore!==undefined),wins=completedBattles.filter(item=>item.win===true).length;
     return{
       battleCount:new Set([...plays,...discards].map(battleNumberOf).filter(Boolean)).size||completedBattles.length,
@@ -71,6 +77,7 @@
       uniqueHandTypeCount:handTypeRows.length,
       repeatedHandTypeTransitions:repeatTransitions,
       maxSameHandTypeStreak:maxSameTypeStreak,
+      conditionSignals:{submittedCounts:sortByCountThenId([...submittedCounts].map(([id,count])=>({id:String(id),value:Number(id),count,share:ratio(count,plays.length)}))),scoringCounts:sortByCountThenId([...scoringCounts].map(([id,count])=>({id:String(id),value:Number(id),count,share:ratio(count,plays.length)}))),currentHandCounts:sortByCountThenId([...currentHandCounts].map(([id,count])=>({id:String(id),value:Number(id),count,share:ratio(count,plays.length)}))),discardedCounts:sortByCountThenId([...discardedCounts].map(([id,count])=>({id:String(id),value:Number(id),count,share:ratio(count,Math.max(1,discards.length))}))),normalQualityRate:ratio(normalQualityCount,plays.length),rareQualityRate:ratio(rareQualityCount,plays.length),straightRate:ratio(straightCount,plays.length),flushRate:ratio(flushCount,plays.length),matchedRankStructureRate:ratio(matchedRankCount,plays.length),uniqueSuitAtLeast2Rate:ratio(uniqueSuitAtLeast2,plays.length),uniqueSuitAtLeast3Rate:ratio(uniqueSuitAtLeast3,plays.length),uniqueSuitAtLeast4Rate:ratio(uniqueSuitAtLeast4,plays.length),priorityAtLeast2Rate:ratio(priorityAtLeast2,plays.length),priorityAtLeast4Rate:ratio(priorityAtLeast4,plays.length),priorityAtLeast6Rate:ratio(priorityAtLeast6,plays.length),priorityAtLeast9Rate:ratio(priorityAtLeast9,plays.length),sameHandTypeStreakAtLeast2Rate:ratio(repeatTransitions,plays.length),differentFromPreviousHandRate:ratio(Math.max(0,plays.length-new Set(plays.map(battleNumberOf)).size-repeatTransitions),Math.max(1,plays.length-new Set(plays.map(battleNumberOf)).size)),firstUniqueHandTypeRate:ratio(handTypeRows.length,plays.length),discardFollowUpRate:ratio(discardFollowUpCount,plays.length)},
       suits:suitRows,
       dominantSuitId:suitRows[0]?.count?suitRows[0].id:null,
       rankBands:rankRows,
