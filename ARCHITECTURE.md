@@ -46,6 +46,7 @@ index.html / CSS（页面装配与视觉）
 - `game/card-presentation.js`：扑克牌美术映射与牌面 HTML。
 - `game/build-inspection.js`：牌型强化、花色强化的查看数据与 HTML。
 - `game/behavior-analytics.js`：玩家行为聚合与报告计算。后续 AI 玩家画像从这里继续扩展。
+- `persona/ai/behavior-snapshot.js`：把行为聚合、商店选择和人格贡献转换成可发送给 AI 的版本化事实快照；不输出完整存档、原始牌面或自由文本。
 
 这些模块应保持纯净：不读取 DOM、不访问本地存储、不发送网络请求、不直接调用 `runController`。
 
@@ -74,7 +75,7 @@ index.html / CSS（页面装配与视觉）
 AI 人格不能直接写进 `game.js`。下一阶段应建立独立目录，并保持以下职责：
 
 ```text
-persona/ai/behavior-snapshot.js   玩家行为统一快照
+persona/ai/behavior-snapshot.js   玩家行为统一快照（已建立）
 balance/target/ai-persona-whitelist-v1.js 合法规则零件白名单（已建立）
 persona/ai/value-budget.js        数值价值锚定
 persona/ai/candidate-builder.js   本地候选组合

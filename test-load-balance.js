@@ -33,6 +33,7 @@ const GAME_SUPPORT_SCRIPT_FILES=[
   'game/build-inspection.js',
   'game/card-presentation.js',
   'game/behavior-analytics.js',
+  'persona/ai/behavior-snapshot.js',
   'battle/score-runtime.js'
 ];
 

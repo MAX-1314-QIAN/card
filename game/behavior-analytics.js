@@ -2,11 +2,18 @@
   'use strict';
 
   function createAggregate(){
-    return{handTypes:{},scores:[],plays:[],discards:[],discardActions:0,discardedCards:0,maxDiscard:0,suitCounts:{'♥':0,'♦':0,'♣':0,'♠':0},rankBands:{low:0,middle:0,face:0,ace:0},personaTriggers:{},battles:[],availableHands:0,availableDiscards:0,spentCoins:0,earnedCoins:0,purchases:[],deckChanges:0,shopVisits:0,refreshes:0};
+    return{schemaVersion:2,actionSequence:0,handTypes:{},scores:[],plays:[],discards:[],discardActions:0,discardedCards:0,maxDiscard:0,suitCounts:{'♥':0,'♦':0,'♣':0,'♠':0},rankBands:{low:0,middle:0,face:0,ace:0},personaTriggers:{},battles:[],availableHands:0,availableDiscards:0,spentCoins:0,earnedCoins:0,purchases:[],deckChanges:0,shopVisits:0,refreshes:0};
   }
 
   function rankBand(card){
     return card.r==='A'?'ace':['J','Q','K'].includes(card.r)?'face':card.ri<=6?'low':'middle';
+  }
+
+  function nextActionSequence(aggregate){
+    if(!Number.isInteger(aggregate.actionSequence)){
+      aggregate.actionSequence=Math.max(-1,...(aggregate.plays||[]).map(item=>Number.isInteger(item.actionSequence)?item.actionSequence:-1),...(aggregate.discards||[]).map(item=>Number.isInteger(item.actionSequence)?item.actionSequence:-1))+1;
+    }
+    return aggregate.actionSequence++;
   }
 
   function recordBattleStart(aggregate,{index,nodeId=null,encounterId=null,target,startScore,startingHands,startingDiscards}){
@@ -21,7 +28,9 @@
     aggregate.scores.push(result.total);
     result.scoringCards.forEach(card=>{aggregate.suitCounts[card.s]++;aggregate.rankBands[rankBand(card)]++});
     result.events.filter(event=>event.phase==='人格牌'&&!event.detail.includes('禁用')).forEach(event=>aggregate.personaTriggers[event.source]=(aggregate.personaTriggers[event.source]||0)+1);
-    aggregate.plays.push({battleIndex,nodeId,encounterId,type:result.type,selectedCount:cards.length,scoringCount:result.scoringCards.length,score:result.total,suits:cards.map(card=>card.s),personaEffects:result.events.filter(event=>event.phase==='人格牌').map(event=>event.source)});
+    const scoringCards=(result.scoringCards||[]).map(card=>({rank:String(card.r),rankIndex:Number(card.ri),suit:card.s,rankBand:rankBand(card)}));
+    const personaContributions=(result.personaLogs||[]).filter(log=>log.triggered&&!log.disabled).map(log=>({instanceId:log.instanceId,templateId:log.templateId,chipsDelta:Number(log.chipsDelta||0),multDelta:Number(log.multDelta||0),xmultRateDelta:Number(log.xmultRateDelta||0),finalMultiplierDelta:Number(log.finalMultiplierDelta||0),coinsDelta:Number(log.coinsDelta||0)}));
+    aggregate.plays.push({actionSequence:nextActionSequence(aggregate),battleIndex,nodeId,encounterId,type:result.type,typeId:result.typeId||null,selectedCount:cards.length,scoringCount:result.scoringCards.length,score:result.total,selectedSuits:cards.map(card=>card.s),scoringCards,scoreLayers:{base:{...(result.breakdown?.base||{})},final:{chips:Number(result.chips||0),mult:Number(result.mult||0),xmult:Number(result.xmult||1)}},personaContributions,suits:cards.map(card=>card.s),personaEffects:result.events.filter(event=>event.phase==='人格牌').map(event=>event.source)});
     return aggregate;
   }
 
@@ -29,7 +38,7 @@
     aggregate.discardActions++;
     aggregate.discardedCards+=count;
     aggregate.maxDiscard=Math.max(aggregate.maxDiscard,count);
-    (aggregate.discards||(aggregate.discards=[])).push({battleIndex,nodeId,encounterId,count});
+    (aggregate.discards||(aggregate.discards=[])).push({actionSequence:nextActionSequence(aggregate),battleIndex,nodeId,encounterId,count});
     return aggregate;
   }
 
