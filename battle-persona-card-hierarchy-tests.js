@@ -1,7 +1,7 @@
 const assert=require('assert'),fs=require('fs');
 const html=fs.readFileSync('index.html','utf8'),game=fs.readFileSync('game.js','utf8'),css=fs.readFileSync('battle-persona-card-hierarchy.css','utf8');
 assert(html.includes('battle-persona-card-hierarchy.css?v=20260831-horizontal-affixes-v5'),'页面必须加载战斗人格卡横向副属性样式');
-assert(html.includes('game.js?v=20260902-shop-growth-display-v13'),'页面必须刷新综合界面脚本缓存');
+assert(html.includes('game.js?v=20260903-modular-v14'),'页面必须刷新综合界面脚本缓存');
 const battleRender=game.slice(game.indexOf("const runtimeReady="),game.indexOf('renderPlayedCards();',game.indexOf("const runtimeReady=")));
 assert(!battleRender.includes('主词条')&&!battleRender.includes('persona-entry-trigger'),'战斗人格卡不得展示主词条和旧触发说明组件');
 assert(!battleRender.includes('persona-runtime-status'),'战斗人格卡不得展示状态信息');

@@ -3,13 +3,14 @@ const fs=require('fs');
 
 const html=fs.readFileSync('index.html','utf8');
 const game=fs.readFileSync('game.js','utf8');
+const personaPresentation=fs.readFileSync('game/persona-presentation.js','utf8');
 const css=fs.readFileSync('art-assets.css','utf8');
 const affixCss=fs.readFileSync('persona-affixes.css','utf8');
 const layoutCss=fs.readFileSync('persona-library-layout.css','utf8');
 const render=game.slice(game.indexOf('function renderPersonaLibrary()'),game.indexOf('function selectPersonaLibrary'));
 
 assert(render.includes('library-effect-summary'),'左侧人格卡应生成单句大白话效果');
-assert(game.includes('persona-keyword')&&game.includes('persona-value'),'关键词和效果数值应使用独立强调标记');
+assert(personaPresentation.includes('persona-keyword')&&personaPresentation.includes('persona-value'),'关键词和效果数值应由独立人格表现模块生成强调标记');
 assert(!render.includes('${p.mode} · 人格牌'),'左侧人格卡不应显示模式/人格牌小标签');
 assert(!render.includes('<small>${p.effect}</small>'),'装备槽不应显示详细效果');
 assert(!html.includes('id="library-detail-tags"'),'右下详情不应保留模式和数值标签');

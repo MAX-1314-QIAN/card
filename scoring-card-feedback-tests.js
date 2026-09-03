@@ -1,11 +1,11 @@
 const assert=require('assert'),fs=require('fs');
-const game=fs.readFileSync('game.js','utf8'),css=fs.readFileSync('persona-flow.css','utf8'),html=fs.readFileSync('index.html','utf8');
-assert(game.includes("phase:'计分牌',source:`${card.r}${card.s}`,cardUid:card.uid"),'每个计分牌事件必须携带卡牌唯一标识');
+const game=fs.readFileSync('game.js','utf8'),scoreRuntime=fs.readFileSync('battle/score-runtime.js','utf8'),css=fs.readFileSync('persona-flow.css','utf8'),html=fs.readFileSync('index.html','utf8');
+assert(scoreRuntime.includes("phase:'计分牌',source:`${card.r}${card.s}`,cardUid:card.uid"),'每个计分牌事件必须携带卡牌唯一标识');
 for(const api of ['scoringCardElement','animateScoringCard'])assert(game.includes(`function ${api}`),`缺少 ${api} 计分牌反馈函数`);
 assert(game.includes("event.phase==='计分牌')await animateScoringCard(event)"),'扑克牌特效必须在人格牌演算之前进入统一队列');
-assert(game.indexOf("events.push({phase:'计分牌'")<game.indexOf('for(const log of runtimeResult.logs)'),'计分牌事件必须先于人格牌事件创建');
+assert(scoreRuntime.indexOf("events.push({phase:'计分牌'")<scoreRuntime.indexOf('for(const log of runtimeResult.logs)'),'计分牌事件必须先于人格牌事件创建');
 assert(game.includes("badge.textContent=chips?`+${Number(chips.toFixed(2))} 筹码`:'0 筹码'"),'牌下必须显示本张牌增加的筹码');
 for(const selector of ['.played-card.scoring-card-active','.played-card.scoring-card-spent','.card-chip-float'])assert(css.includes(selector),`缺少 ${selector} 样式`);
 assert(css.includes('.played-row .played-card{overflow:visible'),'计分牌必须允许牌下筹码浮签越过牌面边界显示');
-assert(/game\.js\?v=20260902-[^"]+/.test(html),'页面必须加载包含人格卡层级、计分牌反馈、规则文案和结算速度修复的最新脚本');
+assert(/game\.js\?v=20260903-[^"]+/.test(html),'页面必须加载包含人格卡层级、计分牌反馈、规则文案和结算速度修复的最新脚本');
 console.log('scoring-card-feedback-tests: card event identity, ordered animation, active/spent states and chip labels passed');

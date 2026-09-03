@@ -25,6 +25,15 @@ const BALANCE_SCRIPT_FILES=[
   'balance-v2.1.js'
 ];
 
+const GAME_SUPPORT_SCRIPT_FILES=[
+  'game/ui-formatters.js',
+  'game/persona-presentation.js',
+  'game/build-inspection.js',
+  'game/card-presentation.js',
+  'game/behavior-analytics.js',
+  'battle/score-runtime.js'
+];
+
 function injectSystemTestRun(context){
   const manifest=context.PERSONA_BALANCE_MANIFEST;
   manifest.testEnvironment=true;
@@ -57,7 +66,8 @@ function loadBalance(context,{includeSystemTestRun=false,includePersonaSliceRun=
   vm.runInContext(fs.readFileSync('shop/shop-runtime.js','utf8'),context,{filename:'shop/shop-runtime.js'});
   vm.runInContext(fs.readFileSync('deck-sort-runtime.js','utf8'),context,{filename:'deck-sort-runtime.js'});
   vm.runInContext(fs.readFileSync('run-controller.js','utf8'),context,{filename:'run-controller.js'});
+  for(const file of GAME_SUPPORT_SCRIPT_FILES)vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
   return context.BALANCE_V21;
 }
 
-module.exports={BALANCE_SCRIPT_FILES,loadBalance};
+module.exports={BALANCE_SCRIPT_FILES,GAME_SUPPORT_SCRIPT_FILES,loadBalance};
