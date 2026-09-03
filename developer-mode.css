@@ -22,6 +22,18 @@
   color:#dfc083;
 }
 
+#settings-screen .offline-ai-persona-setting{
+  width:220px;
+  min-height:40px;
+  padding:0 14px;
+  display:grid;
+  grid-template-columns:1fr 46px!important;
+  border-left:1px solid #684f2d;
+  color:#dfc083;
+}
+
+#settings-screen .offline-ai-persona-setting.hidden{display:none}
+
 #battle-screen .developer-tool-trigger{
   display:grid;
   place-items:center;
@@ -73,6 +85,15 @@
 .developer-tools-dialog>header>button{width:34px;height:34px;border:0;background:transparent;color:#b89a69;font-size:25px;cursor:pointer}
 .developer-tools-dialog>header>button:hover{color:#ffe0a0}
 
+.developer-ai-status{
+  margin:16px 24px 0;
+  padding:10px 12px;
+  border:1px solid #59401f;
+  background:#110d07;
+  color:#bfa272;
+  font-size:13px;
+}
+
 .developer-tools-actions{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .developer-tools-actions>button{height:92px;border:1px solid #6c512f;background:#0d0a06;color:#dfbd7d;cursor:pointer;transition:.16s ease}
 .developer-tools-actions>button:hover{border-color:#d09a43;background:#251707;transform:translateY(-2px);box-shadow:0 8px 22px #0009,inset 0 0 16px #c9872724}
@@ -82,4 +103,5 @@
 @media(max-width:900px){
   #settings-screen .controls-secondary{align-items:stretch;flex-direction:column;gap:8px}
   #settings-screen .developer-mode-setting{width:100%;border-left:0}
+  #settings-screen .offline-ai-persona-setting{width:100%;border-left:0}
 }

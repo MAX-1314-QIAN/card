@@ -8,13 +8,15 @@ const shell=fs.readFileSync('shell.js','utf8');
 const game=fs.readFileSync('game.js','utf8');
 const css=fs.readFileSync('developer-mode.css','utf8');
 
-for(const id of ['developer-mode-enabled','developer-tools','developer-tools-dialog','developer-next-stage','developer-add-coins'])assert.ok(html.includes(`id="${id}"`),`missing developer control: ${id}`);
+for(const id of ['developer-mode-enabled','offline-ai-persona-enabled','developer-tools','developer-tools-dialog','developer-ai-status','developer-next-stage','developer-add-coins'])assert.ok(html.includes(`id="${id}"`),`missing developer control: ${id}`);
 assert.ok(shell.includes('developerMode:false')&&shell.includes('developerMode:document.querySelector'), 'developer mode must be disabled by default and persisted with settings');
 assert.ok(shell.includes("classList.toggle('hidden',!values.developerMode)"),'battle developer button must follow the saved toggle');
+assert.ok(shell.includes('offlineAiPersona:false')&&shell.includes('offlineAiPersonaEnabled:window.developerModeEnabled===true'),'offline AI persona testing must default off and be copied into a new run only through developer mode');
 assert.ok(game.includes('function developerAdvanceStage()')&&game.includes("type:'BATTLE_WIN'")&&game.includes('developerSkip:true'),'next-stage tool must advance through the run controller');
 assert.ok(game.includes('function developerAddCoins()')&&game.includes('coins+=50'),'coin tool must add exactly 50 coins');
 assert.ok(game.includes("if(!developerModeActive()||currentStageNode()?.type!=='BATTLE')return"),'developer actions must be gated to enabled battle mode');
 assert.ok(css.includes('.developer-tools-dialog')&&css.includes('.developer-tool-trigger'),'developer controls must have isolated game-style presentation');
+assert.ok(css.includes('.offline-ai-persona-setting')&&css.includes('.developer-ai-status'),'offline AI persona test controls must use the existing developer presentation');
 
 function element(){return{innerHTML:'',textContent:'',disabled:false,checked:false,open:false,value:'all',style:{},dataset:{},classList:{add(){},remove(){},toggle(){},contains(){return false}},setAttribute(){},append(){},prepend(){},querySelector(){return element()},querySelectorAll(){return[]},addEventListener(){},getBoundingClientRect(){return{left:0,top:0,width:1,height:1}},showModal(){this.open=true},close(){this.open=false}}}
 const elements=new Map(),documentStub={documentElement:element(),querySelector(selector){if(!elements.has(selector))elements.set(selector,element());return elements.get(selector)},querySelectorAll(){return[]},createElement(){return element()},addEventListener(){}};

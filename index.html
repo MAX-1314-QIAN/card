@@ -59,7 +59,7 @@
   <link rel="stylesheet" href="battle-turn-resources.css?v=20260831-static-status-v2">
   <link rel="stylesheet" href="battle-persona-card-hierarchy.css?v=20260831-horizontal-affixes-v5">
   <link rel="stylesheet" href="battle-lower-left-tools.css?v=20260828-battle-tools-v4">
-  <link rel="stylesheet" href="developer-mode.css?v=20260830-developer-tools-v1">
+  <link rel="stylesheet" href="developer-mode.css?v=20260830-developer-tools-v1&feature=offline-persona-v1">
   <link rel="stylesheet" href="battle-viewport-lock.css?v=20260831-key-info-readable-v3">
   <link rel="stylesheet" href="battle-status-stack.css?v=20260831-unified-status-v1">
 </head>
@@ -105,6 +105,7 @@
               <div class="controls-secondary">
                 <button id="replay-tutorial" class="tutorial-replay" type="button">重新查看战斗教学</button>
                 <label class="toggle-row developer-mode-setting"><span>开发者模式</span><input type="checkbox" id="developer-mode-enabled"><i></i></label>
+                <label class="toggle-row offline-ai-persona-setting hidden"><span>离线人格生成测试</span><input type="checkbox" id="offline-ai-persona-enabled"><i></i></label>
               </div>
             </section>
           </div>
@@ -248,6 +249,7 @@
   </dialog>
   <dialog id="developer-tools-dialog" class="developer-tools-dialog">
     <header><span aria-hidden="true">◇</span><div><small>调试模式</small><h2>开发者工具</h2></div><button id="developer-tools-close" type="button" aria-label="关闭开发者工具">×</button></header>
+    <p id="developer-ai-status" class="developer-ai-status">本局离线人格生成：关闭</p>
     <div class="developer-tools-actions">
       <button id="developer-next-stage" type="button"><small>关卡调试</small><strong>下一关</strong></button>
       <button id="developer-add-coins" type="button"><small>资源调试</small><strong>+50 金币</strong></button>
@@ -420,8 +422,8 @@
 <script src="persona/ai/template-factory.js?v=20260903-v1"></script>
 <script src="persona/ai/generator.js?v=20260903-v1"></script>
 <script src="battle/score-runtime.js?v=20260903-modular-v1"></script>
-  <script src="game.js?v=20260903-modular-v14&art=20260827-card-v1"></script>
-  <script src="shell.js?v=20260826-main-menu-cleanup-v2"></script>
+  <script src="game.js?v=20260903-modular-v14&art=20260827-card-v1&feature=offline-persona-v1"></script>
+  <script src="shell.js?v=20260826-main-menu-cleanup-v2&feature=offline-persona-v1"></script>
   <script src="audio-effects.js?v=20260831-static-score-v3"></script>
   <script src="tutorial.js"></script>
 </body>

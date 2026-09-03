@@ -101,6 +101,6 @@ const source=fs.readFileSync('persona/ai/behavior-snapshot.js','utf8');
 assert.ok(!/\b(document|querySelector|localStorage|fetch|runController)\b/.test(source),'行为快照模块不得读取 DOM、存档、网络或流程控制器');
 const gameSource=fs.readFileSync('game.js','utf8');
 assert.ok(gameSource.includes('setNodeRuntime({aiBehaviorSnapshot:snapshot})'),'人格生成节点必须把首次行为快照锁进节点存档');
-assert.ok(gameSource.includes('!runtimeData.aiBehaviorSnapshot'),'读取已保存节点时不得重复生成行为快照');
+assert.ok(gameSource.includes('snapshot=runtimeData.aiBehaviorSnapshot')&&gameSource.includes('if(isTargetRun()&&!snapshot)'),'读取已保存节点时不得重复生成行为快照');
 
 console.log('ai-persona-behavior-snapshot-tests: cutoff windows, actions, build, persona usage, privacy and deterministic output passed');
