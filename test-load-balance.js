@@ -13,6 +13,7 @@ const BALANCE_SCRIPT_FILES=[
   'balance/target/shop-config.js',
   'balance/target/stage-nodes.js',
   'balance/target/stage-limit-rules.js',
+  'balance/target/boss-rule-config.js',
   'balance/target/run-template.js',
   'balance/boss-profiles.js',
   'balance/interventions.js',

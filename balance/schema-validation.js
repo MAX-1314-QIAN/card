@@ -9,6 +9,10 @@
   const SHOP_CARD_STATS=new Set(['BONUS_CHIPS','BONUS_COINS','BONUS_MULT','BONUS_XMULT_RATE']);
   const STAGE_LIMIT_CATEGORIES=new Set(['ACTION','HAND','SCORE','RESOURCE','PERSONA']);
   const STAGE_LIMIT_EFFECT_TYPES=new Set(['TARGET_SCORE_DELTA','STARTING_HAND_DELTA','STARTING_DISCARD_DELTA','STARTING_HAND_SIZE_DELTA','HAND_BASE_CHIP_DELTA_ON_QUALITY','HAND_BASE_CHIP_DELTA_ON_REPEATED_HAND_TYPE','HAND_BASE_CHIP_DELTA_ON_RANDOM_HAND_TYPE','FACE_CHIP_DELTA_FOR_RANKS','FACE_CHIP_DELTA_FOR_SUITS','HAND_BASE_MULT_DELTA','VICTORY_COIN_DELTA','PERSONA_BONUS_FACTOR']);
+  const BOSS_RULE_SELECTION_MODES=new Set(['WEIGHTED_SINGLE']);
+  const BOSS_RULE_PERSIST_SCOPES=new Set(['NODE_RUNTIME']);
+  const BOSS_RULE_RESTORE_POLICIES=new Set(['KEEP_SAVED_RESULT']);
+  const BOSS_RULE_EMPTY_POOL_POLICIES=new Set(['NO_RULE']);
 
   function containsFunction(value,seen=new Set()){
     if(typeof value==='function')return true;
@@ -34,7 +38,9 @@
       ['personaTemplates',manifest?.personaTemplates?.templates||[]],['personaGrowthProfiles',manifest?.personaTemplates?.growthProfiles||[]],
       ['shopItems',manifest?.shop?.items||[]],['shopRefreshProfiles',manifest?.shop?.refreshProfiles||[]],
       ['shopRefreshRules',(manifest?.shop?.refreshProfiles||[]).flatMap(profile=>profile.typeRules||[])],['shopPoolEntries',manifest?.shop?.poolEntries||[]],
-      ['stageLimitRules',manifest?.stageLimits?.rules||[]],['stageLimitProfiles',manifest?.stageLimits?.profiles||[]]
+      ['stageLimitRules',manifest?.stageLimits?.rules||[]],['stageLimitProfiles',manifest?.stageLimits?.profiles||[]],
+      ['bossRuleSelections',manifest?.bossRuleSystem?.selections||[]],['bossRuleStageBindings',manifest?.bossRuleSystem?.stageBindings||[]],
+      ['bossRulePools',manifest?.bossRuleSystem?.pools||[]],['bossRulePoolEntries',(manifest?.bossRuleSystem?.pools||[]).flatMap(pool=>pool.entries||[])]
     ];
     const allIds=new Map();
     for(const [registry,items] of registries){
@@ -254,6 +260,55 @@
       if(profile.categoryWeights)require(Math.abs(Object.values(profile.categoryWeights).reduce((sum,value)=>sum+value,0)-100)<1e-9,`关卡限制档位 ${profile.id} 的分类权重之和必须为 100`);
       for(const ruleId of profile.ruleIds||[]){require(stageLimitRuleIds.has(ruleId),`关卡限制档位 ${profile.id} 引用了不存在的规则 ${ruleId}`);require(stageLimitRules.find(rule=>rule.id===ruleId)?.finalSafe===true,`最终战规则 ${ruleId} 必须标记为安全规则`)}
     }
+
+    const bossRuleSystem=manifest?.bossRuleSystem,bossRuleSelections=bossRuleSystem?.selections||[],bossRuleBindings=bossRuleSystem?.stageBindings||[],bossRulePools=bossRuleSystem?.pools||[];
+    const bossRuleSelectionById=new Map(bossRuleSelections.map(item=>[item.id,item])),bossRulePoolById=new Map(bossRulePools.map(item=>[item.id,item]));
+    require(bossRuleSystem?.id==='TARGET_BOSS_RULE_SYSTEM_V1','Boss 规则系统必须使用 TARGET_BOSS_RULE_SYSTEM_V1');
+    require(bossRuleSystem?.schemaVersion===1,'Boss 规则系统 schemaVersion 必须为 1');
+    require(bossRuleSystem?.runtimeEnabled===false,'Boss 规则系统本阶段不得接入正式战斗运行时');
+    require(bossRuleSystem?.decisionStatus==='UNDECIDED','Boss 规则系统启用决策必须保持 UNDECIDED');
+    require(bossRuleSystem?.ruleSourceConfigId===stageLimits?.id,'Boss 规则系统必须引用正式关卡限制配置作为规则唯一数据源');
+    require(bossRuleSelections.length===1,'Boss 规则系统必须且只能配置一个抽取策略');
+    require(bossRuleBindings.length===1,'Boss 规则系统必须且只能绑定最终关一次');
+    require(bossRulePools.length===1,'Boss 规则系统必须且只能配置一个最终关规则池');
+    for(const selection of bossRuleSelections){
+      require(BOSS_RULE_SELECTION_MODES.has(selection.mode),`Boss 抽取策略 ${selection.id} 的 mode 不合法`);
+      require(selection.drawCount===1,`Boss 抽取策略 ${selection.id} 每场必须只抽取 1 条规则`);
+      require(selection.weightScale==='RELATIVE',`Boss 抽取策略 ${selection.id} 必须使用相对权重`);
+      require(BOSS_RULE_PERSIST_SCOPES.has(selection.persistScope),`Boss 抽取策略 ${selection.id} 的存档作用域不合法`);
+      require(BOSS_RULE_RESTORE_POLICIES.has(selection.restorePolicy),`Boss 抽取策略 ${selection.id} 的读档策略不合法`);
+      require(BOSS_RULE_EMPTY_POOL_POLICIES.has(selection.emptyPoolPolicy),`Boss 抽取策略 ${selection.id} 的空池策略不合法`);
+    }
+    for(const binding of bossRuleBindings){
+      const node=nodesById.get(binding.runtimeNodeId),selection=bossRuleSelectionById.get(binding.selectionId),pool=bossRulePoolById.get(binding.poolId);
+      require(binding.stageId==='STAGE_17'&&binding.stageOrder===17,`Boss 规则绑定 ${binding.id} 必须对应最新阶段表 STAGE_17`);
+      require(binding.runtimeNodeId==='N17'&&binding.battleNumber===13,`Boss 规则绑定 ${binding.id} 必须对应第 13 场战斗节点 N17`);
+      require(binding.stageType==='BOSS_BATTLE',`Boss 规则绑定 ${binding.id} 的 stageType 不合法`);
+      require(node?.type==='BATTLE'&&node?.finalBattle===true&&node?.targetScore===3200,`Boss 规则绑定 ${binding.id} 必须指向 3200 分最终战`);
+      require(node?.encounterId===binding.encounterId&&binding.encounterId==='TARGET_ENCOUNTER_FINAL',`Boss 规则绑定 ${binding.id} 的 encounterId 不一致`);
+      require(!!selection,`Boss 规则绑定 ${binding.id} 引用了不存在的抽取策略 ${binding.selectionId}`);
+      require(!!pool,`Boss 规则绑定 ${binding.id} 引用了不存在的规则池 ${binding.poolId}`);
+      require(binding.maxAppliedRules===selection?.drawCount&&binding.maxAppliedRules===1,`Boss 规则绑定 ${binding.id} 每场只能应用 1 条规则`);
+      require(binding.decisionStatus==='UNDECIDED',`Boss 规则绑定 ${binding.id} 的启用决策必须保持 UNDECIDED`);
+    }
+    const configuredBossRuleIds=[];
+    for(const pool of bossRulePools){
+      require(Array.isArray(pool.entries)&&pool.entries.length===6,`Boss 规则池 ${pool.id} 必须包含 6 条安全规则`);
+      const entryIds=new Set(),ruleIds=new Set(),weights=[];
+      for(const entry of pool.entries||[]){
+        const rule=stageLimitRules.find(item=>item.id===entry.ruleId);
+        require(!entryIds.has(entry.id),`Boss 规则池 ${pool.id} 的条目 ID 重复：${entry.id}`);entryIds.add(entry.id);
+        require(!ruleIds.has(entry.ruleId),`Boss 规则池 ${pool.id} 重复引用规则：${entry.ruleId}`);ruleIds.add(entry.ruleId);configuredBossRuleIds.push(entry.ruleId);
+        require(!!rule,`Boss 规则池 ${pool.id} 引用了不存在的规则 ${entry.ruleId}`);
+        require(rule?.finalSafe===true,`Boss 规则池 ${pool.id} 只能引用 finalSafe 规则：${entry.ruleId}`);
+        require(Number.isFinite(entry.weight)&&entry.weight>0,`Boss 规则池条目 ${entry.id} 的权重必须大于 0`);weights.push(entry.weight);
+        require(entry.enabled===true,`Boss 规则池条目 ${entry.id} 必须显式启用`);
+        require(!('effect' in entry)&&!('description' in entry),`Boss 规则池条目 ${entry.id} 不得复制规则效果或文案`);
+      }
+      require(weights.length>0&&weights.every(weight=>weight===weights[0]),`Boss 规则池 ${pool.id} 必须保持当前最终关的等权抽取`);
+    }
+    const finalStageLimitRuleIds=stageLimitProfiles.find(profile=>profile.id==='TARGET_STAGE_LIMIT_FINAL')?.ruleIds||[];
+    require(JSON.stringify([...configuredBossRuleIds].sort())===JSON.stringify([...finalStageLimitRuleIds].sort()),'Boss 规则池必须完整引用最终关安全规则，不得维护第二份数值');
 
     return{valid:errors.length===0,errors};
   }

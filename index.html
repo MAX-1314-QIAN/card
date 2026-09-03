@@ -23,12 +23,12 @@
   <link rel="stylesheet" href="settings-return.css">
   <link rel="stylesheet" href="settlement.css?v=20260824-coin-breakdown">
   <link rel="stylesheet" href="hand-rules.css">
-  <link rel="stylesheet" href="hand-rules-reference.css">
+  <link rel="stylesheet" href="hand-rules-reference.css?v=20260902-shop-growth-display-v1">
   <link rel="stylesheet" href="forge-flow.css">
   <link rel="stylesheet" href="extended-flow.css">
   <link rel="stylesheet" href="report-metrics.css">
   <link rel="stylesheet" href="obsidian-gold-theme.css">
-  <link rel="stylesheet" href="art-assets.css">
+  <link rel="stylesheet" href="art-assets.css?v=20260902-shop-growth-display-v1">
   <link rel="stylesheet" href="persona-battle-affixes.css?v=20260826-battle-affix-v1">
   <link rel="stylesheet" href="route-map.css">
   <link rel="stylesheet" href="tutorial.css">
@@ -282,7 +282,7 @@
   <dialog id="deck-dialog" class="deck-dialog">
     <button class="dialog-x" id="deck-close">×</button><h2>牌库查看</h2>
     <nav class="deck-tabs"><button data-deck-tab="deck" class="active">当前牌库</button><button data-deck-tab="used">已用牌</button><button data-deck-tab="discarded">已弃牌</button></nav>
-    <div class="deck-stats"><span>总数 <b id="deck-total">0</b></span><span>可选 <b id="deck-selectable">0</b></span><button id="deck-target-mode" class="debug-deck-target hidden">选择强化目标</button></div>
+    <div class="deck-stats"><span>总数 <b id="deck-total">0</b></span><span>可选 <b id="deck-selectable">0</b></span><span id="deck-growth-summary" class="deck-growth-summary hidden" aria-live="polite"></span><button id="deck-target-mode" class="debug-deck-target hidden">选择强化目标</button></div>
     <div class="deck-sort" role="group" aria-label="牌库排序方式">
       <span>牌库排序</span>
       <button id="deck-sort-rank" class="active" type="button" aria-pressed="true">大小</button>
@@ -333,8 +333,8 @@
 
   <dialog id="hand-rules-dialog" class="hand-rules-dialog">
     <button class="dialog-x" id="hand-rules-close">×</button>
-    <header class="rules-head"><h2>基础计分图鉴</h2><p>战斗中使用扑克牌组合，可获得不同的基础筹码和基础倍率。</p></header>
-    <div class="rules-columns"><span>序号</span><span>牌型</span><span>基础筹码</span><span>倍率</span></div>
+    <header class="rules-head"><h2>基础计分图鉴</h2><p>下方数值已计入本局商店购买的牌型强化。</p></header>
+    <div class="rules-columns"><span>当前等级</span><span>牌型</span><span>当前基础筹码</span><span>当前基础倍率</span></div>
     <div class="hand-rules-list" id="hand-rules-list"></div>
     <footer class="rules-foot"><p><b>最终得分</b> =（基础筹码 + 计分牌点数 + 人格筹码）×（基础倍率 + 人格倍率）× 独立倍率</p><button id="hand-rules-done">了解规则</button></footer>
   </dialog>
@@ -381,6 +381,7 @@
   <script src="balance/target/shop-config.js?v=20260828-economy-v1"></script>
   <script src="balance/target/stage-nodes.js?v=20260828-economy-v1"></script>
   <script src="balance/target/stage-limit-rules.js?v=20260831-player-readable-v2"></script>
+  <script src="balance/target/boss-rule-config.js?v=20260903-config-v1"></script>
   <script src="balance/target/run-template.js?v=20260828-economy-v1"></script>
   <script src="balance/boss-profiles.js"></script>
   <script src="balance/interventions.js"></script>
@@ -404,7 +405,7 @@
 <script src="shop/shop-runtime.js?v=20260902-growth-refresh-v2"></script>
 <script src="deck-sort-runtime.js"></script>
 <script src="card-art-manifest.js?v=20260827-full-deck-v2"></script>
-  <script src="game.js?v=20260902-growth-refresh-round4-v12&art=20260827-card-v1"></script>
+  <script src="game.js?v=20260902-shop-growth-display-v13&art=20260827-card-v1"></script>
   <script src="shell.js?v=20260826-main-menu-cleanup-v2"></script>
   <script src="audio-effects.js?v=20260831-static-score-v3"></script>
   <script src="tutorial.js"></script>

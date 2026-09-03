@@ -4,7 +4,7 @@
   const currentScoringProfile={id:'POKER_HAND_PROFILE_CURRENT_DEMO',hands:modules.pokerHands,decisionStatus:'CONFIRMED'};
   const personaTemplates={...modules.personaTemplates,qualities:[...modules.personaTemplates.qualities,'PROTOTYPE'],templates:[...modules.personaTemplates.templates,...(modules.targetPrototypePersonas||[])],growthProfiles:[...modules.personaTemplates.growthProfiles,...(modules.targetGrowthProfiles||[])]};
   const manifest={
-    configVersion:'phase-c.3-shop-growth-round-4',
+    configVersion:'phase-c.3-boss-rule-config-v1',
     activeRunTemplateId:'RUN_TEMPLATE_TARGET',
     reservedRunTemplateIds:[],
     saveCompatibilityVersion:3,
@@ -24,7 +24,8 @@
     personaTemplates,
     shop:modules.targetShop,
     stageLimits:modules.targetStageLimits,
-    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits}
+    bossRuleSystem:modules.targetBossRuleSystem,
+    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits,bossRuleSystem:modules.targetBossRuleSystem}
   };
   root.PERSONA_CONFIG_VALIDATOR.assertValid(manifest);
 
@@ -70,6 +71,7 @@
     ,pokerHandProfiles:manifest.pokerHandProfiles
     ,shop:manifest.shop
     ,stageLimits:manifest.stageLimits
+    ,bossRuleSystem:manifest.bossRuleSystem
     ,target:manifest.target
   };
   root.PERSONA_BALANCE_MANIFEST=manifest;
