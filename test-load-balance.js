@@ -5,6 +5,7 @@ const BALANCE_SCRIPT_FILES=[
   'balance/core-rules.js',
   'balance/feature-flags.js',
   'balance/poker-hands.js',
+  'balance/target/economy-config.js',
   'balance/base-personas.js',
   'balance/persona-templates.js',
   'balance/target/scoring-profile.js',

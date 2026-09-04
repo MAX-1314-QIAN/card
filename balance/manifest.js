@@ -4,13 +4,14 @@
   const currentScoringProfile={id:'POKER_HAND_PROFILE_CURRENT_DEMO',hands:modules.pokerHands,decisionStatus:'CONFIRMED'};
   const personaTemplates={...modules.personaTemplates,qualities:[...modules.personaTemplates.qualities,'PROTOTYPE'],templates:[...modules.personaTemplates.templates,...(modules.targetPrototypePersonas||[])],growthProfiles:[...modules.personaTemplates.growthProfiles,...(modules.targetGrowthProfiles||[])]};
   const manifest={
-    configVersion:'phase-c.3-ai-persona-local-v1',
+    configVersion:'phase-c.3-ai-persona-local-v1-economy-v2-shop-refresh-v2',
     activeRunTemplateId:'RUN_TEMPLATE_TARGET',
     reservedRunTemplateIds:[],
     saveCompatibilityVersion:3,
     rulesetId:'TARGET_RUN_V1',
     featureFlags:modules.featureFlags,
     coreRules:modules.coreRules,
+    targetEconomy:modules.targetEconomy,
     pokerHands:modules.pokerHands,
     pokerHandProfiles:[currentScoringProfile,modules.targetScoringProfile],
     // Phase C.2: the former three-battle topology remains only as frozen source/test data.
@@ -27,7 +28,7 @@
     bossRuleSystem:modules.targetBossRuleSystem,
     aiPersonaWhitelist:modules.targetAiPersonaWhitelist,
     aiPersonaSubAffixes:modules.targetAiPersonaSubAffixes,
-    target:{actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits,bossRuleSystem:modules.targetBossRuleSystem,aiPersonaWhitelist:modules.targetAiPersonaWhitelist,aiPersonaSubAffixes:modules.targetAiPersonaSubAffixes}
+    target:{economy:modules.targetEconomy,actionRules:modules.targetActionRules,scoringProfile:modules.targetScoringProfile,prototypePersonas:modules.targetPrototypePersonas,growthProfiles:modules.targetGrowthProfiles,runTemplate:modules.targetRunTemplate,stageLimits:modules.targetStageLimits,bossRuleSystem:modules.targetBossRuleSystem,aiPersonaWhitelist:modules.targetAiPersonaWhitelist,aiPersonaSubAffixes:modules.targetAiPersonaSubAffixes}
   };
   root.PERSONA_CONFIG_VALIDATOR.assertValid(manifest);
 
@@ -76,6 +77,7 @@
     ,bossRuleSystem:manifest.bossRuleSystem
     ,aiPersonaWhitelist:manifest.aiPersonaWhitelist
     ,aiPersonaSubAffixes:manifest.aiPersonaSubAffixes
+    ,targetEconomy:manifest.targetEconomy
     ,target:manifest.target
   };
   root.PERSONA_BALANCE_MANIFEST=manifest;

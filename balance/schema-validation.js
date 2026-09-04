@@ -68,6 +68,13 @@
     const targetPersonaTemplatesById=new Map((manifest?.personaTemplates?.templates||[]).map(item=>[item.id,item]));
     const personaGrowthProfilesById=new Map((manifest?.personaTemplates?.growthProfiles||[]).map(item=>[item.id,item]));
     const scoringProfilesById=new Map((manifest?.pokerHandProfiles||[]).map(item=>[item.id,item]));
+    const economy=manifest?.targetEconomy,battleEconomy=economy?.battleRewards||{},shopPrices=economy?.shopPrices||{},affixCosts=economy?.personaAffixes?.unlockCosts;
+
+    require(economy?.id==='TARGET_ECONOMY_V2'&&economy?.version===2,'正式长局必须加载 TARGET_ECONOMY_V2');
+    require(JSON.stringify(battleEconomy.cycleVictoryCoins)==='[5,5,6]'&&battleEconomy.finalBattleVictoryCoins===0,'固定战斗金币必须使用每轮 5/5/6，最终战 0');
+    require(battleEconomy.perRemainingHand===1&&battleEconomy.perRemainingDiscard===1,'剩余出牌与弃牌必须各奖励 1 金币');
+    require(JSON.stringify(affixCosts)==='[4,6]','人格第二、第三词条必须使用 4/6 金币');
+    require(Object.values(shopPrices).every(value=>Number.isFinite(value)&&value>=0),'商店统一价格表必须全部为非负数');
 
     require(templatesById.has(manifest?.activeRunTemplateId),'activeRunTemplateId 必须引用存在的 Run Template');
     for(const template of templatesById.values()){
@@ -80,7 +87,8 @@
         for(const field of ['perRemainingHand','perRemainingDiscard'])require(Number.isFinite(reward?.[field])&&reward[field]>=0,`${template.id} 的 battleReward.${field} 必须是非负数`);
         const battleNodes=(template.nodeIds||[]).map(id=>nodesById.get(id)).filter(node=>node?.type==='BATTLE');
         require(battleNodes.every(node=>Number.isFinite(node.victoryCoins)&&node.victoryCoins>=0),`${template.id} 的每个战斗节点必须声明非负固定金币奖励`);
-        require(battleNodes.slice(0,9).reduce((sum,node)=>sum+node.victoryCoins,0)===30,`${template.id} 的前九场固定金币总量必须为 30`);
+        for(let cycleStart=0;cycleStart<12;cycleStart+=3)require(JSON.stringify(battleNodes.slice(cycleStart,cycleStart+3).map(node=>node.victoryCoins))===JSON.stringify(battleEconomy.cycleVictoryCoins),`${template.id} 第 ${cycleStart/3+1} 轮固定金币必须为 5/5/6`);
+        require(battleNodes.at(-1)?.victoryCoins===battleEconomy.finalBattleVictoryCoins,`${template.id} 最终战固定金币与经济配置不一致`);
         require(template.stageLimitConfigId===manifest?.stageLimits?.id,`${template.id} 必须引用正式关卡限制配置`);
       }
       const compatibilityNodes=new Set(template.compatibilityNodeIds||[]);
@@ -164,12 +172,12 @@
     for(const affix of subAffixPool){require(typeof affix.name==='string'&&typeof affix.effectText==='string',`次级属性 ${affix.id} 缺少显示字段`);require(Number.isFinite(affix.weight)&&affix.weight>0,`次级属性 ${affix.id} 权重必须大于 0`);require(['AI1','AI2','AI3'].includes(affix.unlockProfileId),`次级属性 ${affix.id} 开放节点不合法`);require(Number.isInteger(affix.unlockProfileOrder)&&affix.unlockProfileOrder>=1&&affix.unlockProfileOrder<=3,`次级属性 ${affix.id} 开放顺序不合法`);require(affix.runtimeEnabled===true||affix.decisionStatus==='UNDECIDED',`次级属性 ${affix.id} 必须接入运行时或标记 UNDECIDED`);for(const effect of affix.effects||[])validateEffect(effect,affix.id,{})}
     require(aiSubAffixConfig.id==='TARGET_AI_PERSONA_SUB_AFFIXES_V1'&&aiSubAffixConfig.schemaVersion===1,'AI 人格副属性配置版本不合法');
     require(aiSubAffixPool.length===6&&aiSubAffixIds.size===6,'AI 人格副属性池必须包含 6 条唯一配置');
-    require(JSON.stringify(aiSubAffixConfig.unlockCosts)==='[5,8]'&&aiSubAffixConfig.disallowSameAttributeType===true,'AI 人格副属性必须使用 5/8 金币并启用同属性互斥');
+    require(JSON.stringify(aiSubAffixConfig.unlockCosts)===JSON.stringify(affixCosts)&&aiSubAffixConfig.disallowSameAttributeType===true,'AI 人格副属性解锁价格必须使用统一经济配置并启用同属性互斥');
     for(const slotIndex of [0,1]){const pool=aiSubAffixConfig.slotPools?.find(item=>item.slotIndex===slotIndex),expectedIds=aiSubAffixPool.filter(item=>item.slotIndex===slotIndex).map(item=>item.id);require(pool?.weightTotal===100&&expectedIds.length===3&&expectedIds.reduce((sum,id)=>sum+(aiSubAffixPool.find(item=>item.id===id)?.weight||0),0)===100,`AI 人格第 ${slotIndex+2} 词条池必须包含 3 条且总权重为 100`);require(JSON.stringify(pool?.entryIds)===JSON.stringify(expectedIds),`AI 人格第 ${slotIndex+2} 词条池引用不完整`)}
     for(const affix of aiSubAffixPool){require([0,1].includes(affix.slotIndex)&&JSON.stringify(affix.slotIndexes)===`[${affix.slotIndex}]`,`AI 人格副属性 ${affix.id} 的槽位限定不合法`);require(['BASE_CHIPS','BASE_MULT','XMULT_RATE'].includes(affix.attributeType),`AI 人格副属性 ${affix.id} 使用了首版外属性`);require(affix.runtimeEnabled===true&&affix.decisionStatus==='CONFIRMED',`AI 人格副属性 ${affix.id} 必须确认并启用`);for(const effect of affix.effects||[])validateEffect(effect,affix.id,{})}
     require(JSON.stringify(manifest?.aiPersonaWhitelist?.affixPolicy?.poolIds)===JSON.stringify(aiSubAffixPool.map(item=>item.id)),'AI 人格白名单未引用完整副属性池');
     for(const personaId of manifest?.basePersonas?.defaultLoadoutIds||[])require(personaIds.has(personaId),`默认人格装备引用不存在的 ID：${personaId}`);
-    for(const baseTemplate of manifest?.basePersonas?.templates||[]){const unified=targetPersonaTemplatesById.get(baseTemplate.id),rules=baseTemplate.subAffixRules||{},pool=subAffixPool.filter(item=>item.personaId===baseTemplate.personaId);require(!!unified,`基础人格 ${baseTemplate.id} 未汇入统一 Persona Template 注册表`);require(JSON.stringify(unified)===JSON.stringify(baseTemplate),`基础人格 ${baseTemplate.id} 与统一 Persona Template 数据不一致`);require(entryIds.has(baseTemplate.entryId),`基础人格 ${baseTemplate.id} 引用了不存在的 ENTRY`);require(mainAttributeIds.has(baseTemplate.mainAttributeId),`基础人格 ${baseTemplate.id} 引用了不存在的 MAIN`);require(rules.schemaVersion===2&&rules.slotCount===2&&rules.defaultUnlockedCount===0,`基础人格 ${baseTemplate.id} 必须使用两槽次级属性结构`);require(JSON.stringify(rules.unlockCosts)==='[5,8]',`基础人格 ${baseTemplate.id} 解锁成本必须为 5/8`);require(rules.allowDuplicates===false,`基础人格 ${baseTemplate.id} 次级属性不得重复`);require(pool.length===5&&pool.reduce((sum,item)=>sum+item.weight,0)===100,`基础人格 ${baseTemplate.id} 必须配置 5 项、总权重 100 的独立属性池`);require(new Set(rules.poolIds||[]).size===5&&(rules.poolIds||[]).every(id=>pool.some(item=>item.id===id)),`基础人格 ${baseTemplate.id} 的属性池引用不完整`)}
+    for(const baseTemplate of manifest?.basePersonas?.templates||[]){const unified=targetPersonaTemplatesById.get(baseTemplate.id),rules=baseTemplate.subAffixRules||{},pool=subAffixPool.filter(item=>item.personaId===baseTemplate.personaId);require(!!unified,`基础人格 ${baseTemplate.id} 未汇入统一 Persona Template 注册表`);require(JSON.stringify(unified)===JSON.stringify(baseTemplate),`基础人格 ${baseTemplate.id} 与统一 Persona Template 数据不一致`);require(entryIds.has(baseTemplate.entryId),`基础人格 ${baseTemplate.id} 引用了不存在的 ENTRY`);require(mainAttributeIds.has(baseTemplate.mainAttributeId),`基础人格 ${baseTemplate.id} 引用了不存在的 MAIN`);require(rules.schemaVersion===2&&rules.slotCount===2&&rules.defaultUnlockedCount===0,`基础人格 ${baseTemplate.id} 必须使用两槽次级属性结构`);require(JSON.stringify(rules.unlockCosts)===JSON.stringify(affixCosts),`基础人格 ${baseTemplate.id} 解锁成本必须使用统一经济配置`);require(rules.allowDuplicates===false,`基础人格 ${baseTemplate.id} 次级属性不得重复`);require(pool.length===5&&pool.reduce((sum,item)=>sum+item.weight,0)===100,`基础人格 ${baseTemplate.id} 必须配置 5 项、总权重 100 的独立属性池`);require(new Set(rules.poolIds||[]).size===5&&(rules.poolIds||[]).every(id=>pool.some(item=>item.id===id)),`基础人格 ${baseTemplate.id} 的属性池引用不完整`)}
 
     const qualities=new Set(manifest?.personaTemplates?.qualities||[]),families=new Set(manifest?.personaTemplates?.behaviorFamilies||[]);
     function validateCondition(condition,owner){
@@ -202,11 +210,18 @@
     const shop=manifest?.shop,shopItems=shop?.items||[],shopProfiles=shop?.refreshProfiles||[],shopPoolEntries=shop?.poolEntries||[],shopItemsById=new Map(shopItems.map(item=>[item.id,item])),shopProfilesById=new Map(shopProfiles.map(profile=>[profile.id,profile]));
     require(shop?.id==='TARGET_SHOP_V1','正式商店必须加载 TARGET_SHOP_V1');
     require(Number.isInteger(shop?.version)&&shop.version>0,'商店配置 version 必须为正整数');
-    require(shopItems.length===68,'商店必须包含 68 件商品');
+    require(shop?.selectionPolicy?.mode==='CATEGORY_THEN_ITEM'&&shop?.selectionPolicy?.withoutReplacement===true,'商店必须先抽商品类别、再无放回抽具体商品');
+    require(shopItems.length===60+personaIds.size,`商店必须包含 52 件卡牌、8 件服务和 ${personaIds.size} 件基础人格商品`);
     require(shopItems.filter(item=>item.itemType==='CARD').length===52,'商店必须包含 52 件卡牌商品');
-    require(shopItems.filter(item=>item.itemType==='PERSONA').length===8,'商店必须包含 8 件人格商品');
+    require(shopItems.filter(item=>item.itemType==='PERSONA').length===personaIds.size,'每张基础人格必须且只能生成一件商店商品');
     require(shopItems.filter(item=>item.itemType==='SERVICE').length===8,'商店必须包含 8 件服务商品');
-    const cardDefinitions=new Set();
+    require(shopItems.filter(item=>item.itemType==='CARD').every(item=>item.price===shopPrices.card),'商店卡牌价格必须使用统一经济配置');
+    require(shopItems.filter(item=>item.itemType==='PERSONA').every(item=>item.price===shopPrices.persona),'商店人格价格必须使用统一经济配置');
+    const expectedServicePrices={SHOP_SERVICE_001:'cardChips',SHOP_SERVICE_002:'cardCoins',SHOP_SERVICE_003:'cardMultiplier',SHOP_SERVICE_004:'cardIndependentMultiplier',SHOP_SERVICE_005:'removeCard',SHOP_SERVICE_006:'buildUpgradeBase',SHOP_SERVICE_007:'buildUpgradeBase',SHOP_SERVICE_008:'buildUpgradeBase'};
+    for(const [itemId,priceKey] of Object.entries(expectedServicePrices))require(shopItemsById.get(itemId)?.price===shopPrices[priceKey],`商店服务 ${itemId} 价格未使用统一经济配置`);
+    for(const itemId of ['SHOP_SERVICE_006','SHOP_SERVICE_007','SHOP_SERVICE_008'])require(shopItemsById.get(itemId)?.priceGrowth?.increment===shopPrices.buildUpgradePerTargetLevel,`成长商品 ${itemId} 涨价未使用统一经济配置`);
+    require(JSON.stringify({...shop?.assumptions?.refreshPrice,decisionStatus:undefined})===JSON.stringify({...economy.refreshPrice,decisionStatus:undefined}),'商店刷新价格必须使用统一经济配置');
+    const cardDefinitions=new Set(),shopPersonaTemplateIds=new Set();
     for(const item of shopItems){
       require(SHOP_ITEM_TYPES.has(item.itemType),`商店商品 ${item.id} 的 itemType 不合法：${item.itemType}`);
       require(typeof item.name==='string'&&item.name.length>0,`商店商品 ${item.id} 缺少名称`);
@@ -221,7 +236,7 @@
         require(!cardDefinitions.has(key),`商店卡牌牌面重复：${key}`);cardDefinitions.add(key);
         require(typeof item.effect.cardConfigId==='string'&&item.effect.cardConfigId.length>0,`卡牌商品 ${item.id} 缺少 cardConfigId`);
       }
-      if(item.itemType==='PERSONA'){require(item.effect?.type==='ADD_PERSONA'&&item.effect.quantity===1,`人格商品 ${item.id} 必须配置 ADD_PERSONA ×1`);require(targetPersonaTemplatesById.has(item.effect?.personaTemplateId),`人格商品 ${item.id} 引用了不存在的人格 ${item.effect?.personaTemplateId}`)}
+      if(item.itemType==='PERSONA'){require(item.effect?.type==='ADD_PERSONA'&&item.effect.quantity===1,`人格商品 ${item.id} 必须配置 ADD_PERSONA ×1`);require(personaIds.has(item.effect?.personaTemplateId),`人格商品 ${item.id} 必须引用正式基础人格 ${item.effect?.personaTemplateId}`);require(!shopPersonaTemplateIds.has(item.effect?.personaTemplateId),`基础人格 ${item.effect?.personaTemplateId} 被重复加入商店`);shopPersonaTemplateIds.add(item.effect?.personaTemplateId)}
       if(item.itemType==='SERVICE'){
         require(item.effect?.requiresTarget===true,`服务商品 ${item.id} 必须要求选择目标卡牌`);
         if(item.effect?.type==='UPGRADE_CARD'){require(SHOP_CARD_STATS.has(item.effect.targetStat),`服务商品 ${item.id} 的强化字段不合法`);require(Number.isFinite(item.effect.amount)&&item.effect.amount>0,`服务商品 ${item.id} 的强化值必须大于 0`)}
@@ -233,6 +248,7 @@
       }
     }
     require(cardDefinitions.size===52,'商店卡牌必须完整覆盖 4 花色 × 13 点数');
+    require(shopPersonaTemplateIds.size===personaIds.size&&[...personaIds].every(id=>shopPersonaTemplateIds.has(id)),'基础人格商店商品覆盖不完整');
     require(shopProfiles.length===3,'商店必须包含 AI1/AI2/AI3 三个刷新档位');
     for(const expected of ['AI1','AI2','AI3'])require(shopProfilesById.has(expected),`商店缺少刷新档位 ${expected}`);
     for(const profile of shopProfiles){
@@ -241,10 +257,11 @@
       require(Number.isInteger(profile.offerSlotCount)&&profile.offerSlotCount>0,`商店刷新档位 ${profile.id} 的槽位数不合法`);
       const types=new Set((profile.typeRules||[]).map(rule=>rule.itemType));
       require(profile.typeRules?.length===3&&types.size===3&&[...SHOP_ITEM_TYPES].every(type=>types.has(type)),`商店刷新档位 ${profile.id} 必须覆盖三种商品类型`);
-      require((profile.typeRules||[]).every(rule=>Number.isInteger(rule.appearanceCount)&&rule.appearanceCount>0&&Number.isFinite(rule.weight)&&rule.weight>0),`商店刷新档位 ${profile.id} 的出现数量或权重不合法`);
+      require((profile.typeRules||[]).every(rule=>Number.isInteger(rule.drawCount)&&rule.drawCount>0&&Number.isInteger(rule.maxPerRefresh)&&rule.maxPerRefresh>=rule.drawCount&&rule.maxPerRefresh<=profile.offerSlotCount&&Number.isFinite(rule.weight)&&rule.weight>0),`商店刷新档位 ${profile.id} 的抽取数量、单次上限或权重不合法`);
+      require((profile.typeRules||[]).find(rule=>rule.itemType==='PERSONA')?.maxPerRefresh===1,`商店刷新档位 ${profile.id} 的人格商品单次上限必须为 1`);
       require(Math.abs((profile.typeRules||[]).reduce((sum,rule)=>sum+rule.weight,0)-100)<1e-9,`商店刷新档位 ${profile.id} 的类型权重之和必须为 100`);
     }
-    require(shopPoolEntries.length===68,'商店商品池必须包含 68 条权重记录');
+    require(shopPoolEntries.length===shopItems.length,'商店商品池记录数必须与商品数一致');
     const pooledItemIds=new Set();
     for(const entry of shopPoolEntries){const item=shopItemsById.get(entry.itemId);require(!!item,`商品池 ${entry.id} 引用了不存在的商品 ${entry.itemId}`);require(Number.isFinite(entry.weight)&&entry.weight>0,`商品池 ${entry.id} 的权重必须大于 0`);require(item?.itemType===entry.poolType,`商品池 ${entry.id} 的类型与商品不一致`);require(!pooledItemIds.has(entry.itemId),`商品 ${entry.itemId} 被重复加入商品池`);pooledItemIds.add(entry.itemId)}
     require(pooledItemIds.size===shopItems.length,'每件商店商品必须且只能配置一条商品池权重');
@@ -324,7 +341,7 @@
     const aiWhitelistValidator=root.PERSONA_BALANCE_MODULES?.aiPersonaWhitelistValidator;
     require(!!aiWhitelistValidator,'缺少 AI 人格白名单独立校验器');
     if(aiWhitelistValidator){
-      const result=aiWhitelistValidator.validate(manifest?.aiPersonaWhitelist,{conditionTypes:PERSONA_CONDITION_TYPES,runtimeEffectTypes:PERSONA_RUNTIME_EFFECT_TYPES,shop:manifest?.shop,nodesById});
+      const result=aiWhitelistValidator.validate(manifest?.aiPersonaWhitelist,{conditionTypes:PERSONA_CONDITION_TYPES,runtimeEffectTypes:PERSONA_RUNTIME_EFFECT_TYPES,shop:manifest?.shop,economy,nodesById});
       errors.push(...result.errors);
     }
 

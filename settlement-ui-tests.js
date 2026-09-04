@@ -6,12 +6,15 @@ const css=fs.readFileSync('settlement.css','utf8');
 const game=fs.readFileSync('game.js','utf8');
 const targetRules=fs.readFileSync('balance/target/run-template.js','utf8');
 const targetNodes=fs.readFileSync('balance/target/stage-nodes.js','utf8');
+const targetEconomy=fs.readFileSync('balance/target/economy-config.js','utf8');
 
 for(const id of ['result-victory-reward','result-victory-formula','result-victory-coins','result-hands-reward','result-hand-rate','result-hand-coins','result-discards-reward','result-discards','result-discard-rate','result-discard-coins','result-card-coins-reward','result-persona-coins-reward','result-persona-coins','result-coins-reward','result-current-coins','result-persona-reward'])assert.ok(html.includes(`id="${id}"`),`missing settlement breakdown UI: ${id}`);
 for(const copy of ['战斗固定奖励','剩余出牌奖励','剩余弃牌奖励','卡牌效果奖励','人格属性奖励','本战获得金币','结算后持有'])assert.ok(html.includes(copy),`missing player-facing reward explanation: ${copy}`);
-assert.match(targetRules,/perRemainingDiscard:1/,'remaining discards must have an explicit configured coin rate');
+assert.match(targetEconomy,/perRemainingDiscard:1/,'remaining discards must have an explicit configured coin rate');
+assert.match(targetRules,/perRemainingDiscard:battleRewards\.perRemainingDiscard/,'run rules must consume the centralized discard reward');
 assert.ok(!targetRules.includes('perBattleIndex')&&!game.includes('stageBonus')&&!html.includes('节点加成'),'节点递增金币及其结算展示必须彻底移除');
-assert.match(targetNodes,/\['N01',[\s\S]*?,3\].*\['N02',[\s\S]*?,3\].*\['N03',[\s\S]*?,4\]/,'前三场固定奖励必须为 3/3/4');
+assert.match(targetEconomy,/cycleVictoryCoins:\[5,5,6\]/,'每组三场固定奖励必须为 5/5/6');
+assert.match(targetNodes,/cycleCoins\[0\][\s\S]*cycleCoins\[1\][\s\S]*cycleCoins\[2\]/,'关卡节点必须读取统一经济配置');
 assert.match(game,/function battleCoinBreakdown\(\)/);
 assert.match(game,/rewardTotal:victoryCoins\+handCoins\+discardCoins/);
 assert.match(game,/cardCoins=cardGoldThisBattle,personaCoins=personaGoldThisBattle/,'card and persona coins must remain independently traceable');

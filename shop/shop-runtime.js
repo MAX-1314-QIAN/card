@@ -43,21 +43,25 @@
     requireCondition(typeof random==='function','Shop random must be a function');
     const profile=(config.refreshProfiles||[]).find(entry=>entry.id===profileId);
     requireCondition(profile,`Unknown shop profile: ${profileId}`);
-    const items=itemMap(config),allowed=eligibleSet(eligibleItemIds),selected=new Set(),offers=[];
+    const items=itemMap(config),allowed=eligibleSet(eligibleItemIds),selected=new Set(),offers=[],typeCounts=new Map();
     const poolEntries=(config.poolEntries||[]).filter(entry=>items.has(entry.itemId));
     const availableForType=itemType=>poolEntries.filter(entry=>entry.poolType===itemType&&!selected.has(entry.itemId)&&(!allowed||allowed.has(entry.itemId)));
     const slotCount=Number(profile.offerSlotCount);
     requireCondition(Number.isInteger(slotCount)&&slotCount>0,`Invalid offerSlotCount for ${profileId}`);
     while(offers.length<slotCount){
-      const typeRules=(profile.typeRules||[]).filter(rule=>Number.isInteger(rule.appearanceCount)&&rule.appearanceCount>0&&availableForType(rule.itemType).length>0);
+      const typeRules=(profile.typeRules||[]).filter(rule=>{
+        const drawCount=Number(rule.drawCount),maxPerRefresh=Number(rule.maxPerRefresh);
+        return Number.isInteger(drawCount)&&drawCount>0&&Number.isInteger(maxPerRefresh)&&maxPerRefresh>0&&(typeCounts.get(rule.itemType)||0)<maxPerRefresh&&availableForType(rule.itemType).length>0;
+      });
       if(!typeRules.length)break;
-      const typeRule=weightedPick(typeRules,random),remaining=slotCount-offers.length,count=Math.min(typeRule.appearanceCount,remaining);
+      const typeRule=weightedPick(typeRules,random),remaining=slotCount-offers.length,typeRemaining=typeRule.maxPerRefresh-(typeCounts.get(typeRule.itemType)||0),count=Math.min(typeRule.drawCount,remaining,typeRemaining);
       let added=0;
       for(let index=0;index<count;index++){
         const available=availableForType(typeRule.itemType);
         if(!available.length)break;
         const poolEntry=weightedPick(available,random),item=items.get(poolEntry.itemId);
         selected.add(item.id);added++;
+        typeCounts.set(typeRule.itemType,(typeCounts.get(typeRule.itemType)||0)+1);
         offers.push({
           offerId:`${profile.id}:${refreshIndex}:${String(offers.length+1).padStart(2,'0')}`,
           itemId:item.id,

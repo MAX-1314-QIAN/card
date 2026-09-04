@@ -44,6 +44,7 @@
   <link rel="stylesheet" href="persona-affixes.css?v=20260826-shop-unified-v4">
   <link rel="stylesheet" href="persona-library-equipped.css?v=20260830-equipped-state-v1">
   <link rel="stylesheet" href="persona-library-layout.css?v=20260830-full-portrait-v1">
+  <link rel="stylesheet" href="persona-prebattle-loadout.css?v=20260904-prebattle-loadout-v1">
   <link rel="stylesheet" href="persona-growth-acquire.css?v=20260830-growth-trigger-clarity-v2">
   <link rel="stylesheet" href="background-art.css?v=20260829-shop-background-v3">
   <link rel="stylesheet" href="shop-simplified.css?v=20260902-growth-refresh-v8">
@@ -276,9 +277,22 @@
 
   <dialog id="persona-dialog" class="persona-dialog">
     <button class="dialog-x" id="persona-close">×</button>
-    <h2>人格收藏 / 装备</h2>
-    <div class="collection-layout"><section class="collection-browser"><div class="collection-tools"><select id="persona-mode-filter" aria-label="人格装备状态筛选"><option value="all">全部人格</option><option value="equipped">已装备</option><option value="unequipped">未装备</option></select><input id="persona-search" placeholder="搜索人格牌名称或效果"></div><div class="persona-library" id="persona-library"></div></section><aside class="collection-side"><h3>当前装备</h3><div class="loadout-slots" id="loadout-slots"></div><section class="persona-selected-detail"><h3 id="library-detail-name">选择一张人格牌</h3><div id="library-detail-desc">查看主效果与副属性。</div><button id="library-toggle-equip">装备</button></section></aside></div>
-    <button class="action play library-done" id="persona-done"><span>保存装备</span></button>
+    <header class="gallery-heading"><div><small>永久收藏</small><h2>人格图鉴</h2></div><p>查看已经拥有的人格牌；点击原画可阅读详细能力。</p></header>
+    <div class="persona-library gallery-library" id="persona-library"></div>
+  </dialog>
+
+  <dialog id="start-loadout-dialog" class="start-loadout-dialog">
+    <button class="dialog-x" id="start-loadout-close" type="button" aria-label="关闭">×</button>
+    <header><small>牌局准备</small><h2>选择本局人格</h2><p>将下方人格拖入四个槽位。确认后，这四张牌会随你进入本局。</p></header>
+    <section><div class="loadout-section-heading"><h3>本局装备</h3><span id="start-loadout-count">0 / 4</span></div><div class="start-loadout-slots" id="start-loadout-slots"></div></section>
+    <section class="start-loadout-library-section"><div class="loadout-section-heading"><h3>人格牌库</h3><span>点击原画查看详情</span></div><div class="start-loadout-library" id="start-loadout-library"></div></section>
+    <footer><p id="start-loadout-note" aria-live="polite">请装备四张不同的人格牌。</p><button id="start-loadout-confirm" type="button">确认阵容并开始</button></footer>
+  </dialog>
+
+  <dialog id="persona-detail-dialog" class="persona-detail-dialog">
+    <button class="dialog-x" id="persona-detail-close" type="button" aria-label="关闭详情">×</button>
+    <div class="persona-detail-art" id="persona-detail-art"></div>
+    <section><small id="persona-detail-id">人格牌</small><h2 id="persona-detail-name">人格牌</h2><dl><div><dt>触发</dt><dd id="persona-detail-trigger"></dd></div><div><dt>效果</dt><dd id="persona-detail-effect"></dd></div></dl><div id="persona-detail-affixes" class="persona-detail-affixes"></div><button id="persona-detail-done" type="button">返回</button></section>
   </dialog>
 
   <dialog id="deck-dialog" class="deck-dialog">
@@ -375,25 +389,26 @@
   <script src="balance/core-rules.js"></script>
   <script src="balance/feature-flags.js"></script>
   <script src="balance/poker-hands.js"></script>
-  <script src="balance/base-personas.js?v=20260828-economy-v1"></script>
+  <script src="balance/target/economy-config.js?v=20260904-economy-v2"></script>
+  <script src="balance/base-personas.js?v=20260904-economy-v2"></script>
   <script src="balance/persona-templates.js"></script>
   <script src="balance/target/scoring-profile.js"></script>
   <script src="balance/target/prototype-personas.js"></script>
   <script src="balance/target/growth-profiles.js"></script>
-  <script src="balance/target/shop-config.js?v=20260828-economy-v1"></script>
-  <script src="balance/target/stage-nodes.js?v=20260828-economy-v1"></script>
+  <script src="balance/target/shop-config.js?v=20260904-economy-v2"></script>
+  <script src="balance/target/stage-nodes.js?v=20260904-economy-v2"></script>
   <script src="balance/target/stage-limit-rules.js?v=20260831-player-readable-v2"></script>
   <script src="balance/target/boss-rule-config.js?v=20260903-config-v1"></script>
-<script src="balance/target/ai-persona-sub-affixes-v1.js?v=20260903-v1"></script>
-<script src="balance/target/ai-persona-whitelist-v1.js?v=20260903-v1"></script>
-  <script src="balance/target/run-template.js?v=20260828-economy-v1"></script>
+<script src="balance/target/ai-persona-sub-affixes-v1.js?v=20260904-economy-v2"></script>
+<script src="balance/target/ai-persona-whitelist-v1.js?v=20260904-economy-v2"></script>
+  <script src="balance/target/run-template.js?v=20260904-economy-v2"></script>
   <script src="balance/boss-profiles.js"></script>
   <script src="balance/interventions.js"></script>
   <script src="balance/encounters.js"></script>
   <script src="balance/stage-nodes.js"></script>
   <script src="balance/run-templates.js"></script>
   <script src="balance/validators/ai-persona-whitelist-validator.js?v=20260903-v1"></script>
-  <script src="balance/schema-validation.js?v=20260903-ai-whitelist-v1"></script>
+  <script src="balance/schema-validation.js?v=20260904-economy-v2"></script>
   <script src="balance/manifest.js?v=20260903-ai-whitelist-v1"></script>
   <script src="balance-v2.1.js"></script>
   <script src="persona/persona-instance.js?v=20260824-persona-v2"></script>

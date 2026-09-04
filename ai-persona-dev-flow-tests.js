@@ -24,7 +24,7 @@ vm.runInContext('coins=100',context);context.__n04Id=n04.id;
 assert.strictEqual(vm.runInContext('unlockPersonaAffix(globalThis.__n04Id,0)',context),true);
 assert.strictEqual(vm.runInContext('unlockPersonaAffix(globalThis.__n04Id,1)',context),true);
 const n04Unlocked=controller.getPersonaRuntimeState().personaInstancesById[n04.id],n04AffixIds=n04Unlocked.subAffixSlots.map(slot=>slot.affixId),n04AffixTypes=n04AffixIds.map(id=>context.PERSONA_BALANCE_MANIFEST.aiPersonaSubAffixes.entries.find(item=>item.id===id).attributeType);
-assert.strictEqual(vm.runInContext('coins',context),87);assert.ok(n04Unlocked.subAffixSlots.every(slot=>slot.unlocked));assert.notStrictEqual(n04AffixTypes[0],n04AffixTypes[1]);
+assert.strictEqual(vm.runInContext('coins',context),90);assert.ok(n04Unlocked.subAffixSlots.every(slot=>slot.unlocked));assert.notStrictEqual(n04AffixTypes[0],n04AffixTypes[1]);
 restoreGrowth(n04.id);assert.deepStrictEqual(Array.from(controller.getPersonaRuntimeState().personaInstancesById[n04.id].subAffixSlots.map(slot=>slot.affixId)),n04AffixIds,'读档不能重抽已经解锁的 AI 词条');
 vm.runInContext('growthSelectedSlot=0;confirmPersonaGrowth()',context);assert.strictEqual(controller.getPersonaRuntimeState().equippedPersonaInstanceIds[0],n04.id);leaveGrowthShop();
 

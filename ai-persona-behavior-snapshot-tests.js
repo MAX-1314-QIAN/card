@@ -42,7 +42,7 @@ endBattle();
 aggregate.shopVisits=1;aggregate.refreshes=2;aggregate.earnedCoins=12;aggregate.spentCoins=10;aggregate.deckChanges=1;
 aggregate.purchases.push(
   {nodeId:'N04',itemId:'SHOP_SERVICE_001',itemType:'SERVICE',effectType:'UPGRADE_CARD',targetId:'private-card-uid',price:2,outcome:'这段自由文本不得进入快照'},
-  {nodeId:'N04',itemId:'SHOP_SERVICE_007',itemType:'SERVICE',effectType:'UPGRADE_SUIT',targetId:'♥',price:8,outcome:'红桃强化'}
+  {nodeId:'N04',itemId:'SHOP_SERVICE_007',itemType:'SERVICE',effectType:'UPGRADE_SUIT',targetId:'♥',price:7,outcome:'红桃强化'}
 );
 
 const personaState={

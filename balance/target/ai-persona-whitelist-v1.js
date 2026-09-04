@@ -46,7 +46,7 @@
       schemaVersion:2,
       slotCount:2,
       defaultUnlockedCount:0,
-      unlockCosts:[5,8],
+      unlockCosts:[...modules.targetEconomy.personaAffixes.unlockCosts],
       poolIds:(aiSubAffixes?.entries||[]).map(item=>item.id),
       slotPoolIds:Object.fromEntries((aiSubAffixes?.slotPools||[]).map(pool=>[pool.slotIndex,[...pool.entryIds]])),
       disallowSameAttributeType:aiSubAffixes?.disallowSameAttributeType===true,

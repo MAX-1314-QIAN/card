@@ -1,6 +1,6 @@
 const assert=require('assert'),fs=require('fs'),vm=require('vm');
 const context={console};context.globalThis=context;vm.createContext(context);
-for(const file of ['balance/base-personas.js','balance/target/prototype-personas.js','persona/persona-feedback.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
+for(const file of ['balance/target/economy-config.js','balance/base-personas.js','balance/target/prototype-personas.js','persona/persona-feedback.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
 const feedback=context.PersonaFeedback,modules=context.PERSONA_BALANCE_MODULES,base=modules.basePersonas.templates,prototypes=modules.targetPrototypePersonas;
 const growth=prototypes.find(item=>item.id==='TARGET_PROTO_GROWTH_ARCHIVE'),charge=base.find(item=>item.id==='collector'),chips=base.find(item=>item.id==='observer'),addMult=base.find(item=>item.id==='wanderer'),finalMult=base.find(item=>item.id==='purger');
 

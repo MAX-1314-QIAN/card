@@ -1,12 +1,13 @@
 (function(root){
   const modules=root.PERSONA_BALANCE_MODULES||(root.PERSONA_BALANCE_MODULES={});
   const decisionStatus='PROTOTYPE_ASSUMPTION';
+  const cycleCoins=modules.targetEconomy.battleRewards.cycleVictoryCoins;
   const battles=[
-    ['N01',950,1.2,'TARGET_ENCOUNTER_EARLY','N02',3],['N02',1100,1.2,'TARGET_ENCOUNTER_EARLY','N03',3],['N03',1250,1.4,'TARGET_ENCOUNTER_EARLY','N04',4],
-    ['N05',1350,1.3,'TARGET_ENCOUNTER_MID','N06',3],['N06',1500,1.4,'TARGET_ENCOUNTER_MID','N07',3],['N07',1650,1.5,'TARGET_ENCOUNTER_MID','N08',4],
-    ['N09',1750,1.5,'TARGET_ENCOUNTER_LATE','N10',3],['N10',1950,1.6,'TARGET_ENCOUNTER_LATE','N11',3],['N11',2150,1.6,'TARGET_ENCOUNTER_LATE','N12',4],
-    ['N13',2300,1.7,'TARGET_ENCOUNTER_LATE','N14',2],['N14',2500,1.8,'TARGET_ENCOUNTER_LATE','N15',3],['N15',2750,1.9,'TARGET_ENCOUNTER_LATE','N16',4],
-    ['N17',3200,3,'TARGET_ENCOUNTER_FINAL','TARGET_RUN_REPORT',0]
+    ['N01',950,1.2,'TARGET_ENCOUNTER_EARLY','N02',cycleCoins[0]],['N02',1100,1.2,'TARGET_ENCOUNTER_EARLY','N03',cycleCoins[1]],['N03',1250,1.4,'TARGET_ENCOUNTER_EARLY','N04',cycleCoins[2]],
+    ['N05',1350,1.3,'TARGET_ENCOUNTER_MID','N06',cycleCoins[0]],['N06',1500,1.4,'TARGET_ENCOUNTER_MID','N07',cycleCoins[1]],['N07',1650,1.5,'TARGET_ENCOUNTER_MID','N08',cycleCoins[2]],
+    ['N09',1750,1.5,'TARGET_ENCOUNTER_LATE','N10',cycleCoins[0]],['N10',1950,1.6,'TARGET_ENCOUNTER_LATE','N11',cycleCoins[1]],['N11',2150,1.6,'TARGET_ENCOUNTER_LATE','N12',cycleCoins[2]],
+    ['N13',2300,1.7,'TARGET_ENCOUNTER_LATE','N14',cycleCoins[0]],['N14',2500,1.8,'TARGET_ENCOUNTER_LATE','N15',cycleCoins[1]],['N15',2750,1.9,'TARGET_ENCOUNTER_LATE','N16',cycleCoins[2]],
+    ['N17',3200,3,'TARGET_ENCOUNTER_FINAL','TARGET_RUN_REPORT',modules.targetEconomy.battleRewards.finalBattleVictoryCoins]
   ];
   modules.targetStageNodes=[
     {id:'TARGET_PERSONA_SELECT',type:'PERSONA_LOADOUT_SELECT',encounterId:null,targetScore:null,estimatedMinutes:null,compatibilityOnly:true,decisionStatus:'DEPRECATED',transitions:[{on:'PERSONA_LOADOUT_CONFIRMED',to:'N01'}]},
