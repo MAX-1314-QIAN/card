@@ -1,4 +1,5 @@
 const assert=require('assert');
+const fs=require('fs');
 const vm=require('vm');
 const {loadBalance}=require('./test-load-balance');
 
@@ -6,6 +7,12 @@ const context={console,Math,JSON,Map,Set,Array,Object,String,Number,Date};
 context.globalThis=context;
 vm.createContext(context);
 const manifest=loadBalance(context),evaluator=context.PersonaConditionEvaluator,whitelist=manifest.aiPersonaWhitelist,handTypes=manifest.target.scoringProfile.hands;
+const html=fs.readFileSync('index.html','utf8'),cacheVersion='20260906-diversity-v1';
+for(const asset of ['ai-persona-whitelist-v1.js','ai-persona-whitelist-validator.js','schema-validation.js','persona-condition-evaluator.js','persona-runtime.js','run-controller.js','behavior-analytics.js','behavior-snapshot.js','candidate-validator.js','candidate-builder.js','similarity.js','template-factory.js','generator.js','score-runtime.js']){
+  const line=html.split(/\r?\n/).find(entry=>entry.includes(asset));
+  assert.ok(line?.includes(cacheVersion),`${asset} 必须刷新 AI 多样性版本缓存`);
+}
+assert.ok(html.includes('ai=20260906-diversity-v1'),'game.js 必须刷新 AI 多样性版本缓存');
 
 const scoringCards=[
   {r:'2',ri:2,s:'♥'},
