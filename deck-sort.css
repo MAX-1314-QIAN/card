@@ -30,6 +30,57 @@
   background:linear-gradient(180deg,#3b260e,#160e07);
   box-shadow:inset 0 -2px #d69a40,0 0 10px #9c612533;
 }
+.deck-dialog[open]{
+  height:min(620px,calc(100dvh - 64px));
+  max-height:calc(100dvh - 64px);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.deck-dialog[open] .deck-grid{
+  flex:1 1 auto;
+  min-height:0;
+  max-height:none;
+  grid-auto-rows:max-content;
+  align-items:start;
+  align-content:start;
+  overflow-y:auto;
+}
+.deck-dialog[open] .deck-item.has-card-art{
+  width:100%;
+  height:auto;
+  min-height:90px;
+  aspect-ratio:744/1039;
+}
+.deck-dialog[open] .deck-grid:has(.deck-empty){
+  place-content:center;
+}
+.deck-dialog .deck-empty{
+  margin:auto;
+  padding:20px;
+}
+.deck-item .card-upgrade-strip{
+  left:2px;
+  right:2px;
+  bottom:2px;
+  min-height:13px;
+}
+.deck-item .card-upgrade-token{
+  position:static;
+  padding:1px 0;
+  border-radius:0;
+  background:transparent;
+  color:#f5deb0;
+  font-size:7px;
+}
+.deck-item .card-upgrade-token i{
+  width:9px;
+  height:9px;
+  font-size:6px;
+}
+.deck-item .card-upgrade-strip.count-1 .card-upgrade-token{
+  font-size:8px;
+}
 @media(max-width:560px){
   .deck-sort{justify-content:flex-start;margin-top:-2px}
   .deck-sort button{min-width:64px}

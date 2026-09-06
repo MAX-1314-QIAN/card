@@ -16,9 +16,15 @@
     return Number.isInteger(number)?String(number):String(Number(number.toFixed(4)));
   }
 
+  function formatBattleNumber(value){
+    const number=Number(value);
+    if(!Number.isFinite(number))return '0';
+    return String(Number(number.toFixed(2)));
+  }
+
   function stripMarkup(value){
     return String(value??'').replace(/<[^>]+>/g,'');
   }
 
-  root.GameUiFormatters=Object.freeze({escapeHtml,formatNumber,stripMarkup});
+  root.GameUiFormatters=Object.freeze({escapeHtml,formatNumber,formatBattleNumber,stripMarkup});
 })(globalThis);

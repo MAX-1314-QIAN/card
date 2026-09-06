@@ -46,6 +46,7 @@ index.html / CSS（页面装配与视觉）
 - `game/card-presentation.js`：扑克牌美术映射与牌面 HTML。
 - `game/build-inspection.js`：牌型强化、花色强化的查看数据与 HTML。
 - `game/behavior-analytics.js`：玩家行为聚合与报告计算。后续 AI 玩家画像从这里继续扩展。
+- `game/ai-persona-selection-client.js`：可选的公网选择请求与超时降级；不持有 API Key，不生成或修改候选。
 - `persona/ai/behavior-snapshot.js`：把行为聚合、商店选择和人格贡献转换成可发送给 AI 的版本化事实快照；不输出完整存档、原始牌面或自由文本。
 - `persona/ai/value-budget.js`：用商店人格主词条强化作为价值锚点，按实测触发率过滤初始或成熟强度超标的组合。
 - `persona/ai/candidate-builder.js`：解析行为动态条件，只组装本地白名单允许且适合当前内部方向的候选。
@@ -61,6 +62,7 @@ index.html / CSS（页面装配与视觉）
 - `game.js`：保存当前页面的临时状态，调用领域运行时，处理按钮事件和弹窗切换。
 - 它可以协调多个模块，但不再拥有计分公式、行为指标公式、牌面模板或人格文案规则。
 - 新功能如果包含可单独测试的规则，必须先建立独立模块，再由 `game.js` 接入。
+- `cloudflare/ai-persona-worker/`：独立部署的服务端边界，保管 DeepSeek Secret、校验请求与模型响应；不参与本地战斗结算。
 
 ## 常见修改应该去哪里
 

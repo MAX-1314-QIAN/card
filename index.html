@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="progression.css">
   <link rel="stylesheet" href="shell.css">
   <link rel="stylesheet" href="shell-overrides.css?v=20260824-settings-layout">
-  <link rel="stylesheet" href="playing-cards.css?v=20260827-card-art-v1">
+  <link rel="stylesheet" href="playing-cards.css?v=20260906-upgrade-strip-v1">
   <link rel="stylesheet" href="effects.css?v=20260831-static-score-v2">
   <link rel="stylesheet" href="played-cards.css">
   <link rel="stylesheet" href="played-cards-fix.css">
@@ -37,14 +37,14 @@
   <link rel="stylesheet" href="persona-slice.css">
   <link rel="stylesheet" href="target-run.css?v=20260825-gallery-loadout">
   <link rel="stylesheet" href="shop-prototype.css">
-  <link rel="stylesheet" href="deck-sort.css">
+  <link rel="stylesheet" href="deck-sort.css?v=20260906-deck-upgrade-strip-v3">
   <link rel="stylesheet" href="shop-forge.css">
   <link rel="stylesheet" href="shop-forge-interaction.css">
   <link rel="stylesheet" href="shop-scroll.css?v=20260826-persona-affix-v3">
   <link rel="stylesheet" href="persona-affixes.css?v=20260826-shop-unified-v4">
   <link rel="stylesheet" href="persona-library-equipped.css?v=20260830-equipped-state-v1">
   <link rel="stylesheet" href="persona-library-layout.css?v=20260830-full-portrait-v1">
-  <link rel="stylesheet" href="persona-prebattle-loadout.css?v=20260904-prebattle-loadout-v1">
+  <link rel="stylesheet" href="persona-prebattle-loadout.css?v=20260905-vertical-rules-v6">
   <link rel="stylesheet" href="persona-growth-acquire.css?v=20260830-growth-trigger-clarity-v2">
   <link rel="stylesheet" href="background-art.css?v=20260829-shop-background-v3">
   <link rel="stylesheet" href="shop-simplified.css?v=20260902-growth-refresh-v8">
@@ -285,7 +285,7 @@
     <button class="dialog-x" id="start-loadout-close" type="button" aria-label="关闭">×</button>
     <header><small>牌局准备</small><h2>选择本局人格</h2><p>将下方人格拖入四个槽位。确认后，这四张牌会随你进入本局。</p></header>
     <section><div class="loadout-section-heading"><h3>本局装备</h3><span id="start-loadout-count">0 / 4</span></div><div class="start-loadout-slots" id="start-loadout-slots"></div></section>
-    <section class="start-loadout-library-section"><div class="loadout-section-heading"><h3>人格牌库</h3><span>点击原画查看详情</span></div><div class="start-loadout-library" id="start-loadout-library"></div></section>
+    <section class="start-loadout-library-section"><div class="loadout-section-heading"><h3>人格牌库</h3><span>点击卡牌查看详情 · 拖动卡牌进行装备</span></div><div class="start-loadout-library" id="start-loadout-library"></div></section>
     <footer><p id="start-loadout-note" aria-live="polite">请装备四张不同的人格牌。</p><button id="start-loadout-confirm" type="button">确认阵容并开始</button></footer>
   </dialog>
 
@@ -430,6 +430,7 @@
 <script src="game/build-inspection.js?v=20260903-modular-v1"></script>
 <script src="game/card-presentation.js?v=20260903-modular-v1"></script>
 <script src="game/behavior-analytics.js?v=20260903-modular-v1"></script>
+<script src="game/ai-persona-api-config.js?v=20260904-remote-v1"></script>
 <script src="persona/ai/behavior-snapshot.js?v=20260903-v1"></script>
 <script src="persona/ai/value-budget.js?v=20260903-v1"></script>
 <script src="persona/ai/candidate-validator.js?v=20260903-v1"></script>
@@ -438,8 +439,9 @@
 <script src="persona/ai/template-factory.js?v=20260903-v1"></script>
   <script src="persona/ai/generator.js?v=20260903-v1"></script>
   <script src="persona/ai/generation-service.js?v=20260904-v1"></script>
+  <script src="game/ai-persona-selection-client.js?v=20260904-remote-v1"></script>
 <script src="battle/score-runtime.js?v=20260903-modular-v1"></script>
-  <script src="game.js?v=20260904-modular-v15&art=20260827-card-v1&feature=local-ai-persona-v1"></script>
+  <script src="game.js?v=20260906-deck-upgrade-strip-v1&art=20260827-card-v1&feature=local-ai-persona-v1"></script>
   <script src="shell.js?v=20260826-main-menu-cleanup-v2&feature=offline-persona-v1"></script>
   <script src="audio-effects.js?v=20260831-static-score-v3"></script>
   <script src="tutorial.js"></script>

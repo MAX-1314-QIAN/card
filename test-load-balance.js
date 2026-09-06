@@ -46,6 +46,11 @@ const GAME_SUPPORT_SCRIPT_FILES=[
   'battle/score-runtime.js'
 ];
 
+const CLIENT_INTEGRATION_SCRIPT_FILES=[
+  'game/ai-persona-api-config.js',
+  'game/ai-persona-selection-client.js'
+];
+
 function injectSystemTestRun(context){
   const manifest=context.PERSONA_BALANCE_MANIFEST;
   manifest.testEnvironment=true;
@@ -79,7 +84,8 @@ function loadBalance(context,{includeSystemTestRun=false,includePersonaSliceRun=
   vm.runInContext(fs.readFileSync('deck-sort-runtime.js','utf8'),context,{filename:'deck-sort-runtime.js'});
   vm.runInContext(fs.readFileSync('run-controller.js','utf8'),context,{filename:'run-controller.js'});
   for(const file of GAME_SUPPORT_SCRIPT_FILES)vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
+  for(const file of CLIENT_INTEGRATION_SCRIPT_FILES)vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
   return context.BALANCE_V21;
 }
 
-module.exports={BALANCE_SCRIPT_FILES,GAME_SUPPORT_SCRIPT_FILES,loadBalance};
+module.exports={BALANCE_SCRIPT_FILES,GAME_SUPPORT_SCRIPT_FILES,CLIENT_INTEGRATION_SCRIPT_FILES,loadBalance};

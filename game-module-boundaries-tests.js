@@ -10,6 +10,7 @@ for(const file of GAME_SUPPORT_SCRIPT_FILES)vm.runInContext(fs.readFileSync(file
 
 assert.strictEqual(context.GameUiFormatters.escapeHtml('<人格 & "规则">'),'&lt;人格 &amp; &quot;规则&quot;&gt;');
 assert.strictEqual(context.GameUiFormatters.formatNumber(1.23456),'1.2346');
+assert.strictEqual(context.GameUiFormatters.formatBattleNumber(.8999999999999999),'0.9');
 assert.strictEqual(context.GamePersonaPresentation.valueText({effectType:'chips',value:15}),'+15 筹码');
 
 const hand={id:'pair',name:'对子',description:'两张同点数牌',priority:2,displayOrder:2,chips:48,mult:2,icon:'Ⅱ'};

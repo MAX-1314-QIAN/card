@@ -2,3 +2,9 @@
 .docx-update/
 .tmp_workbook_audit/
 tmp/
+
+# Local API credentials
+**/.dev.vars
+**/.env
+**/.env.*
+!**/.dev.vars.example

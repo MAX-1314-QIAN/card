@@ -34,4 +34,12 @@ assert.deepStrictEqual(
   'unknown modes must safely fall back to rank sorting'
 );
 
-console.log('deck-sort-tests: rank/suit sorting, stable duplicates and source immutability passed');
+const deckSortCss=fs.readFileSync('deck-sort.css','utf8');
+const gameSource=fs.readFileSync('game.js','utf8');
+assert.match(deckSortCss,/\.deck-dialog\[open\] \.deck-grid\s*\{[^}]*grid-auto-rows:max-content/s,'deck rows must keep their intrinsic card height');
+assert.match(deckSortCss,/\.deck-dialog\[open\] \.deck-item\.has-card-art\s*\{[^}]*min-height:90px[^}]*aspect-ratio:744\/1039/s,'deck cards must retain the familiar portrait proportion');
+assert.match(deckSortCss,/\.deck-dialog\[open\] \.deck-grid\s*\{[^}]*overflow-y:auto/s,'overflowing cards must scroll inside the unified dialog');
+assert.match(gameSource,/upgradeStrip=cardPresentation\.upgradeStrip\(card\)/,'deck cards must reuse the battle card upgrade strip');
+assert.doesNotMatch(gameSource,/\$\{summary\?`<em class="deck-card-upgrade-summary"/,'deck cards must not fall back to the truncated text summary');
+
+console.log('deck-sort-tests: sorting and portrait deck layout safeguards passed');

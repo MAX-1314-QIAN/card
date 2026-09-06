@@ -3,6 +3,7 @@
 
   function create({pokerEngine,shopRuntime,personaRuntime,stageLimitRuntime=null,personaFeedback,minScore=1,maxSelection=5}={}){
     if(!pokerEngine||!shopRuntime||!personaRuntime||!personaFeedback)throw new Error('BattleScoreRuntime requires poker, shop, persona and feedback runtimes');
+    const clean=value=>Number(Number(value).toFixed(8)),display=value=>String(Number(Number(value).toFixed(2)));
 
     function resolve({cards,consume=false,handTypes,growthState={},stageLimitInstance=null,stageLimitView=null,context={}}={}){
       const evaluation=pokerEngine.evaluate(cards,handTypes,maxSelection),growth={suitChipBonusBySuit:{},handTypeLevelsById:{},...growthState},handLevel=Number(growth.handTypeLevelsById?.[evaluation.typeId]||0),handChipBonus=Math.round(evaluation.chips*.1)*handLevel,handMultBonus=Number((evaluation.mult*.1*handLevel).toFixed(4)),baseHandChips=evaluation.chips+handChipBonus,baseHandMult=evaluation.mult+handMultBonus,events=[{phase:'牌型',source:evaluation.type,detail:`${evaluation.chips} 筹码 ×${evaluation.mult}`,chipsDelta:evaluation.chips,multDelta:evaluation.mult}],uniqueSuits=new Set(cards.map(card=>card.si)).size;
@@ -33,12 +34,12 @@
       }
       if(faceRuleApplied&&!stageLimitEvent)stageLimitEvent={phase:'关卡限制',source:stageLimitView?.name||'本场规则',detail:stageLimitView?.description||'规则生效'};
       if(stageLimitEvent)events.push(stageLimitEvent);
-      const total=Math.max(minScore,Math.round(chips*mult*xmult));
+      chips=clean(chips);mult=clean(mult);xmult=clean(xmult);const total=Math.max(minScore,Math.round(chips*mult*xmult));
       if(consume&&pendingPersonaCommit){
         committedResult=personaRuntime.evaluateHand(pendingPersonaCommit.runtimeContext,{commit:true,scoreLayers:pendingPersonaCommit.runtimeScoreLayers});
         for(const log of committedResult.logs.filter(item=>item.triggered))events.push({phase:'人格调试',source:log.name,detail:`人格层得分 ${committedResult.scoreBefore} → ${committedResult.scoreAfter}；状态 ${JSON.stringify(log.runtimeBefore)} → ${JSON.stringify(log.runtimeAfter)}`});
       }
-      events.push({phase:'汇总',source:'最终得分',detail:`${chips} × ${mult}${xmult!==1?` × ${xmult}`:''} = ${total}`});
+      events.push({phase:'汇总',source:'最终得分',detail:`${display(chips)} × ${display(mult)}${xmult!==1?` × ${display(xmult)}`:''} = ${total}`});
       const personaLogs=committedResult?.logs||runtimeResult.logs,breakdown=personaFeedback.buildScoreBreakdown({baseLayers:runtimeScoreLayers,personaLogs,otherEvents:stageLimitEvent?[stageLimitEvent]:[],finalLayers:{chips,mult,xmult},finalScore:total});
       return{...evaluation,chips,mult,xmult,goldDelta:cardGoldDelta+personaGoldDelta,cardGoldDelta,personaGoldDelta,total,events,personaLogs,previewHistory,breakdown};
     }

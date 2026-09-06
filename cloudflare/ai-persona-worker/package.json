@@ -1,0 +1,14 @@
+{
+  "name": "persona-card-ai-selector-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:dashboard": "node scripts/build-dashboard-worker.mjs",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

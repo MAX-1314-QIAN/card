@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "persona-card-ai-selector",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-04",
+  "vars": {
+    "DEEPSEEK_MODEL": "deepseek-v4-flash",
+    "ALLOWED_ORIGINS": "http://localhost:8080,http://127.0.0.1:8080,https://max-1314-qian.github.io"
+  },
+  "secrets": {
+    "required": ["DEEPSEEK_API_KEY"]
+  }
+}
