@@ -14,15 +14,16 @@ function candidate(id,{condition={type:'SCORING_CARD_COUNT_AT_LEAST',value:4},ef
 }
 function templateFrom(source,{fingerprint=source.mechanismFingerprint}={}){return{id:`T_${source.id}`,conditions:source.runtimeTemplate.conditions,effects:source.runtimeTemplate.effects,growthRules:source.runtimeTemplate.growthRules,tags:source.behaviorTags,aiPersonaMeta:{mechanismFingerprint:fingerprint,behaviorTags:source.behaviorTags}}}
 
-const exact=candidate('AI_CANDIDATE_V1_EXACT'),near=candidate('AI_CANDIDATE_V1_NEAR',{fingerprint:'FP_NEAR',rankScore:49}),distinct=candidate('AI_CANDIDATE_V1_DISTINCT',{condition:{type:'HAND_HAS_FLUSH'},effect:'ADD_MULT',growthEvent:'DISCARD_COMMITTED',growthCondition:{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2},tags:['FLUSH','EFFECT_BASE_MULT'],fingerprint:'FP_DISTINCT',rankScore:48});
-const pool={runtimeNodeId:'N04',directionId:'AI_DIRECTION_BRIDGE',candidates:[exact,near,distinct]};
+const exact=candidate('AI_CANDIDATE_V1_EXACT'),near=candidate('AI_CANDIDATE_V1_NEAR',{condition:{type:'SCORING_CARD_COUNT_AT_LEAST',value:5},fingerprint:'FP_NEAR',rankScore:49}),sameTriggerDifferentBuild=candidate('AI_CANDIDATE_V1_SAME_TRIGGER',{effect:'ADD_MULT',growthEvent:'DISCARD_COMMITTED',growthCondition:{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2},tags:['SCORING_CARD_COUNT','EFFECT_BASE_MULT'],fingerprint:'FP_SAME_TRIGGER',rankScore:48}),distinct=candidate('AI_CANDIDATE_V1_DISTINCT',{condition:{type:'HAND_HAS_FLUSH'},effect:'ADD_MULT',growthEvent:'DISCARD_COMMITTED',growthCondition:{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2},tags:['FLUSH','EFFECT_BASE_MULT'],fingerprint:'FP_DISTINCT',rankScore:47});
+const pool={runtimeNodeId:'N04',directionId:'AI_DIRECTION_BRIDGE',candidates:[exact,near,sameTriggerDifferentBuild,distinct]};
 const references=[{referenceId:'EQUIPPED_1',scope:'EQUIPPED',template:templateFrom(exact),runsSinceLastUsed:0}];
 const result=similarity.filterPool(pool,{references,maxCandidates:12});
-assert.strictEqual(result.sourceCandidateCount,3);
-assert.strictEqual(result.rejectedCount,2,'完全相同与仅数值档位不同的近似人格都应被当前装备挡住');
+assert.strictEqual(result.sourceCandidateCount,4);
+assert.strictEqual(result.rejectedCount,3,'完全相同、仅数值档位不同及同局相同主触发都应被当前装备挡住');
 assert.deepStrictEqual(Array.from(result.candidates.map(item=>item.id)),['AI_CANDIDATE_V1_DISTINCT']);
 assert.strictEqual(result.rejected.find(item=>item.id===exact.id).rejection.reason,'EXACT_MECHANISM_DUPLICATE');
 assert.strictEqual(result.rejected.find(item=>item.id===near.id).rejection.reason,'TOO_SIMILAR_TO_EXISTING_PERSONA');
+assert.strictEqual(result.rejected.find(item=>item.id===sameTriggerDifferentBuild.id).rejection.reason,'SAME_TRIGGER_IN_CURRENT_RUN');
 
 const permanentExact={referenceId:'PERMANENT_1',scope:'PERMANENT',template:templateFrom(exact),runsSinceLastUsed:3};
 assert.strictEqual(similarity.filterPool({runtimeNodeId:'N12',directionId:'AI_DIRECTION_FOLLOW',candidates:[exact]},{references:[permanentExact]}).acceptedCount,0,'三局未使用的高品质相似例外未确认前，永久收藏中的完全重复仍必须阻止');
