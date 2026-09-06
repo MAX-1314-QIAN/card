@@ -94,6 +94,18 @@
   font-size:13px;
 }
 
+.persona-growth-ai-status{
+  margin:10px 0 0;
+  padding:9px 12px;
+  border:1px solid rgba(177,123,47,.42);
+  background:rgba(8,7,5,.78);
+  color:#d8c49d;
+  font-size:12px;
+  line-height:1.5;
+}
+
+.persona-growth-ai-status::before{content:'开发诊断 · ';color:#b17b2f}
+
 .developer-tools-actions{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .developer-tools-actions>button{height:92px;border:1px solid #6c512f;background:#0d0a06;color:#dfbd7d;cursor:pointer;transition:.16s ease}
 .developer-tools-actions>button:hover{border-color:#d09a43;background:#251707;transform:translateY(-2px);box-shadow:0 8px 22px #0009,inset 0 0 16px #c9872724}

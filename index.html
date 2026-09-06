@@ -60,7 +60,7 @@
   <link rel="stylesheet" href="battle-turn-resources.css?v=20260831-static-status-v2">
   <link rel="stylesheet" href="battle-persona-card-hierarchy.css?v=20260831-horizontal-affixes-v5">
   <link rel="stylesheet" href="battle-lower-left-tools.css?v=20260828-battle-tools-v4">
-  <link rel="stylesheet" href="developer-mode.css?v=20260830-developer-tools-v1&feature=offline-persona-v1">
+  <link rel="stylesheet" href="developer-mode.css?v=20260906-ai-diagnostics-v1">
   <link rel="stylesheet" href="battle-viewport-lock.css?v=20260831-key-info-readable-v3">
   <link rel="stylesheet" href="battle-status-stack.css?v=20260831-unified-status-v1">
 </head>
@@ -357,6 +357,7 @@
   <dialog id="persona-growth-dialog" class="persona-growth-dialog">
     <header class="growth-acquire-head"><div><h2>获得新的人格牌</h2></div><dl><div><dt>本次获得</dt><dd>1 张</dd></div><div><dt>当前持有</dt><dd id="persona-growth-owned-count">0 张</dd></div><div><dt>当前装备</dt><dd id="persona-growth-equipped-count">0 / 4</dd></div></dl></header>
     <div class="growth-acquire-layout"><section class="growth-new-panel"><div class="growth-section-label">本次获得</div><div id="persona-growth-card"></div></section><section class="growth-owned-panel"><div class="growth-section-label">当前装备</div><div id="persona-growth-slots" class="persona-growth-slots"></div><aside id="persona-growth-owned-summary" class="growth-owned-summary hidden"></aside></section></div>
+    <p id="persona-growth-ai-status" class="persona-growth-ai-status hidden" aria-live="polite"></p>
     <div id="persona-growth-replace-note" class="growth-replace-note" aria-live="polite"></div>
     <footer><button id="persona-growth-keep" class="hidden">暂不替换，保留当前装备</button><button id="persona-growth-confirm">确认替换并继续</button></footer>
   </dialog>
@@ -441,7 +442,7 @@
   <script src="persona/ai/generation-service.js?v=20260904-v1"></script>
   <script src="game/ai-persona-selection-client.js?v=20260904-remote-v1"></script>
 <script src="battle/score-runtime.js?v=20260906-diversity-v1"></script>
-  <script src="game.js?v=20260906-deck-upgrade-strip-v1&art=20260827-card-v1&feature=local-ai-persona-v1&ai=20260906-diversity-v1"></script>
+  <script src="game.js?v=20260906-deck-upgrade-strip-v1&art=20260827-card-v1&feature=local-ai-persona-v1&ai=20260906-diversity-v1&diag=20260906-v1"></script>
   <script src="shell.js?v=20260826-main-menu-cleanup-v2&feature=offline-persona-v1"></script>
   <script src="audio-effects.js?v=20260831-static-score-v3"></script>
   <script src="tutorial.js"></script>
