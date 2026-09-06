@@ -3,7 +3,7 @@
   const clone=value=>value==null?value:JSON.parse(JSON.stringify(value));
   const round=(value,digits=6)=>Number(Number(value).toFixed(digits));
   const containsFunction=(value,seen=new Set())=>{if(typeof value==='function')return true;if(!value||typeof value!=='object'||seen.has(value))return false;seen.add(value);return Object.values(value).some(child=>containsFunction(child,seen))};
-  const containsDynamicSource=value=>{if(!value||typeof value!=='object')return false;if(Object.prototype.hasOwnProperty.call(value,'valueSource')||Object.prototype.hasOwnProperty.call(value,'valuesSource'))return true;return Object.values(value).some(containsDynamicSource)};
+  const containsDynamicSource=value=>{if(!value||typeof value!=='object')return false;if(Object.prototype.hasOwnProperty.call(value,'valueSource')||Object.prototype.hasOwnProperty.call(value,'valuesSource')||Object.prototype.hasOwnProperty.call(value,'suitSource'))return true;return Object.values(value).some(containsDynamicSource)};
   function fingerprint(candidate){
     const components=candidate?.components||{};
     return JSON.stringify({mechanismFamilyId:candidate?.mechanismFamilyId||null,triggerPartId:components.triggerPartId,triggerVariantId:components.triggerVariantId,resolvedConditions:candidate?.runtimeTemplate?.conditions||[],mainEffectPartId:components.mainEffectPartId,baseStrengthTierId:components.baseStrengthTierId,growthPartId:components.growthPartId,growthConditions:candidate?.runtimeTemplate?.growthRules?.[0]?.conditions||[],growthStrengthTierId:components.growthStrengthTierId,growthCap:components.growthCap,behaviorTags:[...(candidate?.behaviorTags||[])].sort()});

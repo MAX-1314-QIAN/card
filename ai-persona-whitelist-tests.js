@@ -32,8 +32,8 @@ assert.deepStrictEqual(
 );
 assert.deepStrictEqual(Array.from(whitelist.nodePolicies.find(item=>item.runtimeNodeId==='N12').directionIds),['AI_DIRECTION_FOLLOW']);
 
-assert.strictEqual(whitelist.triggerParts.length,30);
-assert.ok(whitelist.triggerParts.reduce((sum,item)=>sum+item.variants.length,0)>=35);
+assert.strictEqual(whitelist.triggerParts.length,42);
+assert.ok(whitelist.triggerParts.reduce((sum,item)=>sum+item.variants.length,0)>=47);
 assert.strictEqual(whitelist.mechanismFamilies.length,6);
 assert.ok(whitelist.mechanismFamilies.every(item=>item.playerFacing===false));
 assert.strictEqual(whitelist.mainEffectParts.length,4);

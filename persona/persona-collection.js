@@ -6,7 +6,7 @@
   const safeId=value=>String(value||'persona').replace(/[^a-zA-Z0-9_-]/g,'_');
 
   function initialRecord(template){
-    return{collectionId:`INITIAL_${template.id}`,cardId:template.id,templateId:template.id,source:'INITIAL_COLLECTION',templateSnapshot:null,acquiredAt:null,originalInstanceId:null,version:1};
+    return{collectionId:`INITIAL_${template.id}`,cardId:template.id,templateId:template.id,source:'INITIAL_COLLECTION',templateSnapshot:null,acquiredAt:null,originalInstanceId:null,runsSinceLastUsed:0,version:1};
   }
   function validRecord(record){
     return !!record&&record.version===1&&typeof record.collectionId==='string'&&!!record.collectionId&&typeof record.cardId==='string'&&!!record.cardId&&typeof record.templateId==='string'&&!!record.templateId&&record.source==='CARRY_OUT'&&record.templateSnapshot?.id===record.templateId&&!('subAffixSlots' in record)&&!('runtimeState' in record);
@@ -24,17 +24,22 @@
       cached=clone(state);
       try{storage?.setItem?.(STORAGE_KEY,JSON.stringify(cached));return{ok:true}}catch(error){return{ok:false,error}}
     }
-    function list(){return clone([...initial,...read().records])}
+    function list(){return clone([...initial,...read().records.map(record=>({...record,runsSinceLastUsed:Number.isInteger(record.runsSinceLastUsed)?record.runsSinceLastUsed:0}))])}
     function get(cardId){return list().find(record=>record.cardId===cardId)||null}
     function carryOut({instance,template,runTemplateId=null,nodeId=null}={}){
       if(!instance?.instanceId||!template?.id||instance.templateId!==template.id)return{ok:false,reason:'INVALID_PERSONA'};
       const state=read(),existing=state.records.find(record=>record.originalInstanceId===instance.instanceId);
       if(existing)return{ok:true,duplicate:true,record:clone(existing)};
-      const collectionId=`CARRY_${safeId(instance.instanceId)}`,record={collectionId,cardId:collectionId,templateId:template.id,source:'CARRY_OUT',templateSnapshot:clone(template),acquiredAt:now(),originalInstanceId:instance.instanceId,acquiredRunTemplateId:runTemplateId,acquiredAtNodeId:nodeId,version:1};
+      const collectionId=`CARRY_${safeId(instance.instanceId)}`,record={collectionId,cardId:collectionId,templateId:template.id,source:'CARRY_OUT',templateSnapshot:clone(template),acquiredAt:now(),originalInstanceId:instance.instanceId,acquiredRunTemplateId:runTemplateId,acquiredAtNodeId:nodeId,runsSinceLastUsed:0,version:1};
       const result=persist({...state,records:[...state.records,record]});
       return result.ok?{ok:true,duplicate:false,record:clone(record)}:{ok:false,reason:'STORAGE_FAILED',error:result.error};
     }
-    return{list,get,carryOut,storageKey:STORAGE_KEY,version:VERSION};
+    function beginRun(usedCardIds=[]){
+      const used=new Set(usedCardIds||[]),state=read();
+      state.records=state.records.map(record=>({...record,runsSinceLastUsed:used.has(record.cardId)?0:Math.max(0,Number(record.runsSinceLastUsed||0))+1}));
+      const result=persist(state);return result.ok?{ok:true,records:list()}:{ok:false,reason:'STORAGE_FAILED',error:result.error};
+    }
+    return{list,get,carryOut,beginRun,storageKey:STORAGE_KEY,version:VERSION};
   }
   root.PersonaCollection={create,STORAGE_KEY,VERSION};
 })(globalThis);

@@ -7,12 +7,12 @@ const context={console,Math,JSON,Map,Set,Array,Object,String,Number,Date};
 context.globalThis=context;
 vm.createContext(context);
 const manifest=loadBalance(context),evaluator=context.PersonaConditionEvaluator,whitelist=manifest.aiPersonaWhitelist,handTypes=manifest.target.scoringProfile.hands;
-const html=fs.readFileSync('index.html','utf8'),cacheVersion='20260906-diversity-v1';
-for(const asset of ['ai-persona-whitelist-v1.js','ai-persona-whitelist-validator.js','schema-validation.js','persona-condition-evaluator.js','persona-runtime.js','run-controller.js','behavior-analytics.js','behavior-snapshot.js','candidate-validator.js','candidate-builder.js','similarity.js','template-factory.js','generator.js','score-runtime.js']){
+const html=fs.readFileSync('index.html','utf8'),cacheVersion='20260906-diversity-v2';
+for(const asset of ['ai-persona-whitelist-v1.js','ai-persona-whitelist-validator.js','schema-validation.js','persona-condition-evaluator.js','persona-effect-executor.js','persona-runtime.js','run-controller.js','behavior-analytics.js','behavior-snapshot.js','candidate-validator.js','candidate-builder.js','similarity.js','template-factory.js','generator.js','score-runtime.js']){
   const line=html.split(/\r?\n/).find(entry=>entry.includes(asset));
   assert.ok(line?.includes(cacheVersion),`${asset} 必须刷新 AI 多样性版本缓存`);
 }
-assert.ok(html.includes('ai=20260906-diversity-v1'),'game.js 必须刷新 AI 多样性版本缓存');
+assert.ok(html.includes('ai=20260906-diversity-v2'),'game.js 必须刷新 AI 多样性版本缓存');
 
 const scoringCards=[
   {r:'2',ri:2,s:'♥'},
@@ -30,6 +30,12 @@ assert.strictEqual(evaluator.evaluate({type:'REMAINING_HANDS_EXACT',value:1},con
 assert.strictEqual(evaluator.evaluate({type:'HAND_INDEX_EXACT',value:1},conditionContext,{}),true);
 assert.strictEqual(evaluator.evaluate({type:'REMAINING_DISCARDS_AT_LEAST',value:2},conditionContext,{}),true);
 assert.strictEqual(evaluator.evaluate({type:'MIN_SCORING_UNIQUE_SUITS',value:3},conditionContext,{}),false);
+assert.strictEqual(evaluator.evaluate({type:'SCORING_CARDS_ALL_EVEN'},conditionContext,{}),true);
+assert.strictEqual(evaluator.evaluate({type:'SCORING_CARDS_ALL_EVEN'},{scoringCards:[{r:'A',ri:14,s:'♥'}]},{}),false,'A不属于偶数点数池');
+assert.strictEqual(evaluator.evaluate({type:'SCORING_RANK_OVERLAPS_PREVIOUS'},{...conditionContext,previousScoringRanks:[4,9]},{}),true);
+assert.strictEqual(evaluator.evaluate({type:'PREVIOUS_SUBMITTED_CARD_COUNT_AT_MOST',value:2},{previousSubmittedCardCount:null},{}),false,'首手不得误判为上一手窄出牌');
+assert.strictEqual(evaluator.evaluate({type:'PERSONA_UNSEEN_HAND_TYPE'},{handTypeId:'pair'},{seenHandTypes:['two_pair']}),true);
+assert.strictEqual(evaluator.evaluate({type:'PERSONA_UNSEEN_HAND_TYPE'},{handTypeId:'pair'},{seenHandTypes:['pair']}),false);
 
 const progressionTemplate={id:'TEST_PRIORITY_PROGRESSION',name:'递进测试',qualityId:'TEST',conditions:[{type:'HAND_PRIORITY_HIGHER_THAN_PREVIOUS'}],effects:[{type:'ADD_CHIPS',value:20}],activationLimit:{scope:'HAND',count:1},growthRules:[],caps:{},runtimeDefaults:{activationCountThisBattle:0},runtimeScopes:{activationCountThisBattle:'BATTLE'}};
 const runtime=context.PersonaRuntime.create({templates:[progressionTemplate],idFactory:()=> 'TEST_PRIORITY_INSTANCE'});
@@ -55,7 +61,7 @@ const snapshot={schemaVersion:1,id:'AI_BEHAVIOR_SNAPSHOT_V1:N04:DIVERSITY',runti
 const builder=context.AiPersonaCandidateBuilder.create(whitelist),pool=builder.build({snapshot,directionId:'AI_DIRECTION_BRIDGE',handTypes,maxCandidates:96});
 assert.strictEqual(pool.candidateCount,96,'扩大后的原始候选池应为查重补位保留空间');
 const triggerIds=new Set(pool.candidates.map(item=>item.components.triggerPartId)),familyIds=new Set(pool.candidates.map(item=>item.mechanismFamilyId));
-for(const id of ['AI_TRIGGER_DOMINANT_HAND_EXACT','AI_TRIGGER_SCORING_DOMINANT_SUIT_3','AI_TRIGGER_DOMINANT_RANK_BAND','AI_TRIGGER_PRIORITY_HIGHER_THAN_PREVIOUS','AI_TRIGGER_NO_DISCARD_THIS_BATTLE','AI_TRIGGER_FIRST_PLAY_THIS_BATTLE','AI_TRIGGER_REMAINING_DISCARDS_2','AI_TRIGGER_DOMINANT_HAND_AND_SUIT','AI_TRIGGER_SCORING_SUIT_DIVERSITY_3'])assert.ok(triggerIds.has(id),`候选池应覆盖 ${id}`);
+for(const id of ['AI_TRIGGER_DOMINANT_HAND_EXACT','AI_TRIGGER_SCORING_DOMINANT_SUIT_3','AI_TRIGGER_DOMINANT_RANK_BAND','AI_TRIGGER_PRIORITY_HIGHER_THAN_PREVIOUS','AI_TRIGGER_NO_DISCARD_THIS_BATTLE','AI_TRIGGER_FIRST_PLAY_THIS_BATTLE','AI_TRIGGER_REMAINING_DISCARDS_2','AI_TRIGGER_DOMINANT_HAND_AND_SUIT','AI_TRIGGER_SCORING_SUIT_DIVERSITY_3','AI_TRIGGER_SECONDARY_TO_DOMINANT','AI_TRIGGER_PERSONA_NEW_HAND_TYPE','AI_TRIGGER_CHARGE_HAND_PAIR','AI_TRIGGER_ALL_EVEN_RANKS','AI_TRIGGER_RANK_OVERLAP_PREVIOUS'])assert.ok(triggerIds.has(id),`候选池应覆盖 ${id}`);
 assert.ok(familyIds.size>=5,'桥接候选应覆盖至少5个机制家族');
 
 for(const candidate of pool.candidates){

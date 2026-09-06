@@ -27,18 +27,22 @@
     };
     const validateCondition=(condition,owner,runtimeDefaults={})=>{
       require(conditionTypes.has(condition?.type),`${owner} 使用了不在运行时白名单中的条件：${condition?.type}`);
-      const numericTypes=['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','SAME_HAND_TYPE_STREAK_AT_LEAST','DISCARDED_CARD_COUNT_AT_LEAST','MIN_UNIQUE_SUITS','SCORING_SUIT_COUNT_AT_LEAST','REMAINING_HANDS_EXACT','HAND_INDEX_EXACT','REMAINING_DISCARDS_AT_LEAST','MIN_SCORING_UNIQUE_SUITS'];
+      const numericTypes=['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','SAME_HAND_TYPE_STREAK_AT_LEAST','DISCARDED_CARD_COUNT_AT_LEAST','MIN_UNIQUE_SUITS','SCORING_SUIT_COUNT_AT_LEAST','REMAINING_HANDS_EXACT','HAND_INDEX_EXACT','REMAINING_DISCARDS_AT_LEAST','MIN_SCORING_UNIQUE_SUITS','PREVIOUS_SUBMITTED_CARD_COUNT_AT_MOST','PERSONA_RUNTIME_COUNTER_AT_LEAST','DISCARDED_SUIT_COUNT_AT_LEAST'];
       if(numericTypes.includes(condition?.type))require((Number.isFinite(condition.value)&&condition.value>0)||VALID_NUMERIC_VALUE_SOURCES.has(condition.valueSource),`${owner} 的 ${condition?.type} 必须包含正数 value 或合法 valueSource`);
       if(condition?.type==='HAND_QUALITY_IS')require(['NORMAL','RARE'].includes(condition.value),`${owner} 的牌型品质条件不合法`);
       if(condition?.type==='HAND_TYPE_IS')require(typeof condition.value==='string'||VALID_VALUE_SOURCES.has(condition.valueSource),`${owner} 的 HAND_TYPE_IS 缺少合法 value/valueSource`);
+      if(condition?.type==='PREVIOUS_HAND_TYPE_IS')require(typeof condition.value==='string'||VALID_VALUE_SOURCES.has(condition.valueSource),`${owner} 的 PREVIOUS_HAND_TYPE_IS 缺少合法 value/valueSource`);
       if(condition?.type==='HAND_TYPE_IN')require((Array.isArray(condition.values)&&condition.values.length>0)||VALID_VALUES_SOURCES.has(condition.valuesSource),`${owner} 的 HAND_TYPE_IN 缺少合法 values/valuesSource`);
       if(condition?.type==='PERSONA_RUNTIME_FLAG')require(typeof condition.key==='string'&&condition.key in runtimeDefaults,`${owner} 的运行时标记 ${condition?.key} 未声明默认值`);
+      if(condition?.type==='PERSONA_RUNTIME_COUNTER_AT_LEAST')require(typeof condition.key==='string'&&condition.key in runtimeDefaults,`${owner} 的运行时计数器 ${condition?.key} 未声明默认值`);
       if(condition?.type==='SCORING_SUIT_COUNT_AT_LEAST')require(typeof condition.suit==='string'||VALID_SUIT_SOURCES.has(condition.suitSource),`${owner} 的计分花色条件缺少合法 suit/suitSource`);
+      if(condition?.type==='DISCARDED_SUIT_COUNT_AT_LEAST')require(typeof condition.suit==='string'||VALID_SUIT_SOURCES.has(condition.suitSource),`${owner} 的弃牌花色条件缺少合法 suit/suitSource`);
       if(condition?.type==='ALL_SCORING_CARDS_IN_RANK_BAND')require(['low','middle','face','ace'].includes(condition.value)||VALID_RANK_BAND_SOURCES.has(condition.valueSource),`${owner} 的点数段条件缺少合法 value/valueSource`);
     };
     const validateRuntimeEffect=(effect,owner,runtimeDefaults={})=>{
       require(runtimeEffectTypes.has(effect?.type),`${owner} 使用了不在运行时白名单中的效果：${effect?.type}`);
-      if(['SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG'].includes(effect?.type))require(typeof effect.key==='string'&&effect.key in runtimeDefaults,`${owner} 的运行时标记效果未引用已声明字段`);
+      if(['SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG','RECORD_CONTEXT_VALUES'].includes(effect?.type))require(typeof effect.key==='string'&&effect.key in runtimeDefaults,`${owner} 的运行时状态效果未引用已声明字段`);
+      if(effect?.type==='SET_RUNTIME_COUNTER')require(typeof effect.runtimeCounter==='string'&&effect.runtimeCounter in runtimeDefaults,`${owner} 的运行时计数器效果未引用已声明字段`);
       if(['ADD_RUNTIME_COUNTER','ADD_GROWTH_STACK'].includes(effect?.type))require(typeof effect.runtimeCounter==='string'&&effect.runtimeCounter.length>0,`${owner} 的成长效果缺少 runtimeCounter`);
     };
 

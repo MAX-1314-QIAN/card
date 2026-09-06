@@ -5,7 +5,7 @@ function openSettings(){previousScreen=screens.battle.classList.contains('hidden
 function closeSettings(){showScreen(previousScreen)}
 window.closeSettingsForTutorial=()=>showScreen('battle');
 window.openSettingsFromTutorial=()=>{previousScreen='battle';loadSettings();showScreen('settings')};
-function beginRunWithConfirmedLoadout(){window.clearRunSave?.();reset();runStarted=true;runResumeScreen='battle';showScreen('battle');window.runController.startRun(window.BALANCE_V21.meta.activeRunTemplateId,{offlineAiPersonaEnabled:window.developerModeEnabled===true&&window.offlineAiPersonaEnabled===true})}
+function beginRunWithConfirmedLoadout(){window.clearRunSave?.();window.markPersonaCollectionRunStart?.();reset();runStarted=true;runResumeScreen='battle';showScreen('battle');window.runController.startRun(window.BALANCE_V21.meta.activeRunTemplateId,{offlineAiPersonaEnabled:window.developerModeEnabled===true&&window.offlineAiPersonaEnabled===true})}
 function startRun(){if(!window.PERSONA_GAME_READY||!window.BALANCE_V21||!window.runController||typeof window.openStartPersonaLoadout!=='function'){document.querySelector('#menu-hint').textContent='游戏核心尚未完成加载，请刷新页面后重试。';return}const oldSave=window.runSave?.summary();if(oldSave&&!window.confirm('开始新游戏会覆盖当前进度，是否继续？'))return;window.openStartPersonaLoadout()}
 window.confirmStartRunWithLoadout=beginRunWithConfirmedLoadout;
 window.showRouteMap=()=>{runResumeScreen='map';showScreen('map')};

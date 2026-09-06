@@ -2,8 +2,8 @@
   const PERSONA_EFFECT_TYPES=new Set(['ADD_CHIPS','ADD_MULT','MULTIPLY_FINAL','ADD_XMULT_RATE']);
   const BOSS_EFFECT_TYPES=new Set(['OPENING_MULT_DOWN','FIRST_SUIT_SILENCE','DISCARD_DELTA','SUIT_SILENCE','PERSONA_DISABLE','SELECTION_LIMIT','REPEAT_FINAL_MULT','HANDS_AND_TARGET']);
   const INTERVENTION_EFFECT_TYPES=new Set(['DISCARD_DELTA','OPENING_CHIP_UP','CARD_CHIP_UP','OPENING_MULT_DOWN','FIRST_SUIT_SILENCE']);
-  const PERSONA_CONDITION_TYPES=new Set(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','HAND_QUALITY_IS','HAND_TYPE_IS','HAND_TYPE_IN','SAME_HAND_TYPE_STREAK_AT_LEAST','DIFFERENT_FROM_PREVIOUS_HAND','DISCARDED_CARD_COUNT_AT_LEAST','PERSONA_RUNTIME_FLAG','UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN','HAND_HAS_STRAIGHT','MIN_UNIQUE_SUITS','HAS_MATCHED_RANK_STRUCTURE','HAND_HAS_FLUSH','SCORING_SUIT_COUNT_AT_LEAST','ALL_SCORING_CARDS_IN_RANK_BAND','HAND_PRIORITY_HIGHER_THAN_PREVIOUS','REMAINING_HANDS_EXACT','HAND_INDEX_EXACT','REMAINING_DISCARDS_AT_LEAST','MIN_SCORING_UNIQUE_SUITS']);
-  const PERSONA_RUNTIME_EFFECT_TYPES=new Set(['ADD_CHIPS','ADD_MULT','MULTIPLY_FINAL','ADD_XMULT_RATE','ADD_COINS','ADD_HAND_LIMIT','ADD_DISCARD_LIMIT','SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG','ADD_RUNTIME_COUNTER','ADD_GROWTH_STACK']);
+  const PERSONA_CONDITION_TYPES=new Set(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','HAND_QUALITY_IS','HAND_TYPE_IS','HAND_TYPE_IN','SAME_HAND_TYPE_STREAK_AT_LEAST','DIFFERENT_FROM_PREVIOUS_HAND','DISCARDED_CARD_COUNT_AT_LEAST','PERSONA_RUNTIME_FLAG','UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN','HAND_HAS_STRAIGHT','MIN_UNIQUE_SUITS','HAS_MATCHED_RANK_STRUCTURE','HAND_HAS_FLUSH','SCORING_SUIT_COUNT_AT_LEAST','ALL_SCORING_CARDS_IN_RANK_BAND','HAND_PRIORITY_HIGHER_THAN_PREVIOUS','REMAINING_HANDS_EXACT','HAND_INDEX_EXACT','REMAINING_DISCARDS_AT_LEAST','MIN_SCORING_UNIQUE_SUITS','PREVIOUS_HAND_TYPE_IS','PREVIOUS_SUBMITTED_CARD_COUNT_AT_MOST','CURRENT_FLUSH_SUIT_DIFFERS_FROM_PREVIOUS','PERSONA_UNSEEN_HAND_TYPE','PERSONA_UNSEEN_FLUSH_SUIT','PERSONA_UNSEEN_MATCHED_RANK','PERSONA_UNSEEN_STRAIGHT_HIGH','PERSONA_RUNTIME_COUNTER_AT_LEAST','DISCARDED_SUIT_COUNT_AT_LEAST','SCORING_CARDS_ALL_EVEN','SCORING_RANK_OVERLAPS_PREVIOUS']);
+  const PERSONA_RUNTIME_EFFECT_TYPES=new Set(['ADD_CHIPS','ADD_MULT','MULTIPLY_FINAL','ADD_XMULT_RATE','ADD_COINS','ADD_HAND_LIMIT','ADD_DISCARD_LIMIT','SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG','ADD_RUNTIME_COUNTER','ADD_GROWTH_STACK','SET_RUNTIME_COUNTER','RECORD_CONTEXT_VALUES']);
   const SHOP_ITEM_TYPES=new Set(['CARD','PERSONA','SERVICE']);
   const SHOP_EFFECT_TYPES=new Set(['ADD_CARD','ADD_PERSONA','UPGRADE_CARD','REMOVE_CARD','UPGRADE_PERSONA_MAIN','UPGRADE_SUIT','UPGRADE_HAND_TYPE']);
   const SHOP_CARD_STATS=new Set(['BONUS_CHIPS','BONUS_COINS','BONUS_MULT','BONUS_XMULT_RATE']);
@@ -182,15 +182,16 @@
     const qualities=new Set(manifest?.personaTemplates?.qualities||[]),families=new Set(manifest?.personaTemplates?.behaviorFamilies||[]);
     function validateCondition(condition,owner){
       require(PERSONA_CONDITION_TYPES.has(condition?.type),`${owner} 使用了不允许的 condition type：${condition?.type}`);
-      if(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','SAME_HAND_TYPE_STREAK_AT_LEAST','DISCARDED_CARD_COUNT_AT_LEAST'].includes(condition?.type))require(Number.isFinite(condition.value),`${owner} 的条件数值必须是数字`);
+      if(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','SAME_HAND_TYPE_STREAK_AT_LEAST','DISCARDED_CARD_COUNT_AT_LEAST','PREVIOUS_SUBMITTED_CARD_COUNT_AT_MOST','PERSONA_RUNTIME_COUNTER_AT_LEAST','DISCARDED_SUIT_COUNT_AT_LEAST'].includes(condition?.type))require(Number.isFinite(condition.value),`${owner} 的条件数值必须是数字`);
       if(condition?.type==='HAND_QUALITY_IS')require(['NORMAL','RARE'].includes(condition.value),`${owner} 的牌型品质条件不合法`);
       if(condition?.type==='HAND_TYPE_IN')require(Array.isArray(condition.values)&&condition.values.length>0,`${owner} 的 HAND_TYPE_IN 必须包含 values`);
-      if(condition?.type==='PERSONA_RUNTIME_FLAG')require(typeof condition.key==='string'&&condition.key.length>0,`${owner} 的运行时标记必须包含 key`);
+      if(['PERSONA_RUNTIME_FLAG','PERSONA_RUNTIME_COUNTER_AT_LEAST'].includes(condition?.type))require(typeof condition.key==='string'&&condition.key.length>0,`${owner} 的运行时字段必须包含 key`);
     }
     function validateEffect(effect,owner,runtimeDefaults){
       require(PERSONA_RUNTIME_EFFECT_TYPES.has(effect?.type),`${owner} 使用了不允许的 runtime effect：${effect?.type}`);
       if(['ADD_CHIPS','ADD_MULT','MULTIPLY_FINAL','ADD_XMULT_RATE','ADD_COINS','ADD_HAND_LIMIT','ADD_DISCARD_LIMIT'].includes(effect?.type))require(Number.isFinite(effect.value)||Number.isFinite(effect.valuePerStack),`${owner} 的数值效果必须包含 value 或 valuePerStack`);
-      if(['SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG'].includes(effect?.type))require(typeof effect.key==='string'&&effect.key in runtimeDefaults,`${owner} 的标记效果必须引用 runtimeDefaults 中的 key`);
+      if(['SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG','RECORD_CONTEXT_VALUES'].includes(effect?.type))require(typeof effect.key==='string'&&effect.key in runtimeDefaults,`${owner} 的状态效果必须引用 runtimeDefaults 中的 key`);
+      if(effect?.type==='SET_RUNTIME_COUNTER')require(typeof effect.runtimeCounter==='string'&&effect.runtimeCounter in runtimeDefaults,`${owner} 的计数器效果必须引用 runtimeDefaults 中的字段`);
       if(['ADD_RUNTIME_COUNTER','ADD_GROWTH_STACK'].includes(effect?.type))require(typeof effect.runtimeCounter==='string'&&effect.runtimeCounter in runtimeDefaults,`${owner} 的计数效果必须引用 runtimeDefaults 中的 counter`);
     }
     for(const template of targetPersonaTemplatesById.values()){

@@ -20,7 +20,7 @@ assert.deepStrictEqual(JSON.parse(JSON.stringify(generator.assignDirection({runt
 assert.strictEqual(generator.assignDirection({runtimeNodeId:'N08',assignments:{N04:'AI_DIRECTION_BREAK'}}).directionId,'AI_DIRECTION_BRIDGE');
 assert.strictEqual(generator.assignDirection({runtimeNodeId:'N12',assignments:{}}).directionId,'AI_DIRECTION_FOLLOW');
 
-const sourceSnapshot=snapshot('N04'),raw=builder.build({snapshot:sourceSnapshot,directionId:first.directionId,handTypes,maxCandidates:96}),chosenId=raw.candidates[3].id;
+const sourceSnapshot=snapshot('N04'),raw=builder.build({snapshot:sourceSnapshot,directionId:first.directionId,handTypes,maxCandidates:96}),preparedSelection=generator.prepare({snapshot:sourceSnapshot,directionId:first.directionId,handTypes,maxCandidates:12}),chosenId=preparedSelection.filtered.candidates[3].id;
 const generated=generator.generate({snapshot:sourceSnapshot,directionId:first.directionId,handTypes,selectedCandidateId:chosenId,sequenceNumber:1,portrait:'assets/art/ai-persona-placeholder.png'});
 assert.strictEqual(generated.ok,true);
 assert.strictEqual(generated.kind,'GENERATED_PERSONA');
