@@ -15,6 +15,9 @@
       if(condition.valueSource==='BEHAVIOR_DOMINANT_HAND_TYPE'){if(!profile.dominantHandTypeId)return null;condition.value=profile.dominantHandTypeId;delete condition.valueSource}
       if(condition.valueSource==='BEHAVIOR_SECONDARY_HAND_TYPE'){if(!profile.secondaryHandTypeId)return null;condition.value=profile.secondaryHandTypeId;delete condition.valueSource}
       if(condition.valuesSource==='BEHAVIOR_TOP_TWO_HAND_TYPES'){if(profile.topTwoHandTypeIds.length<2)return null;condition.values=[...profile.topTwoHandTypeIds];delete condition.valuesSource}
+      if(condition.valueSource==='BEHAVIOR_DOMINANT_SUBMITTED_COUNT'){if(!profile.dominantSubmittedCardCount)return null;condition.value=profile.dominantSubmittedCardCount;delete condition.valueSource}
+      if(condition.suitSource==='BEHAVIOR_DOMINANT_SUIT'){if(!profile.dominantSuitId)return null;condition.suit=profile.dominantSuitId;delete condition.suitSource}
+      if(condition.valueSource==='BEHAVIOR_DOMINANT_RANK_BAND'){if(!profile.dominantRankBandId)return null;condition.value=profile.dominantRankBandId;delete condition.valueSource}
       resolved.push(condition);
     }
     return resolved;
@@ -41,6 +44,13 @@
       case'HAS_MATCHED_RANK_STRUCTURE':return signals.matchedRankStructureRate??null;
       case'HAND_HAS_FLUSH':return signals.flushRate??null;
       case'DISCARDED_CARD_COUNT_AT_LEAST':return shareWhere(signals.discardedCounts,value=>value>=condition.value,plays);
+      case'SCORING_SUIT_COUNT_AT_LEAST':return signals.scoringSuitAtLeast3Rates?.[condition.suit]??null;
+      case'ALL_SCORING_CARDS_IN_RANK_BAND':return signals.allScoringRankBandRates?.[condition.value]??null;
+      case'HAND_PRIORITY_HIGHER_THAN_PREVIOUS':return signals.higherPriorityThanPreviousRate??null;
+      case'REMAINING_HANDS_EXACT':return shareWhere(signals.remainingHandCounts,value=>value===condition.value);
+      case'HAND_INDEX_EXACT':return shareWhere(signals.handIndexCounts,value=>value===condition.value);
+      case'REMAINING_DISCARDS_AT_LEAST':return shareWhere(signals.remainingDiscardCounts,value=>value>=condition.value);
+      case'MIN_SCORING_UNIQUE_SUITS':return condition.value===3?signals.scoringUniqueSuitAtLeast3Rate:null;
       default:return null;
     }
   }
@@ -68,7 +78,7 @@
   function effectCopy(type,value){if(type==='ADD_CHIPS')return`+${format(value)} 筹码`;if(type==='ADD_MULT')return`+${format(value)} 倍率`;if(type==='ADD_XMULT_RATE')return`+${format(Number(value)*100)}% 独立倍率`;return`最终倍率 ×${format(value)}`}
 
   function triggerCopy(part,variant,conditions,handTypeById){
-    const firstNumeric=[...conditions,...(variant.support?.rules||[]).flatMap(rule=>rule.conditions||[])].find(condition=>Number.isFinite(condition.value)),priority=conditions.find(condition=>condition.type==='HAND_PRIORITY_AT_LEAST')?.value,priorityHand=[...handTypeById.values()].filter(item=>item.priority>=priority).sort((a,b)=>a.priority-b.priority)[0],typeIds=conditions.flatMap(condition=>condition.type==='HAND_TYPE_IN'?condition.values||[]:condition.type==='HAND_TYPE_IS'?[condition.value]:[]),replacements={value:firstNumeric?.value,resolvedHandTypeName:priorityHand?.name||handTypeById.get(typeIds[0])?.name,resolvedHandTypeNames:typeIds.map(id=>handTypeById.get(id)?.name||id).join('或')};
+    const firstNumeric=[...conditions,...(variant.support?.rules||[]).flatMap(rule=>rule.conditions||[])].find(condition=>Number.isFinite(condition.value)),priority=conditions.find(condition=>condition.type==='HAND_PRIORITY_AT_LEAST')?.value,priorityHand=[...handTypeById.values()].filter(item=>item.priority>=priority).sort((a,b)=>a.priority-b.priority)[0],typeIds=conditions.flatMap(condition=>condition.type==='HAND_TYPE_IN'?condition.values||[]:condition.type==='HAND_TYPE_IS'?[condition.value]:[]),suit=conditions.find(condition=>condition.suit)?.suit,rankBand=conditions.find(condition=>condition.type==='ALL_SCORING_CARDS_IN_RANK_BAND')?.value,rankBandNames={low:'2至6',middle:'7至10',face:'J、Q、K',ace:'A'},replacements={value:firstNumeric?.value,resolvedHandTypeName:priorityHand?.name||handTypeById.get(typeIds[0])?.name,resolvedHandTypeNames:typeIds.map(id=>handTypeById.get(id)?.name||id).join('或'),resolvedSuitName:suit,resolvedRankBandName:rankBandNames[rankBand]||rankBand};
     return interpolate(part.copyTemplate,replacements);
   }
 
@@ -84,7 +94,17 @@
 
   function createProfile(snapshot){
     const cumulative=snapshot?.windows?.cumulative||{};
-    return{dominantHandTypeId:cumulative.dominantHandTypeId||null,secondaryHandTypeId:cumulative.secondaryHandTypeId||null,topTwoHandTypeIds:[...(cumulative.topTwoHandTypeIds||[])],upgradedHandTypeIds:(snapshot?.activeBuild?.handTypeUpgrades||[]).map(item=>item.id)};
+    return{dominantHandTypeId:cumulative.dominantHandTypeId||null,secondaryHandTypeId:cumulative.secondaryHandTypeId||null,topTwoHandTypeIds:[...(cumulative.topTwoHandTypeIds||[])],dominantSubmittedCardCount:cumulative.actions?.dominantSubmittedCardCount||null,dominantSuitId:cumulative.dominantSuitId||null,dominantRankBandId:cumulative.dominantRankBandId||null,upgradedHandTypeIds:(snapshot?.activeBuild?.handTypeUpgrades||[]).map(item=>item.id)};
+  }
+
+  function mechanismFamilyFor(part){
+    if(part.mechanismFamilyId)return part.mechanismFamilyId;
+    const id=part.id||'';
+    if(/DISCARD|HAND_SIZE|REMAINING|FIRST_PLAY|LAST_PLAY/.test(id))return'AI_FAMILY_RESOURCE';
+    if(/UNIQUE|FIRST_UNIQUE/.test(id))return'AI_FAMILY_COLLECTION';
+    if(/DIFFERENT|STREAK|PRIORITY_HIGHER/.test(id))return'AI_FAMILY_ALTERNATION';
+    if(/SUIT|RANK_BAND|COMBINED/.test(id))return'AI_FAMILY_COMBINATION';
+    return'AI_FAMILY_SPECIALIZATION';
   }
 
   function create(whitelist){
@@ -107,21 +127,26 @@
             if(!effect.directions.includes(directionId))continue;
             const baseTierIds=frequency.allowedBaseTierIds.filter(id=>effect.allowedTierIds.includes(id));
             for(const baseStrengthTierId of baseTierIds){
+              if(effect.runtimeType==='ADD_MULT'&&baseStrengthTierId!=='AI_VALUE_MULT_1')continue;
+              if(effect.runtimeType!=='ADD_MULT'&&baseStrengthTierId==='AI_VALUE_MULT_1')continue;
               const baseTier=tierById.get(baseStrengthTierId),baseValue=baseTier.values[effect.runtimeType],basePhase=whitelist.assemblyRules.effectPhaseByType[effect.runtimeType];
               for(const growth of whitelist.growthParts||[]){
                 if((growth.incompatibleTriggerTags||[]).some(tag=>(part.behaviorTags||[]).includes(tag)))continue;
                 const resolvedGrowthConditions=growth.conditionSource==='CORE_TRIGGER'?clone(conditions):resolveConditions(growth.conditions,profile);if(!resolvedGrowthConditions)continue;
                 const observedGrowthRate=growthRate(growth,resolvedGrowthConditions,observedTriggerRate,snapshot);
                 for(const growthStrengthTierId of growth.allowedPerStackTierIds||[]){
+                  if(effect.runtimeType==='ADD_MULT'&&growthStrengthTierId!=='AI_VALUE_MULT_1')continue;
+                  if(effect.runtimeType!=='ADD_MULT'&&growthStrengthTierId==='AI_VALUE_MULT_1')continue;
                   const growthTier=tierById.get(growthStrengthTierId),growthEffectType=whitelist.assemblyRules.growthEffectTypeByMainEffect[effect.runtimeType],growthValue=growthTier.values[growthEffectType],growthPhase=whitelist.assemblyRules.effectPhaseByType[growthEffectType];
                   for(const growthCap of growth.allowedCapValues||[]){
+                    if(effect.runtimeType==='ADD_MULT'&&growthCap!==1)continue;
                     const budgetMetrics=valueBudget.evaluate({runtimeNodeId,triggerFrequencyBandId:variant.frequencyBandId,mainEffectPartId:effect.id,baseStrengthTierId,growthPartId:growth.id,growthStrengthTierId,growthCap,observedTriggerRate,observedGrowthRate,confidence});if(!budgetMetrics.valid)continue;
-                    const support=clone(variant.support||{}),mainEffects=[{type:effect.runtimeType,value:baseValue,phase:basePhase},{type:growthEffectType,valuePerStack:growthValue,runtimeCounter:'growthStacks',phase:growthPhase},...(support.onTriggerEffects||[]).map(item=>({...item,phase:item.phase||'POST_COMMIT'}))],growthRule={event:growth.event,conditions:resolvedGrowthConditions,effects:[clone(growth.runtimeEffect)]},runtimeTemplate={conditions:clone(conditions),effects:mainEffects,activationLimit:clone(whitelist.assemblyRules.activationLimit),growthRules:[growthRule,...clone(support.rules||[])],caps:{growthStacks:growthCap},runtimeDefaults:{growthStacks:0,activationCountThisBattle:0,...clone(support.runtimeDefaults||{})},runtimeScopes:{growthStacks:'RUN',activationCountThisBattle:'BATTLE',...clone(support.runtimeScopes||{})}},triggerText=triggerCopy(part,variant,conditions,handTypeById),mainText=interpolate(effect.copyTemplate,{value:format(baseValue),percentValue:format(Number(baseValue)*100)}),stackText=effectCopy(growthEffectType,growthValue),growthText=`${growth.copyTemplate}，最多 ${growthCap} 层；每层额外${stackText}`;
-                    const candidate={schemaVersion:1,id:'',status:'LOCAL_LEGAL_CANDIDATE',runtimeNodeId,directionId,components:{triggerPartId:part.id,triggerVariantId:variant.id,mainEffectPartId:effect.id,baseStrengthTierId,growthPartId:growth.id,growthStrengthTierId,growthCap},behaviorTags:[...new Set([...(part.behaviorTags||[]),`EFFECT_${effect.mainAttributeType}`])].sort(),observations:{triggerRate:Number.isFinite(observedTriggerRate)?round(observedTriggerRate):null,growthRate:Number.isFinite(observedGrowthRate)?round(observedGrowthRate):null,confidence},budgetMetrics:clone(budgetMetrics),runtimeTemplate,affixPolicyRef:whitelist.affixPolicy.id,playerCopy:{trigger:triggerText,mainEffect:mainText,growth:growthText,summary:`${triggerText}时，${mainText}。${growthText}。`}};
+                    const support=clone(variant.support||{}),mainEffects=[{type:effect.runtimeType,value:baseValue,phase:basePhase},{type:growthEffectType,valuePerStack:growthValue,runtimeCounter:'growthStacks',phase:growthPhase},...(support.onTriggerEffects||[]).map(item=>({...item,phase:item.phase||'POST_COMMIT'}))],growthRule={event:growth.event,conditions:resolvedGrowthConditions,effects:[clone(growth.runtimeEffect)]},runtimeTemplate={conditions:clone(conditions),effects:mainEffects,activationLimit:clone(whitelist.assemblyRules.activationLimit),growthRules:[growthRule,...clone(support.rules||[])],caps:{growthStacks:growthCap},runtimeDefaults:{growthStacks:0,activationCountThisBattle:0,...clone(support.runtimeDefaults||{})},runtimeScopes:{growthStacks:'RUN',activationCountThisBattle:'BATTLE',...clone(support.runtimeScopes||{})}},triggerText=triggerCopy(part,variant,conditions,handTypeById),mainText=interpolate(effect.copyTemplate,{value:format(baseValue),percentValue:format(Number(baseValue)*100),percentDeltaValue:format((Number(baseValue)-1)*100)}),stackText=effectCopy(growthEffectType,growthValue),growthText=`${growth.copyTemplate}，最多 ${growthCap} 层；每层额外${stackText}`;
+                    const candidate={schemaVersion:1,id:'',status:'LOCAL_LEGAL_CANDIDATE',runtimeNodeId,directionId,mechanismFamilyId:mechanismFamilyFor(part),components:{triggerPartId:part.id,triggerVariantId:variant.id,mainEffectPartId:effect.id,baseStrengthTierId,growthPartId:growth.id,growthStrengthTierId,growthCap},behaviorTags:[...new Set([...(part.behaviorTags||[]),`EFFECT_${effect.mainAttributeType}`])].sort(),observations:{triggerRate:Number.isFinite(observedTriggerRate)?round(observedTriggerRate):null,growthRate:Number.isFinite(observedGrowthRate)?round(observedGrowthRate):null,confidence},budgetMetrics:clone(budgetMetrics),runtimeTemplate,affixPolicyRef:whitelist.affixPolicy.id,playerCopy:{trigger:triggerText,mainEffect:mainText,growth:growthText,summary:`${triggerText}时，${mainText}。${growthText}。`}};
                     candidate.mechanismFingerprint=validator.fingerprint(candidate);candidate.id=`AI_CANDIDATE_V1_${runtimeNodeId}_${hash(candidate.mechanismFingerprint)}`;
                     const observed=Number.isFinite(observedTriggerRate)?observedTriggerRate:frequency.estimatedTriggerRate,budgetFit=20-Math.abs(.82-budgetMetrics.matureBudgetUtilization)*20,triggerFit=15-Math.abs(observed-frequency.estimatedTriggerRate)*15;
                     candidate.rankScore=round(directionFit(directionId,part,growth,profile)+budgetFit+triggerFit+budgetMetrics.initialBudgetUtilization*8);
-                    candidates.push(validator.assertValid(candidate));
+                    candidates.push(candidate);
                   }
                 }
               }
@@ -130,10 +155,13 @@
         }
       }
       candidates.sort((a,b)=>b.rankScore-a.rankScore||a.id.localeCompare(b.id));
-      const selected=[],selectedIds=new Set(),triggerCounts=new Map(),effectCounts=new Map(),growthCounts=new Map(),effectLimit=Math.ceil(maxCandidates/4)+1,growthLimit=Math.ceil(maxCandidates/6)+1;
-      for(const candidate of candidates){const triggerId=candidate.components.triggerPartId,effectId=candidate.components.mainEffectPartId,growthId=candidate.components.growthPartId;if((triggerCounts.get(triggerId)||0)>=3||(effectCounts.get(effectId)||0)>=effectLimit||(growthCounts.get(growthId)||0)>=growthLimit)continue;selected.push(candidate);selectedIds.add(candidate.id);triggerCounts.set(triggerId,(triggerCounts.get(triggerId)||0)+1);effectCounts.set(effectId,(effectCounts.get(effectId)||0)+1);growthCounts.set(growthId,(growthCounts.get(growthId)||0)+1);if(selected.length>=maxCandidates)break}
+      const selected=[],selectedIds=new Set(),triggerCounts=new Map(),effectCounts=new Map(),growthCounts=new Map(),familyCounts=new Map(),effectLimit=Math.ceil(maxCandidates/4)+1,growthLimit=Math.ceil(maxCandidates/6)+1,familyLimit=Math.max(2,Math.ceil(maxCandidates/6));
+      const addCandidate=candidate=>{const triggerId=candidate.components.triggerPartId,effectId=candidate.components.mainEffectPartId,growthId=candidate.components.growthPartId,familyId=candidate.mechanismFamilyId;selected.push(candidate);selectedIds.add(candidate.id);triggerCounts.set(triggerId,(triggerCounts.get(triggerId)||0)+1);effectCounts.set(effectId,(effectCounts.get(effectId)||0)+1);growthCounts.set(growthId,(growthCounts.get(growthId)||0)+1);familyCounts.set(familyId,(familyCounts.get(familyId)||0)+1)};
+      for(const candidate of candidates){const triggerId=candidate.components.triggerPartId,familyId=candidate.mechanismFamilyId;if(triggerCounts.has(triggerId)||(familyCounts.get(familyId)||0)>=familyLimit)continue;addCandidate(candidate);if(selected.length>=maxCandidates)break}
+      for(const candidate of candidates){if(selected.length>=maxCandidates)break;if(selectedIds.has(candidate.id))continue;const triggerId=candidate.components.triggerPartId,effectId=candidate.components.mainEffectPartId,growthId=candidate.components.growthPartId,familyId=candidate.mechanismFamilyId;if((triggerCounts.get(triggerId)||0)>=3||(effectCounts.get(effectId)||0)>=effectLimit||(growthCounts.get(growthId)||0)>=growthLimit||(familyCounts.get(familyId)||0)>=familyLimit)continue;addCandidate(candidate)}
       for(const candidate of candidates){if(selected.length>=maxCandidates)break;if(selectedIds.has(candidate.id))continue;selected.push(candidate);selectedIds.add(candidate.id)}
-      return clone({schemaVersion:1,id:`AI_CANDIDATE_POOL_V1:${runtimeNodeId}:${directionId}`,runtimeNodeId,directionId,snapshotId:snapshot.id,candidateCount:selected.length,totalLegalCombinationCount:candidates.length,candidates:selected});
+      const validated=selected.map(candidate=>validator.assertValid(candidate));
+      return clone({schemaVersion:1,id:`AI_CANDIDATE_POOL_V1:${runtimeNodeId}:${directionId}`,runtimeNodeId,directionId,snapshotId:snapshot.id,candidateCount:validated.length,totalLegalCombinationCount:candidates.length,candidates:validated});
     }
     return Object.freeze({build,resolveConditions,conditionRate,combinedRate});
   }

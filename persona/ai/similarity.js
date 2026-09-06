@@ -18,7 +18,7 @@
   function metaOf(value){return value?.aiPersonaMeta||templateOf(value)?.aiPersonaMeta||{}}
   function mechanism(value){
     const template=templateOf(value),meta=metaOf(value),growthRule=(template.growthRules||[]).find(rule=>(rule.effects||[]).some(effect=>effect.type==='ADD_GROWTH_STACK'));
-    return{fingerprint:value?.mechanismFingerprint||meta.mechanismFingerprint||null,components:value?.components||meta.components||null,conditions:clone(template.conditions||[]),effectType:(template.effects||[]).find(effect=>scoringEffects.has(effect.type))?.type||null,growthEvent:growthRule?.event||null,growthConditions:clone(growthRule?.conditions||[]),behaviorTags:clone(value?.behaviorTags||meta.behaviorTags||template.tags||[])};
+    return{fingerprint:value?.mechanismFingerprint||meta.mechanismFingerprint||null,components:value?.components||meta.components||null,mechanismFamilyId:value?.mechanismFamilyId||meta.mechanismFamilyId||template.behaviorFamilyId||null,conditions:clone(template.conditions||[]),effectType:(template.effects||[]).find(effect=>scoringEffects.has(effect.type))?.type||null,growthEvent:growthRule?.event||null,growthConditions:clone(growthRule?.conditions||[]),behaviorTags:clone(value?.behaviorTags||meta.behaviorTags||template.tags||[])};
   }
   function compare(candidate,reference){
     const left=mechanism(candidate),right=mechanism(reference);
@@ -43,7 +43,12 @@
       if(blocking)rejected.push({...candidate,rejection:{reason:blocking.exact?'EXACT_MECHANISM_DUPLICATE':'TOO_SIMILAR_TO_EXISTING_PERSONA',referenceId:blocking.referenceId,scope:blocking.scope,rawScore:blocking.rawScore}});else accepted.push(candidate);
     }
     accepted.sort((a,b)=>b.adjustedRankScore-a.adjustedRankScore||a.id.localeCompare(b.id));
-    return clone({schemaVersion:1,id:`AI_SIMILARITY_RESULT_V1:${pool.runtimeNodeId}:${pool.directionId}`,runtimeNodeId:pool.runtimeNodeId,directionId:pool.directionId,sourceCandidateCount:pool.candidates.length,acceptedCount:accepted.length,rejectedCount:rejected.length,candidates:accepted.slice(0,maxCandidates),rejected});
+    const selected=[],selectedIds=new Set(),byFamily=new Map();
+    for(const candidate of accepted){const family=candidate.mechanismFamilyId||'AI_FAMILY_OTHER';if(!byFamily.has(family))byFamily.set(family,[]);byFamily.get(family).push(candidate)}
+    const families=[...byFamily.keys()].sort();let depth=0;
+    while(selected.length<maxCandidates&&families.some(family=>byFamily.get(family)[depth])){for(const family of families){const candidate=byFamily.get(family)[depth];if(candidate&&!selectedIds.has(candidate.id)){selected.push(candidate);selectedIds.add(candidate.id);if(selected.length>=maxCandidates)break}}depth++}
+    for(const candidate of accepted){if(selected.length>=maxCandidates)break;if(!selectedIds.has(candidate.id)){selected.push(candidate);selectedIds.add(candidate.id)}}
+    return clone({schemaVersion:1,id:`AI_SIMILARITY_RESULT_V1:${pool.runtimeNodeId}:${pool.directionId}`,runtimeNodeId:pool.runtimeNodeId,directionId:pool.directionId,sourceCandidateCount:pool.candidates.length,acceptedCount:accepted.length,rejectedCount:rejected.length,candidates:selected,rejected});
   }
   root.AiPersonaSimilarity=Object.freeze({SCOPES,compare,collectReferences,filterPool,mechanism});
 })(globalThis);

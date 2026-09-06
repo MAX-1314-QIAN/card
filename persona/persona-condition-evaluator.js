@@ -1,5 +1,14 @@
 (function(root){
   'use strict';
+  function cardSuit(card){return card?.suit??card?.s??null}
+  function cardRankBand(card){
+    if(card?.rankBand)return card.rankBand;
+    const rank=String(card?.rank??card?.r??''),index=Number(card?.rankIndex??card?.ri);
+    if(rank==='A')return'ace';
+    if(['J','Q','K'].includes(rank))return'face';
+    if(Number.isFinite(index))return index<=6?'low':'middle';
+    return null;
+  }
   function evaluate(condition,context,runtimeState){
     switch(condition.type){
       case'SUBMITTED_CARD_COUNT_AT_LEAST':return(context.submittedCards?.length||0)>=condition.value;
@@ -20,6 +29,13 @@
       case'MIN_UNIQUE_SUITS':return(context.uniqueSuitCount||0)>=condition.value;
       case'HAS_MATCHED_RANK_STRUCTURE':return!!context.hasMatchedRankStructure;
       case'HAND_HAS_FLUSH':return!!context.flush;
+      case'SCORING_SUIT_COUNT_AT_LEAST':return(context.scoringCards||[]).filter(card=>cardSuit(card)===condition.suit).length>=condition.value;
+      case'ALL_SCORING_CARDS_IN_RANK_BAND':{const cards=context.scoringCards||[];return cards.length>0&&cards.every(card=>cardRankBand(card)===condition.value)}
+      case'HAND_PRIORITY_HIGHER_THAN_PREVIOUS':return Number.isFinite(context.previousHandPriority)&&Number(context.handPriority)>Number(context.previousHandPriority);
+      case'REMAINING_HANDS_EXACT':return Number(context.remainingHands)===Number(condition.value);
+      case'HAND_INDEX_EXACT':return Number(context.handIndex)===Number(condition.value);
+      case'REMAINING_DISCARDS_AT_LEAST':return Number(context.remainingDiscards)>=Number(condition.value);
+      case'MIN_SCORING_UNIQUE_SUITS':return Number(context.scoringUniqueSuitCount??new Set((context.scoringCards||[]).map(cardSuit).filter(Boolean)).size)>=Number(condition.value);
       default:return false;
     }
   }

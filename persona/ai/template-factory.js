@@ -23,7 +23,7 @@
         conditions:runtime.conditions,
         effects:runtime.effects,
         qualityId:'PROTOTYPE',
-        behaviorFamilyId:null,
+        behaviorFamilyId:candidate.mechanismFamilyId||null,
         activationLimit:runtime.activationLimit,
         growthRules:runtime.growthRules,
         caps:runtime.caps,
@@ -34,7 +34,7 @@
         decisionStatus:'PROTOTYPE_ASSUMPTION',
         tone:'#725A3A',
         portrait,
-        aiPersonaMeta:{schemaVersion:1,playerFacing:false,sourceCandidateId:candidate.id,runtimeNodeId:candidate.runtimeNodeId,internalDirectionId:candidate.directionId,mechanismFingerprint:candidate.mechanismFingerprint,components:clone(candidate.components),behaviorTags:clone(candidate.behaviorTags),budgetMetrics:clone(candidate.budgetMetrics),playerCopy:clone(candidate.playerCopy)}
+        aiPersonaMeta:{schemaVersion:1,playerFacing:false,sourceCandidateId:candidate.id,runtimeNodeId:candidate.runtimeNodeId,internalDirectionId:candidate.directionId,mechanismFamilyId:candidate.mechanismFamilyId||null,mechanismFingerprint:candidate.mechanismFingerprint,components:clone(candidate.components),behaviorTags:clone(candidate.behaviorTags),budgetMetrics:clone(candidate.budgetMetrics),playerCopy:clone(candidate.playerCopy)}
       };
     }
     return Object.freeze({fromCandidate});

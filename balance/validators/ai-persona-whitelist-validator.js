@@ -5,6 +5,9 @@
   const VALID_DIRECTION_MODES=new Set(['FIXED','RANDOM_SWAP_WITHOUT_REPLACEMENT']);
   const VALID_PERSIST_SCOPES=new Set(['RUN_STATE']);
   const VALID_VALUE_SOURCES=new Set(['BEHAVIOR_DOMINANT_HAND_TYPE','BEHAVIOR_SECONDARY_HAND_TYPE']);
+  const VALID_NUMERIC_VALUE_SOURCES=new Set(['BEHAVIOR_DOMINANT_SUBMITTED_COUNT']);
+  const VALID_SUIT_SOURCES=new Set(['BEHAVIOR_DOMINANT_SUIT']);
+  const VALID_RANK_BAND_SOURCES=new Set(['BEHAVIOR_DOMINANT_RANK_BAND']);
   const VALID_VALUES_SOURCES=new Set(['BEHAVIOR_TOP_TWO_HAND_TYPES']);
 
   function nearlyEqual(a,b){return Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<1e-9}
@@ -24,12 +27,14 @@
     };
     const validateCondition=(condition,owner,runtimeDefaults={})=>{
       require(conditionTypes.has(condition?.type),`${owner} 使用了不在运行时白名单中的条件：${condition?.type}`);
-      const numericTypes=['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','SAME_HAND_TYPE_STREAK_AT_LEAST','DISCARDED_CARD_COUNT_AT_LEAST','MIN_UNIQUE_SUITS'];
-      if(numericTypes.includes(condition?.type))require(Number.isFinite(condition.value)&&condition.value>0,`${owner} 的 ${condition?.type} 必须包含正数 value`);
+      const numericTypes=['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','SAME_HAND_TYPE_STREAK_AT_LEAST','DISCARDED_CARD_COUNT_AT_LEAST','MIN_UNIQUE_SUITS','SCORING_SUIT_COUNT_AT_LEAST','REMAINING_HANDS_EXACT','HAND_INDEX_EXACT','REMAINING_DISCARDS_AT_LEAST','MIN_SCORING_UNIQUE_SUITS'];
+      if(numericTypes.includes(condition?.type))require((Number.isFinite(condition.value)&&condition.value>0)||VALID_NUMERIC_VALUE_SOURCES.has(condition.valueSource),`${owner} 的 ${condition?.type} 必须包含正数 value 或合法 valueSource`);
       if(condition?.type==='HAND_QUALITY_IS')require(['NORMAL','RARE'].includes(condition.value),`${owner} 的牌型品质条件不合法`);
       if(condition?.type==='HAND_TYPE_IS')require(typeof condition.value==='string'||VALID_VALUE_SOURCES.has(condition.valueSource),`${owner} 的 HAND_TYPE_IS 缺少合法 value/valueSource`);
       if(condition?.type==='HAND_TYPE_IN')require((Array.isArray(condition.values)&&condition.values.length>0)||VALID_VALUES_SOURCES.has(condition.valuesSource),`${owner} 的 HAND_TYPE_IN 缺少合法 values/valuesSource`);
       if(condition?.type==='PERSONA_RUNTIME_FLAG')require(typeof condition.key==='string'&&condition.key in runtimeDefaults,`${owner} 的运行时标记 ${condition?.key} 未声明默认值`);
+      if(condition?.type==='SCORING_SUIT_COUNT_AT_LEAST')require(typeof condition.suit==='string'||VALID_SUIT_SOURCES.has(condition.suitSource),`${owner} 的计分花色条件缺少合法 suit/suitSource`);
+      if(condition?.type==='ALL_SCORING_CARDS_IN_RANK_BAND')require(['low','middle','face','ace'].includes(condition.value)||VALID_RANK_BAND_SOURCES.has(condition.valueSource),`${owner} 的点数段条件缺少合法 value/valueSource`);
     };
     const validateRuntimeEffect=(effect,owner,runtimeDefaults={})=>{
       require(runtimeEffectTypes.has(effect?.type),`${owner} 使用了不在运行时白名单中的效果：${effect?.type}`);
@@ -47,6 +52,9 @@
     require(directionIds.size===3,'AI 人格必须且只能包含桥接、破局、顺势三个内部方向');
     for(const expected of ['AI_DIRECTION_BRIDGE','AI_DIRECTION_BREAK','AI_DIRECTION_FOLLOW'])require(directionIds.has(expected),`AI 人格缺少内部方向 ${expected}`);
     for(const direction of config?.directions||[])require(direction.playerFacing===false,`内部方向 ${direction.id} 不得展示给玩家`);
+    const familyIds=unique(config?.mechanismFamilies,'AI 人格机制家族');
+    require(familyIds.size===6,'AI 人格必须配置6个内部机制家族');
+    for(const family of config?.mechanismFamilies||[])require(family.playerFacing===false,`内部机制家族 ${family.id} 不得展示给玩家`);
 
     const nodePolicyIds=unique(config?.nodePolicies,'AI 人格节点策略');
     require(nodePolicyIds.size===3,'AI 人格必须配置 N04/N08/N12 三个生成节点');
@@ -109,6 +117,7 @@
     const triggerIds=unique(config?.triggerParts,'AI 人格触发零件'),variantIds=new Set();
     require(triggerIds.size>=16,'AI 人格 V1 触发零件数量不足');
     for(const part of config?.triggerParts||[]){
+      if(part.mechanismFamilyId)require(familyIds.has(part.mechanismFamilyId),`AI 人格触发零件 ${part.id} 引用了未知机制家族`);
       require(Array.isArray(part.directions)&&part.directions.length>0,`AI 人格触发零件 ${part.id} 缺少适用方向`);
       for(const directionId of part.directions||[])require(directionIds.has(directionId),`AI 人格触发零件 ${part.id} 引用了未知方向 ${directionId}`);
       require(Array.isArray(part.behaviorTags)&&part.behaviorTags.length>0,`AI 人格触发零件 ${part.id} 缺少行为标签`);

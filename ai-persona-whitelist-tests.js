@@ -32,8 +32,10 @@ assert.deepStrictEqual(
 );
 assert.deepStrictEqual(Array.from(whitelist.nodePolicies.find(item=>item.runtimeNodeId==='N12').directionIds),['AI_DIRECTION_FOLLOW']);
 
-assert.strictEqual(whitelist.triggerParts.length,20);
+assert.strictEqual(whitelist.triggerParts.length,30);
 assert.ok(whitelist.triggerParts.reduce((sum,item)=>sum+item.variants.length,0)>=35);
+assert.strictEqual(whitelist.mechanismFamilies.length,6);
+assert.ok(whitelist.mechanismFamilies.every(item=>item.playerFacing===false));
 assert.strictEqual(whitelist.mainEffectParts.length,4);
 assert.strictEqual(whitelist.growthParts.length,6);
 assert.strictEqual(whitelist.assemblyRules.requireGrowthPart,true);
@@ -65,7 +67,7 @@ function invalidAfter(change){
   const clone=JSON.parse(JSON.stringify(whitelist));
   change(clone);
   return validator.validate(clone,{
-    conditionTypes:new Set(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','HAND_QUALITY_IS','HAND_TYPE_IS','HAND_TYPE_IN','SAME_HAND_TYPE_STREAK_AT_LEAST','DIFFERENT_FROM_PREVIOUS_HAND','DISCARDED_CARD_COUNT_AT_LEAST','PERSONA_RUNTIME_FLAG','UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN','HAND_HAS_STRAIGHT','MIN_UNIQUE_SUITS','HAS_MATCHED_RANK_STRUCTURE','HAND_HAS_FLUSH']),
+    conditionTypes:new Set(['SUBMITTED_CARD_COUNT_AT_LEAST','SUBMITTED_CARD_COUNT_AT_MOST','SUBMITTED_CARD_COUNT_EXACT','SCORING_CARD_COUNT_AT_LEAST','CURRENT_HAND_CARD_COUNT_BELOW','HAND_PRIORITY_AT_LEAST','HAND_QUALITY_IS','HAND_TYPE_IS','HAND_TYPE_IN','SAME_HAND_TYPE_STREAK_AT_LEAST','DIFFERENT_FROM_PREVIOUS_HAND','DISCARDED_CARD_COUNT_AT_LEAST','PERSONA_RUNTIME_FLAG','UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN','HAND_HAS_STRAIGHT','MIN_UNIQUE_SUITS','HAS_MATCHED_RANK_STRUCTURE','HAND_HAS_FLUSH','SCORING_SUIT_COUNT_AT_LEAST','ALL_SCORING_CARDS_IN_RANK_BAND','HAND_PRIORITY_HIGHER_THAN_PREVIOUS','REMAINING_HANDS_EXACT','HAND_INDEX_EXACT','REMAINING_DISCARDS_AT_LEAST','MIN_SCORING_UNIQUE_SUITS']),
     runtimeEffectTypes:new Set(['ADD_CHIPS','ADD_MULT','MULTIPLY_FINAL','ADD_XMULT_RATE','ADD_COINS','ADD_HAND_LIMIT','ADD_DISCARD_LIMIT','SET_RUNTIME_FLAG','CLEAR_RUNTIME_FLAG','ADD_RUNTIME_COUNTER','ADD_GROWTH_STACK']),
     shop:manifest.shop,
     nodesById:new Map(manifest.stageNodes.map(item=>[item.id,item]))

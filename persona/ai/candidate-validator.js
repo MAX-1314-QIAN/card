@@ -6,7 +6,7 @@
   const containsDynamicSource=value=>{if(!value||typeof value!=='object')return false;if(Object.prototype.hasOwnProperty.call(value,'valueSource')||Object.prototype.hasOwnProperty.call(value,'valuesSource'))return true;return Object.values(value).some(containsDynamicSource)};
   function fingerprint(candidate){
     const components=candidate?.components||{};
-    return JSON.stringify({triggerPartId:components.triggerPartId,triggerVariantId:components.triggerVariantId,resolvedConditions:candidate?.runtimeTemplate?.conditions||[],mainEffectPartId:components.mainEffectPartId,baseStrengthTierId:components.baseStrengthTierId,growthPartId:components.growthPartId,growthConditions:candidate?.runtimeTemplate?.growthRules?.[0]?.conditions||[],growthStrengthTierId:components.growthStrengthTierId,growthCap:components.growthCap,behaviorTags:[...(candidate?.behaviorTags||[])].sort()});
+    return JSON.stringify({mechanismFamilyId:candidate?.mechanismFamilyId||null,triggerPartId:components.triggerPartId,triggerVariantId:components.triggerVariantId,resolvedConditions:candidate?.runtimeTemplate?.conditions||[],mainEffectPartId:components.mainEffectPartId,baseStrengthTierId:components.baseStrengthTierId,growthPartId:components.growthPartId,growthConditions:candidate?.runtimeTemplate?.growthRules?.[0]?.conditions||[],growthStrengthTierId:components.growthStrengthTierId,growthCap:components.growthCap,behaviorTags:[...(candidate?.behaviorTags||[])].sort()});
   }
 
   function create(whitelist){
@@ -18,6 +18,7 @@
       require(candidate?.schemaVersion===1,'候选 schemaVersion 必须为 1');
       require(typeof candidate?.id==='string'&&candidate.id.startsWith('AI_CANDIDATE_V1_'),'候选 ID 不合法');
       require(candidate?.status==='LOCAL_LEGAL_CANDIDATE','候选状态不合法');
+      require(typeof candidate?.mechanismFamilyId==='string'&&candidate.mechanismFamilyId.length>0,'候选缺少机制家族');
       require(!!direction,'候选引用未知内部方向');
       require(!!policy&&policy.directionIds.includes(candidate?.directionId),'候选方向不适用于当前生成节点');
       require(!!trigger&&trigger.directions.includes(candidate?.directionId),'候选触发零件不适用于内部方向');

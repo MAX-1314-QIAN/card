@@ -18,7 +18,7 @@
       return selected?{ok:true,kind:'LIBRARY_PERSONA',reason:'NO_DISTINCT_LOCAL_CANDIDATE',runtimeNodeId,templateId:selected.template.id,template:clone(selected.template),maxSimilarity:selected.maxSimilarity}:{ok:false,kind:'NO_RESULT',reason:'NO_DISTINCT_LOCAL_OR_LIBRARY_CANDIDATE',runtimeNodeId};
     }
     function prepare({snapshot,directionId,handTypes=[],references=[],maxCandidates=12}={}){
-      const rawPool=builder.build({snapshot,directionId,handTypes,maxCandidates:24}),filtered=root.AiPersonaSimilarity.filterPool(rawPool,{references,maxCandidates});
+      const rawPool=builder.build({snapshot,directionId,handTypes,maxCandidates:Math.max(96,maxCandidates*8)}),filtered=root.AiPersonaSimilarity.filterPool(rawPool,{references,maxCandidates});
       return{runtimeNodeId:snapshot?.runtimeNodeId,snapshotId:snapshot?.id||null,directionId,rawPool,filtered};
     }
     function generate({snapshot,directionId,handTypes=[],references=[],selectedCandidateId=null,sequenceNumber,portrait=null,fallbackTemplates=[],maxCandidates=12,prepared=null}={}){

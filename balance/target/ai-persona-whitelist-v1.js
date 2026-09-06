@@ -4,7 +4,7 @@
   const directions={bridge:'AI_DIRECTION_BRIDGE',break:'AI_DIRECTION_BREAK',follow:'AI_DIRECTION_FOLLOW'};
   const allDirections=[directions.bridge,directions.break,directions.follow];
   const bridgeBreak=[directions.bridge,directions.break];
-  const strengthTierIds=['AI_VALUE_050','AI_VALUE_100','AI_VALUE_150','AI_VALUE_200','AI_VALUE_300','AI_VALUE_400'];
+  const strengthTierIds=['AI_VALUE_050','AI_VALUE_100','AI_VALUE_150','AI_VALUE_200','AI_VALUE_250','AI_VALUE_300','AI_VALUE_MULT_1','AI_VALUE_350','AI_VALUE_400','AI_VALUE_450','AI_VALUE_500'];
   const aiSubAffixes=modules.targetAiPersonaSubAffixes;
 
   modules.targetAiPersonaWhitelist={
@@ -19,6 +19,14 @@
       {id:directions.bridge,playerFacing:false,description:'保留部分现有打法，同时连接另一条可用路线。'},
       {id:directions.break,playerFacing:false,description:'提供不依赖当前主路线的可触发解法。'},
       {id:directions.follow,playerFacing:false,description:'围绕已经稳定形成的主要打法继续强化。'}
+    ],
+    mechanismFamilies:[
+      {id:'AI_FAMILY_SPECIALIZATION',playerFacing:false,description:'围绕牌型、张数、花色或点数形成稳定专精。'},
+      {id:'AI_FAMILY_ALTERNATION',playerFacing:false,description:'通过前后手变化形成递进或交替。'},
+      {id:'AI_FAMILY_COLLECTION',playerFacing:false,description:'通过首次发现不同结构积累成长。'},
+      {id:'AI_FAMILY_CHARGE',playerFacing:false,description:'先完成准备动作，再在后续出牌兑现。'},
+      {id:'AI_FAMILY_RESOURCE',playerFacing:false,description:'围绕出牌、弃牌和行动时机取舍。'},
+      {id:'AI_FAMILY_COMBINATION',playerFacing:false,description:'同时满足牌型、花色、点数等复合条件。'}
     ],
     nodePolicies:[
       {id:'AI_NODE_POLICY_N04',runtimeNodeId:'N04',afterBattleNumber:3,directionMode:'RANDOM_SWAP_WITHOUT_REPLACEMENT',swapGroupId:'AI_DIRECTION_SWAP_EARLY',directionIds:bridgeBreak,persistScope:'RUN_STATE',playerFacing:false},
@@ -36,7 +44,7 @@
       mainAttributeTypeByEffect:{ADD_CHIPS:'BASE_CHIPS',ADD_MULT:'BASE_MULT',ADD_XMULT_RATE:'XMULT_RATE',MULTIPLY_FINAL:'XMULT_RATE'},
       effectPhaseByType:{ADD_CHIPS:'PERSONA_ADDITIVE',ADD_MULT:'PERSONA_ADDITIVE',ADD_XMULT_RATE:'PERSONA_ADDITIVE',MULTIPLY_FINAL:'PERSONA_FINAL'},
       growthEffectTypeByMainEffect:{ADD_CHIPS:'ADD_CHIPS',ADD_MULT:'ADD_MULT',ADD_XMULT_RATE:'ADD_XMULT_RATE',MULTIPLY_FINAL:'ADD_XMULT_RATE'},
-      mechanismFingerprintFields:['triggerPartId','triggerVariantId','resolvedConditions','mainEffectPartId','baseStrengthTierId','growthPartId','growthConditions','growthStrengthTierId','growthCap','behaviorTags'],
+      mechanismFingerprintFields:['mechanismFamilyId','triggerPartId','triggerVariantId','resolvedConditions','mainEffectPartId','baseStrengthTierId','growthPartId','growthConditions','growthStrengthTierId','growthCap','behaviorTags'],
       directionAssignmentStateKey:'aiPersonaDirectionByNode',
       localFallbackRequired:true,
       aiMayReturnOnlyIds:true
@@ -65,15 +73,20 @@
       {id:'AI_VALUE_100',units:1,values:{ADD_CHIPS:10,ADD_MULT:.3,ADD_XMULT_RATE:.1,MULTIPLY_FINAL:1.1}},
       {id:'AI_VALUE_150',units:1.5,values:{ADD_CHIPS:15,ADD_MULT:.45,ADD_XMULT_RATE:.15,MULTIPLY_FINAL:1.15}},
       {id:'AI_VALUE_200',units:2,values:{ADD_CHIPS:20,ADD_MULT:.6,ADD_XMULT_RATE:.2,MULTIPLY_FINAL:1.2}},
+      {id:'AI_VALUE_250',units:2.5,values:{ADD_CHIPS:25,ADD_MULT:.75,ADD_XMULT_RATE:.25,MULTIPLY_FINAL:1.25}},
       {id:'AI_VALUE_300',units:3,values:{ADD_CHIPS:30,ADD_MULT:.9,ADD_XMULT_RATE:.3,MULTIPLY_FINAL:1.3}},
-      {id:'AI_VALUE_400',units:4,values:{ADD_CHIPS:40,ADD_MULT:1.2,ADD_XMULT_RATE:.4,MULTIPLY_FINAL:1.4}}
+      {id:'AI_VALUE_MULT_1',units:10/3,values:{ADD_CHIPS:100/3,ADD_MULT:1,ADD_XMULT_RATE:1/3,MULTIPLY_FINAL:4/3}},
+      {id:'AI_VALUE_350',units:3.5,values:{ADD_CHIPS:35,ADD_MULT:1.05,ADD_XMULT_RATE:.35,MULTIPLY_FINAL:1.35}},
+      {id:'AI_VALUE_400',units:4,values:{ADD_CHIPS:40,ADD_MULT:1.2,ADD_XMULT_RATE:.4,MULTIPLY_FINAL:1.4}},
+      {id:'AI_VALUE_450',units:4.5,values:{ADD_CHIPS:45,ADD_MULT:1.35,ADD_XMULT_RATE:.45,MULTIPLY_FINAL:1.45}},
+      {id:'AI_VALUE_500',units:5,values:{ADD_CHIPS:50,ADD_MULT:1.5,ADD_XMULT_RATE:.5,MULTIPLY_FINAL:1.5}}
     ],
     frequencyBands:[
-      {id:'AI_FREQ_VERY_HIGH',estimatedTriggerRate:.75,allowedBaseTierIds:['AI_VALUE_050','AI_VALUE_100'],tuningStatus:'PROTOTYPE_ASSUMPTION'},
-      {id:'AI_FREQ_HIGH',estimatedTriggerRate:.6,allowedBaseTierIds:['AI_VALUE_100','AI_VALUE_150'],tuningStatus:'PROTOTYPE_ASSUMPTION'},
-      {id:'AI_FREQ_MEDIUM',estimatedTriggerRate:.4,allowedBaseTierIds:['AI_VALUE_150','AI_VALUE_200'],tuningStatus:'PROTOTYPE_ASSUMPTION'},
-      {id:'AI_FREQ_LOW',estimatedTriggerRate:.25,allowedBaseTierIds:['AI_VALUE_200','AI_VALUE_300'],tuningStatus:'PROTOTYPE_ASSUMPTION'},
-      {id:'AI_FREQ_RARE',estimatedTriggerRate:.15,allowedBaseTierIds:['AI_VALUE_300','AI_VALUE_400'],tuningStatus:'PROTOTYPE_ASSUMPTION'}
+      {id:'AI_FREQ_VERY_HIGH',estimatedTriggerRate:.75,allowedBaseTierIds:strengthTierIds,tuningStatus:'PROTOTYPE_ASSUMPTION'},
+      {id:'AI_FREQ_HIGH',estimatedTriggerRate:.5,allowedBaseTierIds:strengthTierIds,tuningStatus:'PROTOTYPE_ASSUMPTION'},
+      {id:'AI_FREQ_MEDIUM',estimatedTriggerRate:.4,allowedBaseTierIds:strengthTierIds,tuningStatus:'PROTOTYPE_ASSUMPTION'},
+      {id:'AI_FREQ_LOW',estimatedTriggerRate:.25,allowedBaseTierIds:strengthTierIds,tuningStatus:'PROTOTYPE_ASSUMPTION'},
+      {id:'AI_FREQ_RARE',estimatedTriggerRate:.15,allowedBaseTierIds:strengthTierIds,tuningStatus:'PROTOTYPE_ASSUMPTION'}
     ],
     triggerParts:[
       {id:'AI_TRIGGER_SUBMITTED_AT_LEAST',directions:allDirections,behaviorTags:['CARD_COUNT','WIDE_PLAY'],copyTemplate:'打出至少 {value} 张牌',variants:[
@@ -129,30 +142,51 @@
         {id:'AI_TRIGGER_MATCHED_RANKS_FIXED',conditions:[{type:'HAS_MATCHED_RANK_STRUCTURE'}],frequencyBandId:'AI_FREQ_HIGH'}]},
       {id:'AI_TRIGGER_FLUSH',directions:[directions.bridge,directions.follow],behaviorTags:['HAND_STRUCTURE','FLUSH'],copyTemplate:'打出同花或同花顺',variants:[
         {id:'AI_TRIGGER_FLUSH_FIXED',conditions:[{type:'HAND_HAS_FLUSH'}],frequencyBandId:'AI_FREQ_LOW'}]},
-      {id:'AI_TRIGGER_NEXT_PLAY_AFTER_DISCARD',directions:[directions.bridge,directions.break],behaviorTags:['DISCARD','CHARGE','STATE_CONSUMING'],copyTemplate:'一次弃掉至少 {value} 张牌后的下一手',variants:[
+      {id:'AI_TRIGGER_NEXT_PLAY_AFTER_DISCARD',mechanismFamilyId:'AI_FAMILY_CHARGE',directions:[directions.bridge,directions.break],behaviorTags:['DISCARD','CHARGE','STATE_CONSUMING'],copyTemplate:'一次弃掉至少 {value} 张牌后的下一手',variants:[
         {id:'AI_TRIGGER_NEXT_PLAY_AFTER_DISCARD_1',conditions:[{type:'PERSONA_RUNTIME_FLAG',key:'charged',value:true}],frequencyBandId:'AI_FREQ_HIGH',support:{runtimeDefaults:{charged:false},runtimeScopes:{charged:'BATTLE'},rules:[{event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:1}],effects:[{type:'SET_RUNTIME_FLAG',key:'charged',value:true}]}],onTriggerEffects:[{type:'CLEAR_RUNTIME_FLAG',key:'charged'}]}},
+        {id:'AI_TRIGGER_NEXT_PLAY_AFTER_DISCARD_2',conditions:[{type:'PERSONA_RUNTIME_FLAG',key:'charged',value:true}],frequencyBandId:'AI_FREQ_MEDIUM',support:{runtimeDefaults:{charged:false},runtimeScopes:{charged:'BATTLE'},rules:[{event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2}],effects:[{type:'SET_RUNTIME_FLAG',key:'charged',value:true}]}],onTriggerEffects:[{type:'CLEAR_RUNTIME_FLAG',key:'charged'}]}},
         {id:'AI_TRIGGER_NEXT_PLAY_AFTER_DISCARD_3',conditions:[{type:'PERSONA_RUNTIME_FLAG',key:'charged',value:true}],frequencyBandId:'AI_FREQ_LOW',support:{runtimeDefaults:{charged:false},runtimeScopes:{charged:'BATTLE'},rules:[{event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:3}],effects:[{type:'SET_RUNTIME_FLAG',key:'charged',value:true}]}],onTriggerEffects:[{type:'CLEAR_RUNTIME_FLAG',key:'charged'}]}}]},
       {id:'AI_TRIGGER_NO_DISCARD_SINCE_PLAY',directions:[directions.bridge,directions.follow],behaviorTags:['DISCARD','PRESERVATION'],copyTemplate:'上一手出牌后没有弃过牌',variants:[
-        {id:'AI_TRIGGER_NO_DISCARD_SINCE_PLAY_FIXED',conditions:[{type:'PERSONA_RUNTIME_FLAG',key:'discardedSinceLastPlay',value:false}],frequencyBandId:'AI_FREQ_HIGH',support:{runtimeDefaults:{discardedSinceLastPlay:false},runtimeScopes:{discardedSinceLastPlay:'BATTLE'},rules:[{event:'DISCARD_COMMITTED',conditions:[],effects:[{type:'SET_RUNTIME_FLAG',key:'discardedSinceLastPlay',value:true}]},{event:'HAND_COMMITTED',conditions:[],effects:[{type:'SET_RUNTIME_FLAG',key:'discardedSinceLastPlay',value:false}]}],onTriggerEffects:[]}}]}
+        {id:'AI_TRIGGER_NO_DISCARD_SINCE_PLAY_FIXED',conditions:[{type:'PERSONA_RUNTIME_FLAG',key:'discardedSinceLastPlay',value:false}],frequencyBandId:'AI_FREQ_HIGH',support:{runtimeDefaults:{discardedSinceLastPlay:false},runtimeScopes:{discardedSinceLastPlay:'BATTLE'},rules:[{event:'DISCARD_COMMITTED',conditions:[],effects:[{type:'SET_RUNTIME_FLAG',key:'discardedSinceLastPlay',value:true}]},{event:'HAND_COMMITTED',conditions:[],effects:[{type:'SET_RUNTIME_FLAG',key:'discardedSinceLastPlay',value:false}]}],onTriggerEffects:[]}}]},
+      {id:'AI_TRIGGER_DOMINANT_HAND_EXACT',mechanismFamilyId:'AI_FAMILY_SPECIALIZATION',directions:[directions.bridge,directions.follow],behaviorTags:['HAND_TYPE','CARD_COUNT','EXACT_COUNT','DOMINANT_STYLE'],copyTemplate:'打出 {resolvedHandTypeName}，且恰好使用 {value} 张牌',variants:[
+        {id:'AI_TRIGGER_DOMINANT_HAND_EXACT_DYNAMIC',conditions:[{type:'HAND_TYPE_IS',valueSource:'BEHAVIOR_DOMINANT_HAND_TYPE'},{type:'SUBMITTED_CARD_COUNT_EXACT',valueSource:'BEHAVIOR_DOMINANT_SUBMITTED_COUNT'}],frequencyBandId:'AI_FREQ_MEDIUM'}]},
+      {id:'AI_TRIGGER_SCORING_DOMINANT_SUIT_3',mechanismFamilyId:'AI_FAMILY_SPECIALIZATION',directions:[directions.bridge,directions.follow],behaviorTags:['SUIT','DOMINANT_STYLE','SCORING_CARDS'],copyTemplate:'计分牌中至少有 3 张 {resolvedSuitName}',variants:[
+        {id:'AI_TRIGGER_SCORING_DOMINANT_SUIT_3_DYNAMIC',conditions:[{type:'SCORING_SUIT_COUNT_AT_LEAST',suitSource:'BEHAVIOR_DOMINANT_SUIT',value:3}],frequencyBandId:'AI_FREQ_MEDIUM'}]},
+      {id:'AI_TRIGGER_DOMINANT_RANK_BAND',mechanismFamilyId:'AI_FAMILY_SPECIALIZATION',directions:[directions.bridge,directions.break],behaviorTags:['RANK_BAND','SCORING_CARDS'],copyTemplate:'所有计分牌均为 {resolvedRankBandName}',variants:[
+        {id:'AI_TRIGGER_DOMINANT_RANK_BAND_DYNAMIC',conditions:[{type:'ALL_SCORING_CARDS_IN_RANK_BAND',valueSource:'BEHAVIOR_DOMINANT_RANK_BAND'}],frequencyBandId:'AI_FREQ_MEDIUM'}]},
+      {id:'AI_TRIGGER_PRIORITY_HIGHER_THAN_PREVIOUS',mechanismFamilyId:'AI_FAMILY_ALTERNATION',directions:[directions.bridge,directions.follow],behaviorTags:['HAND_HISTORY','HAND_QUALITY','PROGRESSION'],copyTemplate:'打出比上一手更高等级的牌型',variants:[
+        {id:'AI_TRIGGER_PRIORITY_HIGHER_THAN_PREVIOUS_FIXED',conditions:[{type:'HAND_PRIORITY_HIGHER_THAN_PREVIOUS'}],frequencyBandId:'AI_FREQ_LOW'}]},
+      {id:'AI_TRIGGER_NO_DISCARD_THIS_BATTLE',mechanismFamilyId:'AI_FAMILY_RESOURCE',directions:[directions.bridge,directions.break],behaviorTags:['DISCARD','PRESERVATION','BATTLE_STATE'],copyTemplate:'本场尚未使用弃牌时出牌',variants:[
+        {id:'AI_TRIGGER_NO_DISCARD_THIS_BATTLE_FIXED',conditions:[{type:'PERSONA_RUNTIME_FLAG',key:'discardedThisBattle',value:false}],frequencyBandId:'AI_FREQ_MEDIUM',support:{runtimeDefaults:{discardedThisBattle:false},runtimeScopes:{discardedThisBattle:'BATTLE'},rules:[{event:'DISCARD_COMMITTED',conditions:[],effects:[{type:'SET_RUNTIME_FLAG',key:'discardedThisBattle',value:true}]}],onTriggerEffects:[]}}]},
+      {id:'AI_TRIGGER_LAST_PLAY_THIS_BATTLE',mechanismFamilyId:'AI_FAMILY_RESOURCE',directions:[directions.break,directions.follow],behaviorTags:['HANDS','RISK','BATTLE_STATE'],copyTemplate:'使用本场最后一次出牌机会',variants:[
+        {id:'AI_TRIGGER_LAST_PLAY_THIS_BATTLE_FIXED',conditions:[{type:'REMAINING_HANDS_EXACT',value:1}],frequencyBandId:'AI_FREQ_RARE'}]},
+      {id:'AI_TRIGGER_FIRST_PLAY_THIS_BATTLE',mechanismFamilyId:'AI_FAMILY_RESOURCE',directions:[directions.bridge,directions.break],behaviorTags:['HANDS','OPENING','BATTLE_STATE'],copyTemplate:'本场第一次出牌',variants:[
+        {id:'AI_TRIGGER_FIRST_PLAY_THIS_BATTLE_FIXED',conditions:[{type:'HAND_INDEX_EXACT',value:1}],frequencyBandId:'AI_FREQ_LOW'}]},
+      {id:'AI_TRIGGER_REMAINING_DISCARDS_2',mechanismFamilyId:'AI_FAMILY_RESOURCE',directions:[directions.bridge,directions.break],behaviorTags:['DISCARD','PRESERVATION','BATTLE_STATE'],copyTemplate:'至少保留 2 次弃牌机会时出牌',variants:[
+        {id:'AI_TRIGGER_REMAINING_DISCARDS_2_FIXED',conditions:[{type:'REMAINING_DISCARDS_AT_LEAST',value:2}],frequencyBandId:'AI_FREQ_MEDIUM'}]},
+      {id:'AI_TRIGGER_DOMINANT_HAND_AND_SUIT',mechanismFamilyId:'AI_FAMILY_COMBINATION',directions:[directions.bridge,directions.follow],behaviorTags:['HAND_TYPE','SUIT','DOMINANT_STYLE','COMBINATION'],copyTemplate:'打出 {resolvedHandTypeName}，且计分牌中至少有 3 张 {resolvedSuitName}',variants:[
+        {id:'AI_TRIGGER_DOMINANT_HAND_AND_SUIT_DYNAMIC',conditions:[{type:'HAND_TYPE_IS',valueSource:'BEHAVIOR_DOMINANT_HAND_TYPE'},{type:'SCORING_SUIT_COUNT_AT_LEAST',suitSource:'BEHAVIOR_DOMINANT_SUIT',value:3}],frequencyBandId:'AI_FREQ_LOW'}]},
+      {id:'AI_TRIGGER_SCORING_SUIT_DIVERSITY_3',mechanismFamilyId:'AI_FAMILY_COMBINATION',directions:[directions.bridge,directions.break],behaviorTags:['SUIT','DIVERSITY','SCORING_CARDS','COMBINATION'],copyTemplate:'计分牌包含至少 3 种花色',variants:[
+        {id:'AI_TRIGGER_SCORING_SUIT_DIVERSITY_3_FIXED',conditions:[{type:'MIN_SCORING_UNIQUE_SUITS',value:3}],frequencyBandId:'AI_FREQ_MEDIUM'}]}
     ],
     mainEffectParts:[
-      {id:'AI_EFFECT_CHIPS',runtimeType:'ADD_CHIPS',mainAttributeType:'BASE_CHIPS',copyTemplate:'+{value} 筹码',allowedTierIds:strengthTierIds,directions:allDirections},
-      {id:'AI_EFFECT_MULT',runtimeType:'ADD_MULT',mainAttributeType:'BASE_MULT',copyTemplate:'+{value} 倍率',allowedTierIds:strengthTierIds,directions:allDirections},
-      {id:'AI_EFFECT_XMULT_RATE',runtimeType:'ADD_XMULT_RATE',mainAttributeType:'XMULT_RATE',copyTemplate:'+{percentValue}% 独立倍率',allowedTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_150','AI_VALUE_200'],directions:allDirections},
-      {id:'AI_EFFECT_FINAL_MULTIPLIER',runtimeType:'MULTIPLY_FINAL',mainAttributeType:'XMULT_RATE',copyTemplate:'最终倍率 ×{value}',allowedTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_150','AI_VALUE_200','AI_VALUE_300'],directions:allDirections}
+      {id:'AI_EFFECT_CHIPS',runtimeType:'ADD_CHIPS',mainAttributeType:'BASE_CHIPS',copyTemplate:'+{value} 筹码',allowedTierIds:strengthTierIds.filter(id=>id!=='AI_VALUE_MULT_1'),directions:allDirections},
+      {id:'AI_EFFECT_MULT',runtimeType:'ADD_MULT',mainAttributeType:'BASE_MULT',copyTemplate:'+{value} 倍率',allowedTierIds:['AI_VALUE_MULT_1'],directions:allDirections},
+      {id:'AI_EFFECT_XMULT_RATE',runtimeType:'ADD_XMULT_RATE',mainAttributeType:'XMULT_RATE',copyTemplate:'+{percentValue}% 独立倍率',allowedTierIds:strengthTierIds.filter(id=>id!=='AI_VALUE_MULT_1'),directions:allDirections},
+      {id:'AI_EFFECT_FINAL_MULTIPLIER',runtimeType:'MULTIPLY_FINAL',mainAttributeType:'XMULT_RATE',copyTemplate:'最终得分提高 {percentDeltaValue}%',allowedTierIds:strengthTierIds.filter(id=>id!=='AI_VALUE_MULT_1'),directions:allDirections}
     ],
     growthParts:[
-      {id:'AI_GROWTH_CORE_TRIGGER',event:'HAND_COMMITTED',conditionSource:'CORE_TRIGGER',frequencyBandSource:'CORE_TRIGGER',copyTemplate:'每次触发时，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100'],incompatibleTriggerTags:['STATE_CONSUMING']},
-      {id:'AI_GROWTH_FIRST_UNIQUE_HAND',event:'HAND_COMMITTED',conditions:[{type:'UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN'}],frequencyBandId:'AI_FREQ_LOW',copyTemplate:'每首次打出一种牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']},
-      {id:'AI_GROWTH_DIFFERENT_HAND',event:'HAND_COMMITTED',conditions:[{type:'DIFFERENT_FROM_PREVIOUS_HAND'}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每打出与上一手不同的牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']},
-      {id:'AI_GROWTH_SUIT_DIVERSITY',event:'HAND_COMMITTED',conditions:[{type:'MIN_UNIQUE_SUITS',value:3}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每打出至少 3 种花色，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050']},
-      {id:'AI_GROWTH_MATCHED_RANKS',event:'HAND_COMMITTED',conditions:[{type:'HAS_MATCHED_RANK_STRUCTURE'}],frequencyBandId:'AI_FREQ_HIGH',copyTemplate:'每打出同点数结构，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050']},
-      {id:'AI_GROWTH_DISCARD_TWO',event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每次弃掉至少 2 张牌，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100']}
+      {id:'AI_GROWTH_CORE_TRIGGER',event:'HAND_COMMITTED',conditionSource:'CORE_TRIGGER',frequencyBandSource:'CORE_TRIGGER',copyTemplate:'每次触发时，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[1,2,3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_MULT_1'],incompatibleTriggerTags:['STATE_CONSUMING']},
+      {id:'AI_GROWTH_FIRST_UNIQUE_HAND',event:'HAND_COMMITTED',conditions:[{type:'UNIQUE_HAND_TYPE_FIRST_TIME_THIS_RUN'}],frequencyBandId:'AI_FREQ_LOW',copyTemplate:'每首次打出一种牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[1,2,3,4,5],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_MULT_1']},
+      {id:'AI_GROWTH_DIFFERENT_HAND',event:'HAND_COMMITTED',conditions:[{type:'DIFFERENT_FROM_PREVIOUS_HAND'}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每打出与上一手不同的牌型，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[1,2,3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_MULT_1']},
+      {id:'AI_GROWTH_SUIT_DIVERSITY',event:'HAND_COMMITTED',conditions:[{type:'MIN_UNIQUE_SUITS',value:3}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每打出至少 3 种花色，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[1,2,3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_MULT_1']},
+      {id:'AI_GROWTH_MATCHED_RANKS',event:'HAND_COMMITTED',conditions:[{type:'HAS_MATCHED_RANK_STRUCTURE'}],frequencyBandId:'AI_FREQ_HIGH',copyTemplate:'每打出同点数结构，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[1,2,3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_MULT_1']},
+      {id:'AI_GROWTH_DISCARD_TWO',event:'DISCARD_COMMITTED',conditions:[{type:'DISCARDED_CARD_COUNT_AT_LEAST',value:2}],frequencyBandId:'AI_FREQ_MEDIUM',copyTemplate:'每次弃掉至少 2 张牌，成长 1 层',runtimeEffect:{type:'ADD_GROWTH_STACK',runtimeCounter:'growthStacks',value:1},allowedCapValues:[1,2,3,4],allowedPerStackTierIds:['AI_VALUE_050','AI_VALUE_100','AI_VALUE_MULT_1']}
     ],
     numericBudgets:[
-      {id:'AI_BUDGET_N04',runtimeNodeId:'N04',maxInitialExpectedUnitsPerHand:.9,maxMatureExpectedUnitsPerHand:1.8,tuningStatus:'PROTOTYPE_ASSUMPTION'},
-      {id:'AI_BUDGET_N08',runtimeNodeId:'N08',maxInitialExpectedUnitsPerHand:1,maxMatureExpectedUnitsPerHand:2,tuningStatus:'PROTOTYPE_ASSUMPTION'},
-      {id:'AI_BUDGET_N12',runtimeNodeId:'N12',maxInitialExpectedUnitsPerHand:1.1,maxMatureExpectedUnitsPerHand:2.2,tuningStatus:'PROTOTYPE_ASSUMPTION'}
+      {id:'AI_BUDGET_N04',runtimeNodeId:'N04',maxInitialExpectedUnitsPerHand:1.08,maxMatureExpectedUnitsPerHand:2.16,tuningStatus:'PROTOTYPE_ASSUMPTION'},
+      {id:'AI_BUDGET_N08',runtimeNodeId:'N08',maxInitialExpectedUnitsPerHand:1.2,maxMatureExpectedUnitsPerHand:2.4,tuningStatus:'PROTOTYPE_ASSUMPTION'},
+      {id:'AI_BUDGET_N12',runtimeNodeId:'N12',maxInitialExpectedUnitsPerHand:1.32,maxMatureExpectedUnitsPerHand:2.64,tuningStatus:'PROTOTYPE_ASSUMPTION'}
     ],
     unresolved:[
       {id:'AI_UNDECIDED_QUALITY',topic:'高品质相似人格的强度提升幅度与品质概率'},
